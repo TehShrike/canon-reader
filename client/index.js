@@ -3,7 +3,13 @@ import mannish from 'mannish'
 import views from './globbed-views'
 import statefulServices from './globbed-services'
 
-import stateRouter from 'lib/asr-instance'
+import StateRouter from 'abstract-state-router'
+import makeSvelteStateRenderer from 'svelte-state-renderer'
+
+const stateRouter = StateRouter(
+	makeSvelteStateRenderer(),
+	document.getElementById('target'),
+)
 
 const mediator = mannish()
 

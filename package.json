@@ -14,8 +14,8 @@
     "glob:services": "glob-module-file --pattern=\"client/service/**/*.js\" --format=es --pathPrefix=../ --outputPath=client/globbed-services.js",
     "glob:views": "glob-module-file --pattern=\"client/view/**/*.js\" --format=es --pathPrefix=../ --outputPath=client/globbed-views.js",
     "create-symlinks": "mkdir -p client/node_modules/ && rm -r client/node_modules/ && mkdir client/node_modules/ && cd client/node_modules && symlink ../component/ component && symlink ../lib/ lib && cd ../../",
-    "build:css": "postcss-alt \"client/view/**/*.css\" \"public/static/style.css\"",
-    "watch:css": "postcss-alt \"client/view/**/*.css\" \"public/static/style.css\" --watch=\"client/**/*.css\"",
+    "build:css": "postcss-alt \"client/view/**/*.css\" \"public/build/style.css\"",
+    "watch:css": "postcss-alt \"client/view/**/*.css\" \"public/build/style.css\" --watch=\"client/**/*.css\"",
     "dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:*"
   },
   "repository": {
@@ -42,7 +42,6 @@
     "autoprefixer": "7.2.5",
     "cross-env": "5.1.3",
     "glob-module-file": "2.2.0",
-    "hash-brown-router": "3.3.1",
     "majority-text-family-35-revelation": "1.0.1",
     "make-dir": "1.1.0",
     "mannish": "3.1.0",
