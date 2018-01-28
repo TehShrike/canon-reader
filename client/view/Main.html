@@ -1,0 +1,78 @@
+<div class="book-names">
+	{{#each bookNames as name}}
+		<div class="book">
+			<a href="#wat">
+				<div class="short-name">
+					{{name.short}}
+				</div>
+				<div class="full-name">
+					{{name.full}}
+				</div>
+			</a>
+		</div>
+	{{/each}}
+</div>
+
+<style>
+.book-names {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+
+	font-family: sans-serif;
+}
+.book {
+	height: 10vh;
+	flex-basis: 25%;
+	white-space: nowrap;
+
+	outline: 1px solid grey;
+
+	a {
+		width: 100%;
+		height: 100%;
+
+		text-decoration-line: none;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
+.short-name {
+	display: none;
+}
+
+@media (max-width: 500px) {
+	.short-name {
+		display: inherit;
+	}
+
+	.full-name {
+		display: none;
+	}
+}
+</style>
+
+<script>
+import books from 'books-of-the-bible'
+
+export default {
+	data() {
+		return {
+			books
+		}
+	},
+	computed: {
+		bookNames: books => books.map(({ name, aliases }) => {
+			const useFirstAliasForShort = name.length > 5 && aliases[0]
+
+			return {
+				full: name,
+				short: useFirstAliasForShort ? aliases[0] : name
+			}
+		})
+	}
+}
+</script>
