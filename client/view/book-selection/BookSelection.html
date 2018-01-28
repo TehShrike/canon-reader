@@ -22,7 +22,7 @@
 	font-family: sans-serif;
 }
 .book {
-	height: 10vh;
+	height: 15vw;
 	flex-basis: 25%;
 	white-space: nowrap;
 
@@ -51,6 +51,17 @@
 
 	.full-name {
 		display: none;
+	}
+}
+@media (min-width: 1000px) {
+	.book {
+		flex-basis: 20%;
+		height: 20vh;
+	}
+}
+@media (min-width: 1300px) {
+	.book {
+		flex-basis: 16.6%;
 	}
 }
 </style>
