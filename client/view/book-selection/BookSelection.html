@@ -1,7 +1,7 @@
 <div class="book-names">
 	{{#each bookNames as name}}
 		<div class="book">
-			<a href="#wat">
+			<a href="{{makeBookLink(name.id)}}">
 				<div class="short-name">
 					{{name.short}}
 				</div>
@@ -44,7 +44,7 @@
 	display: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
 	.short-name {
 		display: inherit;
 	}
@@ -70,9 +70,11 @@ export default {
 
 			return {
 				full: name,
-				short: useFirstAliasForShort ? aliases[0] : name
+				short: useFirstAliasForShort ? aliases[0] : name,
+				id: name.replace(/ /g, '').toLowerCase()
 			}
-		})
+		}),
+		makeBookLink: asr => bookId => asr.makePath('main.text', { book: bookId })
 	}
 }
 </script>

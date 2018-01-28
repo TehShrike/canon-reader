@@ -67,6 +67,7 @@
     "symlink-cli": "1.0.0",
     "tape": "4.8.0",
     "tempy": "0.2.1",
-    "verse-reference-regex": "1.2.0"
+    "verse-reference-regex": "1.2.0",
+    "world-english-bible": "0.0.2"
   }
 }

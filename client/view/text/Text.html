@@ -1,0 +1,21 @@
+{{#each bookSections as section}}
+	{{#if section.type === 'header'}}
+		<h3>{{section.value}}</h3>
+	{{elseif section.type === 'break'}}
+		<hr>
+	{{elseif section.type === 'paragraph'}}
+		<p>
+			{{#each section.children as text}}
+				{{text.value}}
+			{{/each}}
+		</p>
+	{{elseif section.type === 'stanza'}}
+		<blockquote>
+			{{#each section.children as line}}
+				{{line.value}}<br>
+			{{/each}}
+		</blockquote>
+	{{else}}
+		<h1>WAT BROKEN</h1>
+	{{/if}}
+{{/each}}
