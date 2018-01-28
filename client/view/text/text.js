@@ -12,8 +12,6 @@ export default mediator => ({
 			throw new Error(`No book text found for ${parameters.book}`)
 		}
 
-		console.log(bookSections)
-
 		return Promise.resolve({
 			bookSections,
 		})
