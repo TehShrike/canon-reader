@@ -1,3 +1,8 @@
+- links to specific chapter/verse numbers
+	- need to get hash fragments working
+	- something that works with hash-brown-router
+	- use regular query parameters?
+	- otherwise, need to strip any hash fragment from the hash-fragment-url and handle scrolling manually https://github.com/TehShrike/noddity/blob/master/js/routing.js#L25-L30
 - chapter numbers, verse numbers
 	- off to the side most of the time
 - on hover of verse text
@@ -5,7 +10,7 @@
 	- highlight the verse text somehow
 - chapter navigation/selection at the top of the book page
 - nicely readable
-	- good seri font defaults
+	- good serif font defaults
 	- reasonable width on wide screens
 	- responsive - move chapter/verse numbers inline somewhere on phone screens
 - make shortcut-friendly
