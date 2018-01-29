@@ -1,0 +1,18 @@
+- chapter numbers, verse numbers
+	- off to the side most of the time
+- on hover of verse text
+	- made the verse number prominent on the side
+	- highlight the verse text somehow
+- chapter navigation/selection at the top of the book page
+- nicely readable
+	- good seri font defaults
+	- reasonable width on wide screens
+	- responsive - move chapter/verse numbers inline somewhere on phone screens
+- make shortcut-friendly
+	- given a reference typed in, browse to it
+	- keyboard shortcut that displays an input so you can type in a reference
+	- a url scheme that works easily with browser location bar shortcuts
+- move the book text processing to a build script and build individual book JSON to `public/books/*.json`
+- lazy-load books
+- store books locally
+- add proper offline support
