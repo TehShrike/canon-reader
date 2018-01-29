@@ -1,21 +1,120 @@
-{{#each bookSections as section}}
+<ol class="chapter-selection">
+	{{#each chapterNumbers as chapterNumber}}
+		<li class="chapter-number-link">
+			{{chapterNumber}}
+		</li>
+	{{/each}}
+</ol>
+
+{{#each bookSectionsWithChapterAndVerseMarkers as section}}
 	{{#if section.type === 'header'}}
 		<h3>{{section.value}}</h3>
 	{{elseif section.type === 'break'}}
 		<hr>
 	{{elseif section.type === 'paragraph'}}
 		<p>
-			{{#each section.children as text}}
-				{{text.value}}
+			{{#each section.children as chunk}}
+				{{#if chunk.type === 'chapter number'}}
+					<span class="chapter-number">
+						{{chunk.value}}
+					</span>
+				{{elseif chunk.type === 'verse number'}}
+					<span class="verse-number">
+						{{chunk.value}}
+					</span>
+				{{else}}
+					<span class="verse-text">
+						{{chunk.value}}
+					</span>
+				{{/if}}
 			{{/each}}
 		</p>
 	{{elseif section.type === 'stanza'}}
 		<blockquote>
-			{{#each section.children as line}}
-				{{line.value}}<br>
+			{{#each section.children as chunk}}
+				{{#if chunk.type === 'chapter number'}}
+					<span class="chapter-number">
+						{{chunk.value}}
+					</span>
+				{{elseif chunk.type === 'verse number'}}
+					<span class="verse-number">
+						{{chunk.value}}
+					</span>
+				{{else}}
+					<span class="verse-text">
+						{{chunk.value}}<br>
+					</span>
+				{{/if}}
 			{{/each}}
 		</blockquote>
 	{{else}}
 		<h1>WAT BROKEN</h1>
 	{{/if}}
 {{/each}}
+
+<style>
+.chapter-selection {
+	font-size: x-large;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+
+	font-family: sans-serif;
+}
+
+.chapter-number-link {
+	list-style-type: none;
+	flex-basis: 60px;
+	height: 60px;
+}
+
+.chapter-number, .verse-number {
+	display: none;
+}
+</style>
+
+<script>
+const flatMap = (ary, fn) => ary.reduce((acc, element, index) => [ ...acc, ...fn(element, index) ], [])
+
+export default {
+	computed: {
+		bookSectionsWithChapterAndVerseMarkers: bookSections => {
+			let lastChapterNumber = null
+			let lastVerseNumber = null
+
+			return bookSections.map(section => Object.assign({}, section, {
+				children: flatMap(section.children, chunk => {
+					const { chapterNumber, verseNumber } = chunk
+					const itemsToReturn = []
+
+					if (chapterNumber && chapterNumber !== lastChapterNumber) {
+						itemsToReturn.push({
+							type: 'chapter number',
+							value: chapterNumber
+						})
+						lastChapterNumber = chapterNumber
+					}
+
+					if (verseNumber && verseNumber !== lastVerseNumber) {
+						itemsToReturn.push({
+							type: 'verse number',
+							value: verseNumber
+						})
+						lastVerseNumber = verseNumber
+					}
+
+					itemsToReturn.push(chunk)
+
+					return itemsToReturn
+				})
+			}))
+		},
+		chapterNumbers: bookSectionsWithChapterAndVerseMarkers => flatMap(bookSectionsWithChapterAndVerseMarkers,
+			({ children }) => children
+				.filter(({ type }) => type === 'chapter number')
+				.map(({ value }) => value)
+		)
+	}
+}
+</script>
