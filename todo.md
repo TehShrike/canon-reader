@@ -3,6 +3,12 @@
 	- something that works with hash-brown-router
 	- use regular query parameters?
 	- otherwise, need to strip any hash fragment from the hash-fragment-url and handle scrolling manually https://github.com/TehShrike/noddity/blob/master/js/routing.js#L25-L30
+	- need to make it so that you get scrolled to the top after navigation anyway
+		- maybe on stateChangeEnd, scroll to the top, unless there's a hash fragment
+	- ok try this
+		- add a click handler to all links
+			- if it should be intercepted, and the hash fragment url ends with a fake-o hash fragment, and the rest of the url matches the current url, then preventDefault and scroll down to the id indicated by the fake-o hash fragment
+			- on stateChangeEnd, if there's a fake-o hash fragment, scroll down to it
 - chapter numbers, verse numbers
 	- off to the side most of the time
 - on hover of verse text
