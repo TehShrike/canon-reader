@@ -1,7 +1,9 @@
 <ol class="chapter-selection">
 	{{#each chapterNumbers as chapterNumber}}
 		<li class="chapter-number-link">
-			{{chapterNumber}}
+			<a href="{{linkToChapterNumber(chapterNumber)}}">
+				{{chapterNumber}}
+			</a>
 		</li>
 	{{/each}}
 </ol>
@@ -115,7 +117,8 @@ export default {
 			({ children }) => children
 				.filter(({ type }) => type === 'chapter number')
 				.map(({ value }) => value)
-		)
+		),
+		linkToChapterNumber: asr => number => `${asr.makePath(null, {}, { inherit: true })}#chapter-number-${number}`
 	}
 }
 </script>
