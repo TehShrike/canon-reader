@@ -1,0 +1,16 @@
+@import 'variables';
+
+@mixin container-side-padding {
+	padding-left: .5rem;
+	padding-right: .5rem;
+
+	@media screen and (min-width: $medium-screen) {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	@media screen and (min-width: $large-screen) {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+}

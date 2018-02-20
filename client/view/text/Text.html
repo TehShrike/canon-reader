@@ -1,65 +1,73 @@
-<a href="{{asr.makePath('main')}}" class="bigger-link">« Back</a>
+<div class="container">
+	<a href="{{asr.makePath('main')}}" class="bigger-link">« Back</a>
 
-<ol class="chapter-selection">
-	{{#each chapterNumbers as chapterNumber}}
-		<li class="chapter-number-link">
-			<a href="{{linkToChapterNumber(chapterNumber)}}" class="bigger-link">
-				{{chapterNumber}}
-			</a>
-		</li>
-	{{/each}}
-</ol>
+		<ol class="chapter-selection">
+			{{#each chapterNumbers as chapterNumber}}
+				<li class="chapter-number-link">
+					<a href="{{linkToChapterNumber(chapterNumber)}}" class="bigger-link">
+						{{chapterNumber}}
+					</a>
+				</li>
+			{{/each}}
+		</ol>
 
-<div class="text-container">
-	{{#each bookSectionsWithChapterAndVerseMarkers as section}}
-		{{#if section.type === 'header'}}
-			<h3>{{section.value}}</h3>
-		{{elseif section.type === 'break'}}
-			<hr>
-		{{elseif section.type === 'paragraph'}}
-			<p>
-				{{#each section.children as chunk}}
-					{{#if chunk.type === 'chapter number'}}
-						<span class="chapter-number">
-							{{chunk.value}}
-						</span>
-						<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
-					{{elseif chunk.type === 'verse number'}}
-						<span class="verse-number">
-							{{chunk.value}}
-						</span>
-					{{else}}
-						<span class="verse-text">
-							{{chunk.value}}
-						</span>
-					{{/if}}
-				{{/each}}
-			</p>
-		{{elseif section.type === 'stanza'}}
-			<blockquote>
-				{{#each section.children as chunk}}
-					{{#if chunk.type === 'chapter number'}}
-						<span class="chapter-number">
-							{{chunk.value}}
-						</span>
-					{{elseif chunk.type === 'verse number'}}
-						<span class="verse-number">
-							{{chunk.value}}
-						</span>
-					{{else}}
-						<span class="verse-text">
-							{{chunk.value}}<br>
-						</span>
-					{{/if}}
-				{{/each}}
-			</blockquote>
-		{{else}}
-			<h1>WAT BROKEN</h1>
-		{{/if}}
-	{{/each}}
+		<div class="text-container">
+			{{#each bookSectionsWithChapterAndVerseMarkers as section}}
+				{{#if section.type === 'header'}}
+					<h3>{{section.value}}</h3>
+				{{elseif section.type === 'break'}}
+					<hr>
+				{{elseif section.type === 'paragraph'}}
+					<p>
+						{{#each section.children as chunk}}
+							{{#if chunk.type === 'chapter number'}}
+								<span class="chapter-number">
+									{{chunk.value}}
+								</span>
+								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
+							{{elseif chunk.type === 'verse number'}}
+								<span class="verse-number">
+									{{chunk.value}}
+								</span>
+							{{else}}
+								<span class="verse-text">
+									{{chunk.value}}
+								</span>
+							{{/if}}
+						{{/each}}
+					</p>
+				{{elseif section.type === 'stanza'}}
+					<blockquote>
+						{{#each section.children as chunk}}
+							{{#if chunk.type === 'chapter number'}}
+								<span class="chapter-number">
+									{{chunk.value}}
+								</span>
+							{{elseif chunk.type === 'verse number'}}
+								<span class="verse-number">
+									{{chunk.value}}
+								</span>
+							{{else}}
+								<span class="verse-text">
+									{{chunk.value}}<br>
+								</span>
+							{{/if}}
+						{{/each}}
+					</blockquote>
+				{{else}}
+					<h1>WAT BROKEN</h1>
+				{{/if}}
+			{{/each}}
+		</div>
 </div>
 
 <style>
+@import 'mixins';
+
+.container {
+	@include container-side-padding;
+}
+
 .bigger-link {
 	font-size: x-large;
 	font-family: sans-serif;

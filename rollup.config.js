@@ -14,7 +14,10 @@ export default {
 	plugins: [
 		svelte({
 			preprocess: {
-				style: sveltePreprocessPostcss(),
+				style: (...args) => sveltePreprocessPostcss()(...args).catch(err => {
+					console.error(err)
+					throw err
+				}),
 			},
 			css(css) {
 				css.write(`public/build/components.css`)
