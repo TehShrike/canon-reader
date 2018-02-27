@@ -16,7 +16,8 @@
     "create-symlinks": "mkdir -p client/node_modules/ && rm -r client/node_modules/ && mkdir client/node_modules/ && cd client/node_modules && symlink ../component/ component && symlink ../lib/ lib && cd ../../",
     "build:css": "postcss-alt \"client/view/**/*.css\" \"public/build/style.css\"",
     "watch:css": "postcss-alt \"client/view/**/*.css\" \"public/build/style.css\" --watch=\"client/**/*.css\"",
-    "dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:*"
+    "serve": "live-server public",
+    "dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:* serve"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
   },
   "homepage": "https://github.com/TehShrike/simple-bible-reader#readme",
   "devDependencies": {
+    "live-server": "^1.2.0",
     "watch": "1.0.2"
   },
   "dependencies": {
