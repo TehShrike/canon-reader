@@ -49,7 +49,7 @@
     "mannish": "3.1.0",
     "npm-run-all": "4.1.2",
     "postcss": "^6.0.19",
-    "postcss-advanced-variables": "github:TehShrike/postcss-advanced-variables#import-mixins-and-variables-release",
+    "postcss-advanced-variables": "^2.3.3",
     "postcss-alt-cli": "1.0.1",
     "precss": "3.1.0",
     "regex-fun": "2.0.2",
