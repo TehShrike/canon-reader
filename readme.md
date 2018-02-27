@@ -5,6 +5,7 @@ What I want a Bible reader to be.
 - Uninterrupted reading
 	- Unobtrusive/hidden chapter/verse markers
 	- No chapter breaks, scroll through the whole book
+	- No non-canon headings
 - Simple navigation
 	- Select the book to open it
 	- Optionally get scrolled directly to a chapter
@@ -13,7 +14,7 @@ What I want a Bible reader to be.
 	- An easy, documented way for other sites to generate a link to a book/chapter/verse
 - Fast
 	- Text should all be pre-downloaded
-	- Opening a new book should take <100ms, including render time
+	- Opening a new book should take <50ms, including render time.
 	- No loading spinners
 
 ## Stretch goals
