@@ -10,7 +10,11 @@ What I want a Bible reader to be.
 	- Optionally get scrolled directly to a chapter
 	- Keyboard shortcut to type in a reference and navigate to it
 - Programmatic link friendly
-	- An easy, documented way to generate a link to a book/chapter/verse
+	- An easy, documented way for other sites to generate a link to a book/chapter/verse
+- Fast
+	- Text should all be pre-downloaded
+	- Opening a new book should take <100ms, including render time
+	- No loading spinners
 
 ## Stretch goals
 
