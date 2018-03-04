@@ -1,14 +1,10 @@
-- set up CI deploy with Up
 - chapter numbers, verse numbers
-	- off to the side most of the time
-	- need to find a CSS-only solution, the current way with calculating/styling is way too slow
+	- need to line up in a more consistent way on the left
+	- put chapter numbers on the right side, absolutely positioned
+		- highlight the chapter of the center verse?
 - on hover of verse text
 	- made the verse number prominent on the side
 	- highlight the verse text somehow
-- nicely readable
-	- good serif font defaults
-	- reasonable width on wide screens
-	- responsive - move chapter/verse numbers inline somewhere on phone screens
 - make shortcut-friendly
 	- given a reference typed in, browse to it
 	- keyboard shortcut that displays an input so you can type in a reference
@@ -17,3 +13,12 @@
 - lazy-load books
 - store books locally
 - add proper offline support
+- a real home page
+	- two calls to action
+		- a reference input
+		- a "read" button that takes you to book selection
+	- an explanation
+- an about page
+	- basic design goals/restrictions
+	- road map
+	- credit WEB, Pickering, Strong, OpenBible.org
