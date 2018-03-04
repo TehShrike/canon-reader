@@ -24,7 +24,6 @@
 								<LeftMarginNumber
 									left="{{numberLeft}}"
 									number="{{chunk.value}}"
-									:mapOfVerseAndChapterNumberPositions
 									emphasized="{{true}}"
 								/>
 								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
@@ -32,7 +31,6 @@
 								<LeftMarginNumber
 									left="{{numberLeft}}"
 									number="{{chunk.value}}"
-									:mapOfVerseAndChapterNumberPositions
 								/>
 							{{else}}
 								<span class="verse-text">
@@ -48,7 +46,6 @@
 								<LeftMarginNumber
 									left="{{numberLeft}}"
 									number="{{chunk.value}}"
-									:mapOfVerseAndChapterNumberPositions
 									emphasized="{{true}}"
 								/>
 								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
@@ -56,7 +53,6 @@
 								<LeftMarginNumber
 									left="{{numberLeft}}"
 									number="{{chunk.value}}"
-									:mapOfVerseAndChapterNumberPositions
 								/>
 							{{else}}
 								<span class="verse-text">
@@ -115,8 +111,6 @@
 </style>
 
 <script>
-import resizeEvents from 'lib/resize-events.js'
-
 import StateLink from 'component/StateLink.html'
 
 import LeftMarginNumber from './LeftMarginNumber.html'
@@ -126,36 +120,7 @@ const flatMap = (ary, fn) => ary.reduce(
 	[]
 )
 
-const gutterSize = 40;
-const numberOffset = gutterSize - 8
-
 export default {
-	data() {
-		return {
-			mapOfVerseAndChapterNumberPositions: new Map()
-		}
-	},
-	oncreate() {
-		this.cancelResizeStartListener = resizeEvents.on('resize start',
-			() => this.set({ mapOfVerseAndChapterNumberPositions: new Map() })
-		)
-		this.cancelResizeStopListener = resizeEvents.on('resize stop',
-			() => this.calculateLeft()
-		)
-
-		window.requestAnimationFrame(() => this.calculateLeft())
-	},
-	ondestroy() {
-		this.cancelResizeStartListener()
-		this.cancelResizeStopListener()
-	},
-	methods: {
-		calculateLeft() {
-			this.set({
-				numberLeft: this.refs.textContainer.offsetLeft - numberOffset
-			})
-		}
-	},
 	computed: {
 		bookSectionsWithChapterAndVerseMarkers: bookSections => {
 			let lastChapterNumber = null

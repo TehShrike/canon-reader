@@ -1,11 +1,13 @@
-<div class="placeholder" ref:placeholder>&#8203;</div>
-<div
-	class="number"
-	style="top: {{top}}px; height: {{height}}px; left: {{left}}px;"
-	data-emphasized="{{emphasized}}"
-	data-hidden="{{hidden}}"
->
-	{{number}}
+<div class="placeholder" ref:placeholder>
+	<!-- &#8203; -->
+	<div
+		class="number"
+		data-emphasized="{{emphasized}}"
+		data-hidden="{{hidden}}"
+		style="z-index: {{zIndex}}"
+	>
+		{{number}}
+	</div>
 </div>
 
 <style>
@@ -13,10 +15,12 @@
 
 .placeholder {
 	float: left;
+	width: 0;
 }
 
 .number {
-	position: absolute;
+	position: relative;
+	left: -32px;
 	margin: 0;
 
 	font-family: $sans-serif;
@@ -25,6 +29,10 @@
 
 	display: flex;
 	align-items: center;
+
+	background-color: rgba(250,250,250,1);
+	opacity: 1;
+	width: 32px;
 }
 
 [data-emphasized=true] {
@@ -38,67 +46,19 @@
 </style>
 
 <script>
-import resizeEvents from 'lib/resize-events.js'
-
-const shouldBeOnTop = (examining, currentTop) => {
-	const sameEmphasis = examining.emphasized === currentTop.emphasized
-
-	if (!sameEmphasis) {
-		return examining.emphasized
-	}
-
-	return examining.number < currentTop.number
-}
+const reallyBig = 1000
 
 export default {
 	data() {
 		return {
 			emphasized: false,
-			hidden: true
+			hidden: false
 		}
-	},
-	oncreate() {
-		setTimeout(() => this.calculatePosition(), 10)
-		this.cancelResizeStartListener = resizeEvents.on('resize start',
-			() => this.set({ hidden: true })
-		)
-		this.cancelResizeStopListener = resizeEvents.on('resize stop',
-			() => this.calculatePosition()
-		)
-	},
-	ondestroy() {
-		this.cancelResizeStartListener()
-		this.cancelResizeStopListener()
 	},
 	computed: {
-		thisNumber: (number, emphasized) => ({ number, emphasized })
+		zIndex: (number, emphasized) => emphasized
+			? reallyBig + number
+			: reallyBig - number
 	},
-	methods: {
-		calculatePosition() {
-			const top = this.refs.placeholder.offsetTop
-			const height = this.refs.placeholder.offsetHeight
-
-			const {
-				thisNumber,
-				mapOfVerseAndChapterNumberPositions,
-			} = this.get()
-
-			const currentAtThatPosition = mapOfVerseAndChapterNumberPositions.get(top)
-
-			if (!currentAtThatPosition || shouldBeOnTop(thisNumber, currentAtThatPosition)) {
-				this.set({
-					top,
-					height,
-					hidden: false
-				})
-
-				mapOfVerseAndChapterNumberPositions.set(top, thisNumber)
-			} else {
-				this.set({
-					hidden: true
-				})
-			}
-		}
-	}
 }
 </script>
