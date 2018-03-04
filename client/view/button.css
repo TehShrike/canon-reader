@@ -35,6 +35,9 @@ button:hover, .button:hover {
 	background-color: $blue;
 	border-color: $blue;
 }
+.button-primary:visited {
+	color: $white;
+}
 .button-primary:hover {
 	color: $white;
 	background-color: $blue-darkened;
