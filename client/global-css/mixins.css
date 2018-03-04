@@ -14,3 +14,19 @@
 		padding-right: 2rem;
 	}
 }
+
+
+@mixin container-vertical-padding {
+	padding-top: .5rem;
+	padding-bottom: .5rem;
+
+	@media screen and (min-width: $medium-screen) {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+
+	@media screen and (min-width: $large-screen) {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+	}
+}

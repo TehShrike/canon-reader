@@ -1,79 +1,91 @@
 <div class="container">
-	<StateLink state="main" className="bigger-link">« Back</StateLink>
+	<div class="header">
+		<StateLink state="main" className="bigger-link">« Back</StateLink>
+	</div>
 
-		<ol class="chapter-selection-list">
-			{{#each chapterNumbers as chapterNumber}}
-				<li class="chapter-number-list-item">
-					<a href="{{linkToChapterNumber(chapterNumber)}}" class="bigger-link">
-						{{chapterNumber}}
-					</a>
-				</li>
-			{{/each}}
-		</ol>
+	<h1 class="book-name-header">
+		{{bookName}}
+	</h1>
 
-		<div class="text-container" ref:textContainer>
-			{{#each bookSectionsWithChapterAndVerseMarkers as section}}
-				{{#if section.type === 'header'}}
-					<h3>{{section.value}}</h3>
-				{{elseif section.type === 'break'}}
-					<hr>
-				{{elseif section.type === 'paragraph'}}
-					<p>
-						{{#each section.children as chunk}}
-							{{#if chunk.type === 'chapter number'}}
-								<LeftMarginNumber
-									left="{{numberLeft}}"
-									number="{{chunk.value}}"
-									emphasized="{{true}}"
-								/>
-								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
-							{{elseif chunk.type === 'verse number'}}
-								<LeftMarginNumber
-									left="{{numberLeft}}"
-									number="{{chunk.value}}"
-								/>
-							{{else}}
-								<span class="verse-text">
-									{{chunk.value}}
-								</span>
-							{{/if}}
-						{{/each}}
-					</p>
-				{{elseif section.type === 'stanza'}}
-					<blockquote>
-						{{#each section.children as chunk}}
-							{{#if chunk.type === 'chapter number'}}
-								<LeftMarginNumber
-									left="{{numberLeft}}"
-									number="{{chunk.value}}"
-									emphasized="{{true}}"
-								/>
-								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
-							{{elseif chunk.type === 'verse number'}}
-								<LeftMarginNumber
-									left="{{numberLeft}}"
-									number="{{chunk.value}}"
-								/>
-							{{else}}
-								<span class="verse-text">
-									{{chunk.value}}<br>
-								</span>
-							{{/if}}
-						{{/each}}
-					</blockquote>
-				{{else}}
-					<h1>WAT BROKEN</h1>
-				{{/if}}
-			{{/each}}
-		</div>
+
+	<ol class="chapter-selection-list">
+		{{#each chapterNumbers as chapterNumber}}
+			<li class="chapter-number-list-item">
+				<a href="{{linkToChapterNumber(chapterNumber)}}" class="bigger-link">
+					{{chapterNumber}}
+				</a>
+			</li>
+		{{/each}}
+	</ol>
+
+	<div class="text-container" ref:textContainer>
+		{{#each bookSectionsWithChapterAndVerseMarkers as section}}
+			{{#if section.type === 'header'}}
+				<h3>{{section.value}}</h3>
+			{{elseif section.type === 'break'}}
+				<hr>
+			{{elseif section.type === 'paragraph'}}
+				<p>
+					{{#each section.children as chunk}}
+						{{#if chunk.type === 'chapter number'}}
+							<LeftMarginNumber
+								left="{{numberLeft}}"
+								number="{{chunk.value}}"
+								emphasized="{{true}}"
+							/>
+							<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
+						{{elseif chunk.type === 'verse number'}}
+							<LeftMarginNumber
+								left="{{numberLeft}}"
+								number="{{chunk.value}}"
+							/>
+						{{else}}
+							<span class="verse-text">
+								{{chunk.value}}
+							</span>
+						{{/if}}
+					{{/each}}
+				</p>
+			{{elseif section.type === 'stanza'}}
+				<blockquote>
+					{{#each section.children as chunk}}
+						{{#if chunk.type === 'chapter number'}}
+							<LeftMarginNumber
+								left="{{numberLeft}}"
+								number="{{chunk.value}}"
+								emphasized="{{true}}"
+							/>
+							<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
+						{{elseif chunk.type === 'verse number'}}
+							<LeftMarginNumber
+								left="{{numberLeft}}"
+								number="{{chunk.value}}"
+							/>
+						{{else}}
+							<span class="verse-text">
+								{{chunk.value}}<br>
+							</span>
+						{{/if}}
+					{{/each}}
+				</blockquote>
+			{{else}}
+				<h1>WAT BROKEN</h1>
+			{{/if}}
+		{{/each}}
+	</div>
 </div>
 
 <style>
 @import 'mixins';
 @import 'gutter';
 
+.book-name-header {
+	text-align: center;
+}
+
 .container {
 	@include container-side-padding;
+	@include container-vertical-padding;
 }
 
 .bigger-link {
@@ -121,6 +133,12 @@ const flatMap = (ary, fn) => ary.reduce(
 )
 
 export default {
+	data() {
+		return {
+			bookName: null,
+			bookSections: null,
+		}
+	},
 	computed: {
 		bookSectionsWithChapterAndVerseMarkers: bookSections => {
 			let lastChapterNumber = null

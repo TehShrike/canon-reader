@@ -69,6 +69,7 @@
 
 <script>
 import books from 'books-of-the-bible'
+import bookNameToId from 'lib/book-name-to-id.js'
 
 import StateLink from 'component/StateLink.html'
 
@@ -85,7 +86,7 @@ export default {
 			return {
 				full: name,
 				short: useFirstAliasForShort ? aliases[0] : name,
-				id: name.replace(/ /g, '').toLowerCase()
+				id: bookNameToId(name)
 			}
 		}),
 	},

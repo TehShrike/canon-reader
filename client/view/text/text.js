@@ -12,8 +12,11 @@ export default mediator => ({
 			throw new Error(`No book text found for ${parameters.book}`)
 		}
 
+		const bookName = mediator.callSync('getBookById', parameters.book).name
+
 		return Promise.resolve({
 			bookSections,
+			bookName,
 		})
 	},
 })
