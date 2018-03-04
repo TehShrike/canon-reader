@@ -51,7 +51,7 @@ npm install
 npm run dev
 ```
 
-This will build the app and open it in your browser.  The page should automatically refresh as you make changes to the code.
+You can then open <http://127.0.0.1:8888> in your browser.
 
 To run the tests:
 
