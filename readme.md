@@ -1,5 +1,25 @@
 What I want a Bible reader to be.
 
+# Use cases
+
+I have three basic use cases that I want my Bible reader to serve.
+
+## Quick navigation
+
+Looking up references on my phone during worship, or arguing with people on the internet on my desktop, I want to get to the verse quickly without faffing about.
+
+## Long reading
+
+Chapter breaks really kill the flow when reading a book.  Beyond that, intrusive chapter and verse numbers are annoying, and non-canonical headers offend me.
+
+Bookmarks that I can move forward to my current position help me keep track of daily reading.
+
+## Light study
+
+When I'm not quite sure about an English translation, I want to look at the original words used.  I don't know Hebrew or Greek, so I want to see the words in a verse with their Strong's number/definition.
+
+This should be easy to do without breaking the flow of reading.
+
 # Design goals
 
 - Uninterrupted reading
