@@ -3,7 +3,7 @@
 	"profile": "josh",
 	"regions": ["us-east-1"],
 	"hooks": {
-		"build": "npm i --only=prod && npm run build && make"
+		"build": "make"
 	},
 	"proxy": {
 		"command": "./node-v8.9.4-linux-x64/bin/node server/index.js"

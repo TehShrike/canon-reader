@@ -6,6 +6,7 @@ script:
   - npm t
   - npm run build
 deploy:
+  skip_cleanup: true
   provider: script
   script: ./travis-ci-deploy.sh
   on:
