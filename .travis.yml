@@ -5,3 +5,8 @@ node_js:
 script:
   - npm t
   - npm run build
+deploy:
+  provider: script
+  script: ./travis-ci-deploy.sh
+  on:
+    branch: master
