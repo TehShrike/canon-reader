@@ -1,2 +1,9 @@
 $medium-screen: 600px;
 $large-screen: 1000px;
+
+$black: #333;
+$white: #fafafa;
+$gray: #717171;
+
+$sans-serif: "Lato", "Helvetica Neue", Helvetica, sans-serif;
+$serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", serif;

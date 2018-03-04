@@ -8,9 +8,9 @@ html {
 
 body {
 	width: 100%;
-	color: #333;
-	background-color: #fafafa;
-	font-family: "Merriweather", "PT Serif", Georgia, "Times New Roman", serif;
+	color: $black;
+	background-color: $white;
+	font-family: $serif;
 	line-height: 1.5;
 }
 
@@ -62,7 +62,7 @@ h6 {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: "Lato", "Helvetica Neue", Helvetica, sans-serif;
+	font-family: $sans-serif;
 	font-weight: 900;
 	line-height: 1.25;
 	margin-top: 1em;

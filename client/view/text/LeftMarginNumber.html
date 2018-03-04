@@ -1,0 +1,113 @@
+<div class="placeholder" ref:placeholder>&#8203;</div>
+<div
+	class="number"
+	style="top: {{top}}px; left: {{left}}px;"
+	data-emphasized="{{emphasized}}"
+	data-hidden="{{hidden}}"
+>
+	{{number}}
+</div>
+
+<style>
+@import 'variables';
+
+.placeholder {
+	float: left;
+}
+
+.number {
+	position: absolute;
+	margin: 0;
+
+	font-family: $sans-serif;
+	font-size: .9rem;
+	color: $gray;
+
+	display: flex;
+	align-items: center;
+}
+
+[data-emphasized=true] {
+	font-weight: bold;
+	font-size: 1rem;
+}
+
+[data-hidden=true] {
+	display: none;
+}
+</style>
+
+<script>
+import resizeEvents from 'lib/resize-events.js'
+
+const shouldBeOnTop = (examining, currentTop) => {
+	const sameEmphasis = examining.emphasized === currentTop.emphasized
+
+	if (!sameEmphasis) {
+		return examining.emphasized
+	}
+
+	return examining.number < currentTop.number
+}
+
+export default {
+	data() {
+		return {
+			emphasized: false,
+			hidden: true
+		}
+	},
+	oncreate() {
+		this.calculateOnNextFrame()
+		this.cancelResizeStartListener = resizeEvents.on('resize start',
+			() => this.set({ hidden: true })
+		)
+		this.cancelResizeStopListener = resizeEvents.on('resize stop',
+			() => this.calculatePosition()
+		)
+	},
+	ondestroy() {
+		this.cancelResizeStartListener()
+		this.cancelResizeStopListener()
+	},
+	computed: {
+		thisNumber: (number, emphasized) => ({ number, emphasized })
+	},
+	methods: {
+		calculateOnNextFrame() {
+			if (!this.calculatingOnNextFrame) {
+				this.calculatingOnNextFrame = true
+				window.requestAnimationFrame(
+					() => {
+						this.calculatingOnNextFrame = false
+						this.calculatePosition()
+					}
+				)
+			}
+		},
+		calculatePosition() {
+			const top = this.refs.placeholder.offsetTop
+
+			const {
+				thisNumber,
+				mapOfVerseAndChapterNumberPositions,
+			} = this.get()
+
+			const currentAtThatPosition = mapOfVerseAndChapterNumberPositions.get(top)
+
+			if (!currentAtThatPosition || shouldBeOnTop(thisNumber, currentAtThatPosition)) {
+				this.set({
+					top,
+					hidden: false
+				})
+
+				mapOfVerseAndChapterNumberPositions.set(top, thisNumber)
+			} else {
+				this.set({
+					hidden: true
+				})
+			}
+		}
+	}
+}
+</script>

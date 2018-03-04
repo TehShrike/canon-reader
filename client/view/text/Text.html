@@ -11,7 +11,7 @@
 			{{/each}}
 		</ol>
 
-		<div class="text-container">
+		<div class="text-container" ref:textContainer>
 			{{#each bookSectionsWithChapterAndVerseMarkers as section}}
 				{{#if section.type === 'header'}}
 					<h3>{{section.value}}</h3>
@@ -21,14 +21,19 @@
 					<p>
 						{{#each section.children as chunk}}
 							{{#if chunk.type === 'chapter number'}}
-								<span class="chapter-number">
-									{{chunk.value}}
-								</span>
+								<LeftMarginNumber
+									left="{{numberLeft}}"
+									number="{{chunk.value}}"
+									:mapOfVerseAndChapterNumberPositions
+									emphasized="{{true}}"
+								/>
 								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
 							{{elseif chunk.type === 'verse number'}}
-								<span class="verse-number">
-									{{chunk.value}}
-								</span>
+								<LeftMarginNumber
+									left="{{numberLeft}}"
+									number="{{chunk.value}}"
+									:mapOfVerseAndChapterNumberPositions
+								/>
 							{{else}}
 								<span class="verse-text">
 									{{chunk.value}}
@@ -40,13 +45,19 @@
 					<blockquote>
 						{{#each section.children as chunk}}
 							{{#if chunk.type === 'chapter number'}}
-								<span class="chapter-number">
-									{{chunk.value}}
-								</span>
+								<LeftMarginNumber
+									left="{{numberLeft}}"
+									number="{{chunk.value}}"
+									:mapOfVerseAndChapterNumberPositions
+									emphasized="{{true}}"
+								/>
+								<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
 							{{elseif chunk.type === 'verse number'}}
-								<span class="verse-number">
-									{{chunk.value}}
-								</span>
+								<LeftMarginNumber
+									left="{{numberLeft}}"
+									number="{{chunk.value}}"
+									:mapOfVerseAndChapterNumberPositions
+								/>
 							{{else}}
 								<span class="verse-text">
 									{{chunk.value}}<br>
@@ -63,6 +74,7 @@
 
 <style>
 @import 'mixins';
+@import 'gutter';
 
 .container {
 	@include container-side-padding;
@@ -85,25 +97,54 @@
 	height: 60px;
 }
 
-.chapter-number, .verse-number {
-	display: none;
-}
-
 .text-container {
 	max-width: 600px;
+	margin-left: $gutterSize;
 }
 </style>
 
 <script>
+import resizeEvents from 'lib/resize-events.js'
 
 import StateLink from 'component/StateLink.html'
+
+import LeftMarginNumber from './LeftMarginNumber.html'
 
 const flatMap = (ary, fn) => ary.reduce(
 	(acc, element, index) => [ ...acc, ...fn(element, index) ],
 	[]
 )
 
+const gutterSize = 32;
+const numberOffset = gutterSize - (gutterSize / 4)
+
 export default {
+	data() {
+		return {
+			mapOfVerseAndChapterNumberPositions: new Map()
+		}
+	},
+	oncreate() {
+		this.cancelResizeStartListener = resizeEvents.on('resize start',
+			() => this.set({ mapOfVerseAndChapterNumberPositions: new Map() })
+		)
+		this.cancelResizeStopListener = resizeEvents.on('resize stop',
+			() => this.calculateLeft()
+		)
+
+		window.requestAnimationFrame(() => this.calculateLeft())
+	},
+	ondestroy() {
+		this.cancelResizeStartListener()
+		this.cancelResizeStopListener()
+	},
+	methods: {
+		calculateLeft() {
+			this.set({
+				numberLeft: this.refs.textContainer.offsetLeft - numberOffset
+			})
+		}
+	},
 	computed: {
 		bookSectionsWithChapterAndVerseMarkers: bookSections => {
 			let lastChapterNumber = null
@@ -148,7 +189,8 @@ export default {
 		linkToChapterNumber: number => `#chapter-number-${number}`
 	},
 	components: {
-		StateLink
+		StateLink,
+		LeftMarginNumber
 	}
 }
 </script>
