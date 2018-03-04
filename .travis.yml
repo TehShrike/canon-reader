@@ -6,12 +6,13 @@ script:
   - npm t
   - npm run build
 deploy:
-  skip_cleanup: true
   - provider: script
+    skip_cleanup: true
     script: ./travis-ci-deploy.sh production
     on:
       branch: master
   - provider: script
+    skip_cleanup: true
     script: ./travis-ci-deploy.sh staging
     on:
       branch: staging
