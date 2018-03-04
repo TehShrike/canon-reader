@@ -137,7 +137,9 @@ export default {
 					.map(({ value }) => value)
 				: []
 		),
-		linkToChapterNumber: asr => number => `${asr.makePath(null, {}, { inherit: true })}#chapter-number-${number}`
+	},
+	helpers: {
+		linkToChapterNumber: number => `#chapter-number-${number}`
 	}
 }
 </script>

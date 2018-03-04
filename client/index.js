@@ -1,22 +1,32 @@
-import mannish from 'mannish'
-
 import views from './globbed-views'
 import statefulServices from './globbed-services'
 
+import mediator from 'lib/mediator-instance.js'
+
+import sausage from 'sausage-router'
+import makeRouter from 'hash-brown-router'
 import StateRouter from 'abstract-state-router'
+import asrScrollPosition from 'asr-scroll-position'
 import makeSvelteStateRenderer from 'svelte-state-renderer'
 
 const stateRouter = StateRouter(
 	makeSvelteStateRenderer(),
-	document.getElementById('target'),
+	document.getElementById(`target`), {
+		pathPrefix: ``,
+		router: makeRouter(sausage()),
+	}
 )
-
-const mediator = mannish()
 
 mediator.provideSync(`stateGo`, stateRouter.go)
 mediator.provideSync(`makePath`, stateRouter.makePath)
+mediator.provideSync(`stateIsActive`, stateRouter.stateIsActive)
 mediator.provideSync(`onStateRouter`, (event, cb) => {
 	stateRouter.on(event, cb)
+	return () => stateRouter.removeListener(event, cb)
+})
+mediator.provideSync(`onceStateRouter`, (event, cb) => {
+	stateRouter.once(event, cb)
+	return () => stateRouter.removeListener(event, cb)
 })
 
 const moduleInitializationPromises = statefulServices.map(module => Promise.resolve(module(mediator)))
@@ -41,4 +51,5 @@ stateRouter.on(`stateChangeEnd`, (state, params) => console.log(`stateChangeEnd`
 
 Promise.all(moduleInitializationPromises).then(() => {
 	stateRouter.evaluateCurrentRoute(`main`)
+	asrScrollPosition(stateRouter)
 })

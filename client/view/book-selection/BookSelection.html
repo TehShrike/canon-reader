@@ -1,14 +1,14 @@
 <div class="book-names">
 	{{#each bookNames as name}}
 		<div class="book">
-			<a href="{{makeBookLink(name.id)}}">
+			<StateLink state="main.text" params="{{ { book: name.id } }}">
 				<div class="short-name">
 					{{name.short}}
 				</div>
 				<div class="full-name">
 					{{name.full}}
 				</div>
-			</a>
+			</StateLink>
 		</div>
 	{{/each}}
 </div>
@@ -69,6 +69,8 @@
 <script>
 import books from 'books-of-the-bible'
 
+import StateLink from 'component/StateLink.html'
+
 export default {
 	data() {
 		return {
@@ -85,7 +87,9 @@ export default {
 				id: name.replace(/ /g, '').toLowerCase()
 			}
 		}),
-		makeBookLink: asr => bookId => asr.makePath('main.text', { book: bookId })
+	},
+	components: {
+		StateLink
 	}
 }
 </script>
