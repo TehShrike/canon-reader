@@ -1,9 +1,9 @@
 <div class="container">
 	<StateLink state="main" className="bigger-link">« Back</StateLink>
 
-		<ol class="chapter-selection">
+		<ol class="chapter-selection-list">
 			{{#each chapterNumbers as chapterNumber}}
-				<li class="chapter-number-link">
+				<li class="chapter-number-list-item">
 					<a href="{{linkToChapterNumber(chapterNumber)}}" class="bigger-link">
 						{{chapterNumber}}
 					</a>
@@ -85,16 +85,27 @@
 	font-family: sans-serif;
 }
 
-.chapter-selection {
+.chapter-selection-list {
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
+
+	padding-left: 0;
 }
 
-.chapter-number-link {
+.chapter-number-list-item {
 	list-style-type: none;
 	flex-basis: 60px;
-	height: 60px;
+	height: 50px;
+}
+
+.chapter-number-list-item a {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .text-container {
@@ -115,8 +126,8 @@ const flatMap = (ary, fn) => ary.reduce(
 	[]
 )
 
-const gutterSize = 32;
-const numberOffset = gutterSize - (gutterSize / 4)
+const gutterSize = 40;
+const numberOffset = gutterSize - 8
 
 export default {
 	data() {
