@@ -1,7 +1,7 @@
 <div class="placeholder" ref:placeholder>&#8203;</div>
 <div
 	class="number"
-	style="top: {{top}}px; left: {{left}}px;"
+	style="top: {{top}}px; height: {{height}}px; left: {{left}}px;"
 	data-emphasized="{{emphasized}}"
 	data-hidden="{{hidden}}"
 >
@@ -20,7 +20,7 @@
 	margin: 0;
 
 	font-family: $sans-serif;
-	font-size: .9rem;
+	font-size: .7rem;
 	color: $gray;
 
 	display: flex;
@@ -29,7 +29,7 @@
 
 [data-emphasized=true] {
 	font-weight: bold;
-	font-size: 1rem;
+	font-size: .9rem;
 }
 
 [data-hidden=true] {
@@ -87,6 +87,7 @@ export default {
 		},
 		calculatePosition() {
 			const top = this.refs.placeholder.offsetTop
+			const height = this.refs.placeholder.offsetHeight
 
 			const {
 				thisNumber,
@@ -98,6 +99,7 @@ export default {
 			if (!currentAtThatPosition || shouldBeOnTop(thisNumber, currentAtThatPosition)) {
 				this.set({
 					top,
+					height,
 					hidden: false
 				})
 
