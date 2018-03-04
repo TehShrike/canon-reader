@@ -1,5 +1,5 @@
 <div class="container">
-	<a href="{{asr.makePath('main')}}" class="bigger-link">« Back</a>
+	<StateLink state="main" className="bigger-link">« Back</StateLink>
 
 		<ol class="chapter-selection">
 			{{#each chapterNumbers as chapterNumber}}
@@ -95,7 +95,13 @@
 </style>
 
 <script>
-const flatMap = (ary, fn) => ary.reduce((acc, element, index) => [ ...acc, ...fn(element, index) ], [])
+
+import StateLink from 'component/StateLink.html'
+
+const flatMap = (ary, fn) => ary.reduce(
+	(acc, element, index) => [ ...acc, ...fn(element, index) ],
+	[]
+)
 
 export default {
 	computed: {
@@ -140,6 +146,9 @@ export default {
 	},
 	helpers: {
 		linkToChapterNumber: number => `#chapter-number-${number}`
+	},
+	components: {
+		StateLink
 	}
 }
 </script>
