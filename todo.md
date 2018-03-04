@@ -1,3 +1,4 @@
+- set up CI deploy with Up
 - chapter numbers, verse numbers
 	- off to the side most of the time
 	- need to find a CSS-only solution, the current way with calculating/styling is way too slow
