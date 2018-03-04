@@ -53,6 +53,10 @@ npm run dev
 
 You can then open <http://127.0.0.1:8888> in your browser.
 
+The app will re-build automatically when you save your changes, but you'll have to reload the web page yourself.
+
+## Tests
+
 To run the tests:
 
 ```sh
