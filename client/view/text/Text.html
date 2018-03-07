@@ -11,7 +11,7 @@
 	<ol class="chapter-selection-list">
 		{{#each chapterNumbers as chapterNumber}}
 			<li class="chapter-number-list-item">
-				<a href="{{linkToChapterNumber(chapterNumber)}}" class="bigger-link">
+				<a href="#{{ getChapterNumberId(chapterNumber) }}" class="bigger-link">
 					{{chapterNumber}}
 				</a>
 			</li>
@@ -55,7 +55,10 @@
 								number="{{chunk.value}}"
 								emphasized="{{true}}"
 							/>
-							<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
+							<span
+								class="chapter-number-marker"
+								id="{{ getChapterNumberId(chunk.value) }}"
+							></span>
 						{{elseif chunk.type === 'verse number'}}
 							<LeftMarginNumber
 								left="{{numberLeft}}"
@@ -74,6 +77,8 @@
 		{{/each}}
 	</div>
 </div>
+
+<RightMarginChapterNumbers :chapterNumbers />
 
 <style>
 @import 'mixins';
@@ -124,8 +129,10 @@
 
 <script>
 import StateLink from 'component/StateLink.html'
+import { getChapterNumberId } from 'lib/get-id.js'
 
 import LeftMarginNumber from './LeftMarginNumber.html'
+import RightMarginChapterNumbers from './RightMarginChapterNumbers.html'
 
 const flatMap = (ary, fn) => ary.reduce(
 	(acc, element, index) => [ ...acc, ...fn(element, index) ],
@@ -180,11 +187,12 @@ export default {
 		),
 	},
 	helpers: {
-		linkToChapterNumber: number => `#chapter-number-${number}`
+		getChapterNumberId
 	},
 	components: {
 		StateLink,
-		LeftMarginNumber
+		LeftMarginNumber,
+		RightMarginChapterNumbers
 	}
 }
 </script>

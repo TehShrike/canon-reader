@@ -2,6 +2,9 @@
 	- need to line up in a more consistent way on the left
 	- put chapter numbers on the right side, absolutely positioned
 		- highlight the chapter of the center verse?
+			- find the chapter of the verse at the top of the viewport
+			- highlight the chapter number that is currently in the "to display" list that is less than or equal to that chapter number
+		- make the number of chapter numbers displayed based on the viewport height
 - on hover of verse text
 	- made the verse number prominent on the side
 	- highlight the verse text somehow
