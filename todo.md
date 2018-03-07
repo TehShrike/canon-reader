@@ -2,11 +2,7 @@
 
 - chapter numbers, verse numbers
 	- need to line up in a more consistent way on the left
-	- put chapter numbers on the right side, absolutely positioned
-		- highlight the chapter of the center verse?
-			- find the chapter of the verse at the top of the viewport
-			- highlight the chapter number that is currently in the "to display" list that is less than or equal to that chapter number
-		- make the number of chapter numbers displayed based on the viewport height
+	- make the number of chapter numbers displayed based on the viewport height
 - quick navigation
 	- given a reference typed in, browse to it
 	- keyboard shortcut that displays an input so you can type in a reference
@@ -19,6 +15,9 @@
 	- make it look not jank on the right column
 	- make it look not jank at the bottom of the screen on mobile
 	- come up with some UI for showing or hiding it that doesn't look jank on mobile
+- data issues
+	- use the Pickering Revelation text
+	- fix data parsing in the WEB import - don't interpret notemarks as paragraph breaks (2 Chronicles 1:1)
 
 # Should be pretty great
 
