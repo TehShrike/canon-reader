@@ -1,0 +1,37 @@
+{{#each children as chunk}}
+	{{#if chunk.type === 'chapter number'}}
+		<LeftMarginNumber
+			number="{{chunk.value}}"
+			emphasized="{{true}}"
+		/>
+		<span
+			id="{{ getChapterNumberId(chunk.value) }}"
+		></span>
+	{{elseif chunk.type === 'verse number'}}
+		<LeftMarginNumber
+			number="{{chunk.value}}"
+		/>
+	{{else}}
+		<span
+			data-chapter-number="{{chunk.chapterNumber}}"
+			data-verse-number="{{chunk.verseNumber}}"
+		>
+			{{chunk.value}}<br>
+		</span>
+	{{/if}}
+{{/each}}
+
+<script>
+import { getChapterNumberId } from 'lib/get-id.js'
+
+import LeftMarginNumber from './LeftMarginNumber.html'
+
+export default {
+	helpers: {
+		getChapterNumberId
+	},
+	components: {
+		LeftMarginNumber,
+	}
+}
+</script>

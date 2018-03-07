@@ -26,50 +26,11 @@
 				<hr>
 			{{elseif section.type === 'paragraph'}}
 				<p>
-					{{#each section.children as chunk}}
-						{{#if chunk.type === 'chapter number'}}
-							<LeftMarginNumber
-								left="{{numberLeft}}"
-								number="{{chunk.value}}"
-								emphasized="{{true}}"
-							/>
-							<span class="chapter-number-marker" id="chapter-number-{{chunk.value}}"></span>
-						{{elseif chunk.type === 'verse number'}}
-							<LeftMarginNumber
-								left="{{numberLeft}}"
-								number="{{chunk.value}}"
-							/>
-						{{else}}
-							<span class="verse-text">
-								{{chunk.value}}
-							</span>
-						{{/if}}
-					{{/each}}
+					<TextSectionChildren children="{{section.children}}" />
 				</p>
 			{{elseif section.type === 'stanza'}}
 				<blockquote>
-					{{#each section.children as chunk}}
-						{{#if chunk.type === 'chapter number'}}
-							<LeftMarginNumber
-								left="{{numberLeft}}"
-								number="{{chunk.value}}"
-								emphasized="{{true}}"
-							/>
-							<span
-								class="chapter-number-marker"
-								id="{{ getChapterNumberId(chunk.value) }}"
-							></span>
-						{{elseif chunk.type === 'verse number'}}
-							<LeftMarginNumber
-								left="{{numberLeft}}"
-								number="{{chunk.value}}"
-							/>
-						{{else}}
-							<span class="verse-text">
-								{{chunk.value}}<br>
-							</span>
-						{{/if}}
-					{{/each}}
+					<TextSectionChildren children="{{section.children}}" />
 				</blockquote>
 			{{else}}
 				<h1>WAT BROKEN</h1>
@@ -131,7 +92,7 @@
 import StateLink from 'component/StateLink.html'
 import { getChapterNumberId } from 'lib/get-id.js'
 
-import LeftMarginNumber from './LeftMarginNumber.html'
+import TextSectionChildren from './TextSectionChildren.html'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.html'
 
 const flatMap = (ary, fn) => ary.reduce(
@@ -191,8 +152,8 @@ export default {
 	},
 	components: {
 		StateLink,
-		LeftMarginNumber,
-		RightMarginChapterNumbers
+		RightMarginChapterNumbers,
+		TextSectionChildren
 	}
 }
 </script>
