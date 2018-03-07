@@ -34,6 +34,9 @@
 	- basic design goals/restrictions
 	- road map
 	- credit WEB, Pickering, Strong, OpenBible.org
+- improve cold start time
+	- maybe bundle the server code and transpile to target node 6
+	- maybe use the babel runtime
 
 # Would be nice
 
