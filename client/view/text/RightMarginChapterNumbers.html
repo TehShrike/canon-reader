@@ -1,9 +1,15 @@
 <ol>
 	{{#each chapterNumbersToDisplay as number}}
 		<li>
-			<a href="#{{ getChapterNumberId(number) }}">
-				{{ number }}
-			</a>
+			{{#if displayChapterMatchesCurrent(number)}}
+				<a href="#{{ getChapterNumberId(currentChapter) }}">
+					<strong>{{ currentChapter }}</strong>
+				</a>
+			{{else}}
+				<a href="#{{ getChapterNumberId(number) }}">
+					{{ number }}
+				</a>
+			{{/if}}
 		</li>
 	{{/each}}
 </ol>
@@ -65,7 +71,11 @@ export default {
 		chapterNumbersToDisplay: (chapterNumbers, chapterModulusToUse) =>
 			chapterNumbers.filter(number =>
 				(number - 1) % chapterModulusToUse === 0
-			)
+			),
+		displayChapterMatchesCurrent: (chapterModulusToUse, currentChapter) =>
+			displayChapter => currentChapter
+				&& currentChapter >= displayChapter
+				&& currentChapter < (displayChapter + chapterModulusToUse)
 	}
 }
 </script>

@@ -39,7 +39,7 @@
 	</div>
 </div>
 
-<RightMarginChapterNumbers :chapterNumbers />
+<RightMarginChapterNumbers :chapterNumbers :currentChapter />
 
 <style>
 @import 'mixins';
@@ -100,12 +100,45 @@ const flatMap = (ary, fn) => ary.reduce(
 	[]
 )
 
+function observeIntersectionsWithTopOfViewport(elements, cb) {
+	const viewportTopObserver = new IntersectionObserver(entries => {
+		const intersectingEntries = entries.filter(entry => entry.isIntersecting)
+		cb(intersectingEntries)
+	}, {
+		rootMargin: '0px 0px -95%',
+		threshold: 0.1
+	})
+
+	Array.from(elements).forEach(element => viewportTopObserver.observe(element))
+
+	return viewportTopObserver
+}
+
 export default {
 	data() {
 		return {
 			bookName: null,
 			bookSections: null,
+			currentChapter: null
 		}
+	},
+	oncreate() {
+		const textElements = this.refs.textContainer.querySelectorAll('.verse-text')
+		const viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
+			const currentChapter = entries.reduce((currentChapter, entry) => {
+				const data = entry.target.dataset
+				const entryChapter = parseInt(data.chapterNumber, 10)
+
+				return Math.max(currentChapter, entryChapter)
+			}, 0)
+
+			currentChapter && this.set({ currentChapter })
+		})
+
+		this.viewportTopObserver = viewportTopObserver
+	},
+	ondestroy() {
+		this.viewportTopObserver.disconnect()
 	},
 	computed: {
 		bookSectionsWithChapterAndVerseMarkers: bookSections => {
