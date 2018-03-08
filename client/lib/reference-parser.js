@@ -19,9 +19,16 @@ const regex = r.combine(
 
 const chapterVerseRangeRegex = createChapterVerseRangeRegex()
 const emptyVerseSection = Object.freeze({ chapter: null, verse: null, section: null })
+const noMatch = Object.freeze({ bookId: null, start: emptyVerseSection, end: emptyVerseSection })
 
 export default string => {
-	const [ , bookPart, versePart ] = string.match(regex)
+	const match = string.match(regex)
+
+	if (!match) {
+		return noMatch
+	}
+
+	const [ , bookPart, versePart ] = match
 
 	const verseRange = versePart
 		? extractRangeFromMatch.chapterVerseRange(versePart.match(chapterVerseRangeRegex))

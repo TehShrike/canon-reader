@@ -4,10 +4,11 @@ import { getChapterNumberId, getChapterVerseId } from 'lib/get-id.js'
 
 export default mediator => ({
 	name: 'main.reference',
-	route: 'reference/:reference',
+	route: 'reference',
+	querystringParameters: [ 's' ],
 	template: Reference,
 	resolve(data, parameters) {
-		const reference = parameters.reference
+		const reference = parameters.s || ''
 
 		const parsed = parseReference(reference)
 
