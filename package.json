@@ -4,6 +4,7 @@
   "description": "What I want a Bible reader to be.",
   "main": "index.js",
   "scripts": {
+    "ci:test": "npm run create-symlinks && npm t",
     "test": "tape -r reify client/**/*-test.js",
     "prep-build": "run-p create-symlinks glob",
     "build": "npm-run-all prep-build --parallel build:*",
