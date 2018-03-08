@@ -12,34 +12,10 @@ import shouldInterceptClick from 'click-should-be-intercepted-for-navigation'
 
 import mediator from 'lib/mediator-instance.js'
 
-function equalEnough(a, b) {
-	const keys = Object.keys(a)
-	return keys.length === Object.keys(b).length
-		&& keys.every(key => a[key] === b[key])
-}
-
 const stateIsActive = (...args) => mediator.callSync('stateIsActive', ...args)
 const makePath = (...args) => mediator.callSync('makePath', ...args)
 
-function afterTransitionTo(stateName, params, cb) {
-	const cancelFunctions = [
-		mediator.callSync('onceStateRouter', 'stateChangeEnd', listener),
-		mediator.callSync('onceStateRouter', 'stateChangeError', cancel),
-		mediator.callSync('onceStateRouter', 'stateError', cancel),
-		mediator.callSync('onceStateRouter', 'routeNotFound', cancel),
-		mediator.callSync('onceStateRouter', 'stateChangeCancelled', cancel),
-	]
-	function listener(endState, endParams) {
-		if (endState.name === stateName && equalEnough(params, endParams)) {
-			cb()
-		} else {
-			cancel()
-		}
-	}
-	function cancel() {
-		cancelFunctions.forEach(fn => fn())
-	}
-}
+
 
 function currentPath() {
 	return window.location.pathname + window.location.search
@@ -79,13 +55,7 @@ export default {
 				const { state, params, inherit, hashFragment, anchor, path } = this.get()
 
 				if (path !== currentPath()) {
-					mediator.callSync('stateGo', state, params, { inherit })
-
-					afterTransitionTo(state, params, () => {
-						if (anchor) {
-							window.location.replace(hashFragment)
-						}
-					})
+					mediator.callSync('goWithHashFragment', state, params, { inherit }, anchor)
 				} else {
 					window.location = hashFragment
 				}

@@ -129,7 +129,8 @@ export default {
 					if (verseNumber && verseNumber !== lastVerseNumber) {
 						itemsToReturn.push({
 							type: 'verse number',
-							value: verseNumber
+							value: verseNumber,
+							chapterNumber,
 						})
 						lastVerseNumber = verseNumber
 					}

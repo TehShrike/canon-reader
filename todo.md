@@ -46,6 +46,7 @@
 	- maybe bundle the server code and transpile to target node 6
 	- maybe use the babel runtime
 - a josh@canonreader.com email address listed on the home/about page
+- make `main.reference` a better warning page about bad references
 
 # Would be nice
 

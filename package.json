@@ -4,7 +4,7 @@
   "description": "What I want a Bible reader to be.",
   "main": "index.js",
   "scripts": {
-    "test": "tape client/**/*-test.js",
+    "test": "tape -r reify client/**/*-test.js",
     "prep-build": "run-p create-symlinks glob",
     "build": "npm-run-all prep-build --parallel build:*",
     "build:js": "rollup -c rollup.config.js",
@@ -83,7 +83,7 @@
     "symlink-cli": "1.0.0",
     "tape": "4.8.0",
     "tempy": "0.2.1",
-    "verse-reference-regex": "1.2.0",
+    "verse-reference-regex": "1.3.0",
     "world-english-bible": "0.0.2"
   }
 }
