@@ -1,6 +1,6 @@
 <div class="book-names">
 	{{#each bookNames as name}}
-		<div class="book">
+		<div class="book" style="background-color: {{ getBookColor(name.id) }}">
 			<StateLink state="main.text" params="{{ { book: name.id } }}">
 				<div class="short-name">
 					{{name.short}}
@@ -69,7 +69,9 @@
 
 <script>
 import books from 'books-of-the-bible'
-import bookNameToId from 'lib/book-name-to-id.js'
+
+import bookColors from 'lib/book-of-the-bible-colors.js'
+import { getBookId } from 'lib/get-id.js'
 
 import StateLink from 'component/StateLink.html'
 
@@ -86,9 +88,12 @@ export default {
 			return {
 				full: name,
 				short: useFirstAliasForShort ? aliases[0] : name,
-				id: bookNameToId(name)
+				id: getBookId(name)
 			}
 		}),
+	},
+	helpers: {
+		getBookColor: id => bookColors[id]
 	},
 	components: {
 		StateLink
