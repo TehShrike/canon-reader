@@ -1,15 +1,11 @@
 # Should be pretty useful
 
 - a "reference" url that redirects you to the correct book/chapter/verse
-	- if the reference isn't valid, go to a page that lets them know, and links them to book selection
-	- a regular expression to parse the reference
-		- essentially verse-reference-regex but with regular expression support in book names
 	- scheme for representing highlighted verses in the url
-	- just the chapter/verse id from the range start in the hash fragment?
-- quick navigation
+- quick navigation component
 	- given a reference typed in, browse to it
-	- keyboard shortcut that displays an input so you can type in a reference
-	- when a verse or verse range has been searched for, highlight the verse/range
+	- keyboard shortcut that displays the input so you can type in a reference
+	- when a verse or verse range has been searched for, do the same behavior as when you hit the reference endpoint (navigation + highlighting)
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere
 	- get greek/hebrew text by book/chapter/verse, with some mapping to Strong's numbers
