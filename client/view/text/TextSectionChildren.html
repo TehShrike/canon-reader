@@ -5,12 +5,15 @@
 			emphasized="{{true}}"
 		/>
 		<span
-			id="{{ getChapterNumberId(chunk.value) }}"
+			id={{ getChapterNumberId(chunk.value) }}
 		></span>
 	{{elseif chunk.type === 'verse number'}}
 		<LeftMarginNumber
-			number="{{chunk.value}}"
+			number={{chunk.value}}
 		/>
+		<span
+			id={{ getChapterVerseId(chunk.chapterNumber, chunk.value) }}
+		></span>
 	{{else}}
 		<span
 			class="verse-text"
@@ -23,13 +26,14 @@
 {{/each}}
 
 <script>
-import { getChapterNumberId } from 'lib/get-id.js'
+import { getChapterNumberId, getChapterVerseId } from 'lib/get-id.js'
 
 import LeftMarginNumber from './LeftMarginNumber.html'
 
 export default {
 	helpers: {
-		getChapterNumberId
+		getChapterNumberId,
+		getChapterVerseId
 	},
 	components: {
 		LeftMarginNumber,
