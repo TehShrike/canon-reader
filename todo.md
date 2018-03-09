@@ -49,6 +49,7 @@
 - initial-load performance
 	- move the book text processing to a build script and build individual book JSON to `public/books/*.json`
 	- lazy-load books
+	- make the JS bundle smaller
 - offline
 	- store books locally
 	- add proper offline support
