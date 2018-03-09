@@ -15,5 +15,9 @@
 		"production": {
 			"domain": "canonreader.com"
 		}
+	},
+	"lambda": {
+		"warm": true,
+		"warm_count": 10
 	}
 }
