@@ -49,13 +49,15 @@ export default {
 		LeftMarginNumber,
 	},
 	computed: {
-		comparableRange: highlightedRange => ({
-			start: [highlightedRange.startChapter, highlightedRange.startVerse],
-			end: [highlightedRange.endChapter, highlightedRange.endVerse]
-		}),
-		isHighlighted: comparableRange => (chapter, verse) => {
-			return withinRange(comparableRange.start, comparableRange.end, [chapter, verse])
-		}
+		comparableRange: highlightedRange => highlightedRange
+			? {
+				start: [highlightedRange.startChapter, highlightedRange.startVerse],
+				end: [highlightedRange.endChapter, highlightedRange.endVerse]
+			}
+			: null,
+		isHighlighted: comparableRange => comparableRange
+			? (chapter, verse) => withinRange(comparableRange.start, comparableRange.end, [chapter, verse])
+			: () => false
 	}
 }
 </script>

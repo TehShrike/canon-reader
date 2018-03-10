@@ -32,6 +32,12 @@ const cases = [
 			start: { chapter: 12, verse: 2, section: null },
 			end: { chapter: 12, verse: 4, section: 'a' },
 		},
+	], [
+		'gen 3-4', {
+			bookId: 'genesis',
+			start: { chapter: 3, verse: null, section: null },
+			end: { chapter: 4, verse: null, section: null },
+		},
 	],
 ]
 
