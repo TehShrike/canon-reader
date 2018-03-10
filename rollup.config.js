@@ -3,6 +3,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import svelte from 'rollup-plugin-svelte'
 import json from 'rollup-plugin-json'
 import sveltePreprocessPostcss from 'svelte-preprocess-postcss'
+import visualizer from 'rollup-plugin-visualizer'
 
 export default {
 	input: `./client/index.js`,
@@ -28,5 +29,6 @@ export default {
 		resolve({
 			browser: true,
 		}),
+		visualizer(),
 	],
 }
