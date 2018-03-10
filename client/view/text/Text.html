@@ -16,11 +16,11 @@
 				<hr>
 			{{elseif section.type === 'paragraph'}}
 				<p>
-					<TextSectionChildren children="{{section.children}}" />
+					<TextSectionChildren children="{{section.children}}" :highlightedRange />
 				</p>
 			{{elseif section.type === 'stanza'}}
 				<blockquote>
-					<TextSectionChildren children="{{section.children}}" />
+					<TextSectionChildren children="{{section.children}}" :highlightedRange />
 				</blockquote>
 			{{else}}
 				<h1>WAT BROKEN</h1>

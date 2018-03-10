@@ -1,3 +1,5 @@
+import toString from 'just-to-string'
+
 export default mediator => {
 	mediator.provide('afterStateTransitionTo', (stateName, params) => {
 		return new Promise((resolve, reject) => {
@@ -23,8 +25,6 @@ export default mediator => {
 	})
 }
 
-function equalEnough(a, b) {
-	const keys = Object.keys(a)
-	return keys.length === Object.keys(b).length
-		&& keys.every(key => a[key] === b[key])
+function equalEnough(params, endParams) {
+	return Object.keys(params).every(key => toString(params[key]) === toString(endParams[key]))
 }

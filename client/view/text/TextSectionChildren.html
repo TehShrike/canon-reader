@@ -1,8 +1,8 @@
 {{#each children as chunk}}
 	{{#if chunk.type === 'chapter number'}}
 		<LeftMarginNumber
-			number="{{chunk.value}}"
-			emphasized="{{true}}"
+			number={{chunk.value}}
+			emphasized={{true}}
 		/>
 		<span
 			id={{ getChapterNumberId(chunk.value) }}
@@ -17,16 +17,26 @@
 	{{else}}
 		<span
 			class="verse-text"
-			data-chapter-number="{{chunk.chapterNumber}}"
-			data-verse-number="{{chunk.verseNumber}}"
+			data-chapter-number={{chunk.chapterNumber}}
+			data-verse-number={{chunk.verseNumber}}
+			data-highlighted={{isHighlighted(chunk.chapterNumber, chunk.verseNumber)}}
 		>
 			{{chunk.value}}<br>
 		</span>
 	{{/if}}
 {{/each}}
 
+<style>
+@import 'variables';
+
+[data-highlighted=true] {
+	background-color: $backgroundYellow;
+}
+</style>
+
 <script>
 import { getChapterNumberId, getChapterVerseId } from 'lib/get-id.js'
+import withinRange from 'multi-part-range-compare'
 
 import LeftMarginNumber from './LeftMarginNumber.html'
 
@@ -37,6 +47,15 @@ export default {
 	},
 	components: {
 		LeftMarginNumber,
+	},
+	computed: {
+		comparableRange: highlightedRange => ({
+			start: [highlightedRange.startChapter, highlightedRange.startVerse],
+			end: [highlightedRange.endChapter, highlightedRange.endVerse]
+		}),
+		isHighlighted: comparableRange => (chapter, verse) => {
+			return withinRange(comparableRange.start, comparableRange.end, [chapter, verse])
+		}
 	}
 }
 </script>
