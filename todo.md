@@ -54,3 +54,4 @@
 	- store books locally
 	- add proper offline support
 - pre-calculate book-of-the-bibel-colors
+- dark mode
