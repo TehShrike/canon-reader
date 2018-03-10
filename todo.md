@@ -1,7 +1,5 @@
 # Should be pretty useful
 
-- a "reference" url that redirects you to the correct book/chapter/verse
-	- scheme for representing highlighted verses in the url
 - quick navigation component
 	- given a reference typed in, browse to it
 	- keyboard shortcut that displays the input so you can type in a reference
@@ -15,13 +13,12 @@
 - data issues
 	- use the Pickering Revelation text
 	- fix data parsing in the WEB import - don't interpret notemarks as paragraph breaks (2 Chronicles 1:1)
-- Put book name into `title` element
+- make the JS bundle smaller
+	- move chromatism use to a script generator (pre-calculate book-of-the-bible-colors)
 
 # Should be pretty great
 
-- chapter numbers, verse numbers
-	- need to line up in a more consistent way on the left
-	- make the number of chapter numbers displayed based on the viewport height
+- make the number of chapter numbers displayed based on the viewport height
 - bookmarks
 	- ???
 - style stuff
@@ -38,9 +35,6 @@
 	- basic design goals/restrictions
 	- road map
 	- credit WEB, Pickering, Strong, OpenBible.org
-- improve cold start time
-	- maybe bundle the server code and transpile to target node 6
-	- maybe use the babel runtime
 - a josh@canonreader.com email address listed on the home/about page
 - make `main.reference` a better warning page about bad references
 
@@ -49,9 +43,10 @@
 - initial-load performance
 	- move the book text processing to a build script and build individual book JSON to `public/books/*.json`
 	- lazy-load books
-	- make the JS bundle smaller
 - offline
 	- store books locally
 	- add proper offline support
-- pre-calculate book-of-the-bibel-colors
 - dark mode
+- improve cold start time
+	- maybe bundle the server code and transpile to target node 6
+	- maybe use the babel runtime
