@@ -3,8 +3,7 @@ import bibleBooksMap from 'lib/bible.js'
 
 export default mediator => ({
 	name: 'main.text',
-	route: 'text',
-	querystringParameters: [ `book` ],
+	route: 'text/:book',
 	template: Text,
 	resolve(data, parameters) {
 		const bookSections = bibleBooksMap[parameters.book]
