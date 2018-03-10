@@ -1,6 +1,6 @@
 import { adjacent } from 'chromatism2'
 
-const colors = adjacent(-30, 9, '#cfddff').hex
+const colors = adjacent(-50, 8, '#cfddff').hex
 
 const sections = {
 	'genesis': 0,
@@ -47,28 +47,28 @@ const sections = {
 	'luke': 5,
 	'john': 5,
 	'acts': 6,
-	'romans': 7,
-	'1corinthians': 7,
-	'2corinthians': 7,
-	'galatians': 7,
-	'ephesians': 7,
-	'philippians': 7,
-	'colossians': 7,
-	'1thessalonians': 7,
-	'2thessalonians': 7,
-	'1timothy': 7,
-	'2timothy': 7,
-	'titus': 7,
-	'philemon': 7,
-	'hebrews': 7,
-	'james': 8,
-	'1peter': 8,
-	'2peter': 8,
-	'1john': 8,
-	'2john': 8,
-	'3john': 8,
-	'jude': 8,
-	'revelation': 8,
+	'romans': 6,
+	'1corinthians': 6,
+	'2corinthians': 6,
+	'galatians': 6,
+	'ephesians': 6,
+	'philippians': 6,
+	'colossians': 6,
+	'1thessalonians': 6,
+	'2thessalonians': 6,
+	'1timothy': 6,
+	'2timothy': 6,
+	'titus': 6,
+	'philemon': 6,
+	'hebrews': 6,
+	'james': 7,
+	'1peter': 7,
+	'2peter': 7,
+	'1john': 7,
+	'2john': 7,
+	'3john': 7,
+	'jude': 7,
+	'revelation': 7,
 }
 
 export default Object.keys(sections).reduce((map, key) => {
