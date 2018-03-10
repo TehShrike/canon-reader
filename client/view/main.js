@@ -1,8 +1,8 @@
-import JustChildState from 'component/JustChildState.html'
+import Main from './Main.html'
 
 export default mediator => ({
 	name: `main`,
 	route: ``,
 	defaultChild: `home`,
-	template: JustChildState,
+	template: Main,
 })
