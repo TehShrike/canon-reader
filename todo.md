@@ -10,9 +10,7 @@
 	- make it look not jank on the right column
 	- make it look not jank at the bottom of the screen on mobile
 	- come up with some UI for showing or hiding it that doesn't look jank on mobile
-- data issues
-	- use the Pickering Revelation text
-	- fix data parsing in the WEB import - don't interpret notemarks as paragraph breaks (2 Chronicles 1:1)
+- use the Pickering Revelation text
 - make the JS bundle smaller
 	- move chromatism use to a script generator (pre-calculate book-of-the-bible-colors)
 
@@ -37,6 +35,8 @@
 	- credit WEB, Pickering, Strong, OpenBible.org
 - a josh@canonreader.com email address listed on the home/about page
 - make `main.reference` a better warning page about bad references
+- favicon
+	- make sure the `favicon.ico` served from the root is aggressively cached because of the Chrome reload-on-replaceState bug
 
 # Would be nice
 
