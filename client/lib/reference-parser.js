@@ -4,16 +4,16 @@ import { getBookId } from 'lib/get-id.js'
 import { extractRangeFromMatch, createChapterVerseRangeRegex } from 'verse-reference-regex'
 import r from 'regex-fun'
 
+const alphabetic = /[a-zA-Z]/
 const bookNameRegex = r.combine(
 	r.optional(/\d/),
-	r.oneOrMoreNonGreedy(r.either(/\w/, ' '))
+	r.oneOrMore(r.either(alphabetic, ' '))
 )
 
 const regex = r.combine(
 	/^/,
 	r.capture(bookNameRegex),
-	r.anyNumberNonGreedy(/\s/),
-	r.capture(r.anyNumber(r.either(/\d/, ':', /a-zA-Z/))),
+	r.capture(r.anyNumber(r.either(/\d/, ':', '-', ' ', alphabetic))),
 	/$/
 )
 
