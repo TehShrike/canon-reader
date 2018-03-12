@@ -1,4 +1,4 @@
-import toString from 'just-to-string'
+import equalEnough from 'lib/equal-enough'
 
 export default mediator => {
 	mediator.provide('afterStateTransitionTo', (stateName, params) => {
@@ -23,8 +23,4 @@ export default mediator => {
 			}
 		})
 	})
-}
-
-function equalEnough(params, endParams) {
-	return Object.keys(params).every(key => toString(params[key]) === toString(endParams[key]))
 }

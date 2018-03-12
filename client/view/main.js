@@ -5,4 +5,9 @@ export default mediator => ({
 	route: ``,
 	defaultChild: `home`,
 	template: Main,
+	resolve() {
+		return Promise.resolve({
+			mediator,
+		})
+	},
 })

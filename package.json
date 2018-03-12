@@ -52,6 +52,7 @@
     "del-cli": "^1.1.0",
     "glob-module-file": "2.2.0",
     "hash-brown-router": "^3.4.0",
+    "iso-next-tick": "1.0.0",
     "just-to-string": "1.0.0",
     "koa": "^2.5.0",
     "koa-bestest-router": "^1.0.2",
