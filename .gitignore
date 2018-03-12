@@ -3,3 +3,4 @@ public/build
 client/globbed-*.js
 node-v8.9.4-linux-x64
 .reify-cache
+stats.html
