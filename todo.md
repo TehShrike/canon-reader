@@ -35,6 +35,10 @@
 - make `main.reference` a better warning page about bad references
 - favicon
 	- make sure the `favicon.ico` served from the root is aggressively cached because of the Chrome reload-on-replaceState bug
+- make large books load faster
+	- precalculate Text.html:bookSectionsWithChapterAndVerseMarkers
+	- maybe precalculate Text.html:chapterNumbers
+	- try chunking up the books into 5 chapters at a time, and then after changing to the main.text state, add in chunks of 5 chapters at a time on each animation frame until they're all added
 
 # Would be nice
 
