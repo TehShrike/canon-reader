@@ -1,9 +1,11 @@
 # Should be pretty useful
 
-- quick navigation component
-	- given a reference typed in, browse to it
-	- keyboard shortcut that displays the input so you can type in a reference
-	- when a verse or verse range has been searched for, do the same behavior as when you hit the reference endpoint (navigation + highlighting)
+- make the quick navigation popup better
+	- move highlighted-verse out of ASR control and use svelte-querystring-router
+	- only call `stateGo` to navigate to a new book, otherwise use svelte-querystring-router or hash navigation
+	- this should make it possible to eliminate a lot of the "don't let focus slip when navigating" code
+	- make the highlighting work without a verse range, e.g. josh 2:2
+- invent a way to embed the navigation input on the home screen, and then disconnect it and move it to the bottom when a book name is matched
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere
 	- get greek/hebrew text by book/chapter/verse, with some mapping to Strong's numbers
