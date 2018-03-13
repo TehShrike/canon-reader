@@ -4,13 +4,17 @@ import validateVerseRange from 'lib/validate-verse-range.js'
 import { toRange } from 'lib/simple-range.js'
 
 export default (referenceString, defaultBookId) => {
+	if (!referenceString) {
+		return
+	}
+
 	const parsed = parseReference(referenceString)
 	const bookId = parsed.bookId || defaultBookId
 
 	if (bookId) {
 		const { start, end } = validateVerseRange(parsed)
 
-		const stateName = 'main.text'
+		const stateName = `main.text`
 		const params = {
 			book: bookId,
 		}
