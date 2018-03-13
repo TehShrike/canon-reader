@@ -1,5 +1,6 @@
 # Should be pretty useful
 
+- if you're already at a book, and you use the quick navigation input to only type in a chapter/verse, it should take you there even though you didn't type in a book name
 - invent a way to embed the navigation input on the home screen, and then disconnect it and move it to the bottom when a book name is matched
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere
