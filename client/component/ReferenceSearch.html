@@ -28,57 +28,72 @@ input {
 </style>
 
 <script>
-import nextTick from 'iso-next-tick'
+import svelteQuerystringRouter from 'svelte-querystring-router'
+const { navigate } = svelteQuerystringRouter
 
 import getTargetStateFromReference from 'lib/get-target-state-from-reference.js'
-import equalEnough from 'lib/equal-enough'
 
 const code_escape = 27
 const isEscape = event => event.key === 'Escape' || event.keyCode === code_escape
 
 function navigationState(component) {
-	let haveNavigated = false
 	let lastState = null
 	let lastParams = null
 	let lastAnchor = null
 
-	const setNavigating = navigating => component.set({ navigating })
-
 	component.observe('matchingReference', target => {
-		component.rememberFocus()
-
 		if (target) {
 			const mediator = component.get('mediator')
 			const { anchor, stateName, params } = target
 
-			const samePage = lastState === stateName && equalEnough(lastParams, params)
+			const sameState = lastState === stateName
+				&& lastParams.book === params.book
 
-			if (!samePage) {
+			if (!sameState) {
 				if (anchor) {
 					mediator.callSync('setAnchorAfterStateTransition', stateName, params, anchor)
 				}
 
-				setNavigating(true)
-
 				mediator.callSync('stateGo', stateName, params, {
-					replace: haveNavigated
+					replace: component.get('haveNavigated')
 				})
 
-				mediator.call('afterStateTransitionTo', stateName, params).then(() => {
-					nextTick(() => setNavigating(false))
+				component.set({
+					haveNavigated: true
 				})
-			} else if (anchor && anchor !== lastAnchor && document.getElementById(anchor)) {
-				setNavigating(true)
-				window.history.replaceState({}, '', `#${anchor}`)
-				const element = document.getElementById(anchor)
-				element.scrollIntoView(true)
-				setNavigating(false)
+			} else {
+				const updateQuerystring = params.highlight !== lastParams.highlight
+				const updateAnchor = anchor
+					&& anchor !== lastAnchor
+					&& document.getElementById(anchor)
+
+				if (updateQuerystring || updateAnchor) {
+
+					if (updateQuerystring) {
+						navigate({
+							parameters: {
+								highlight: params.highlight
+							},
+							replace: component.get('haveNavigated')
+						})
+					}
+
+					if (updateAnchor) {
+						window.history.replaceState({}, '', `#${anchor}`)
+						const element = document.getElementById(anchor)
+						element.scrollIntoView(true)
+					}
+
+
+					component.set({
+						haveNavigated: true
+					})
+				}
 			}
 
 			lastState = stateName
 			lastParams = params
 			lastAnchor = anchor
-			haveNavigated = true
 		}
 	})
 }
@@ -92,36 +107,22 @@ export default {
 	data() {
 		return {
 			inputValue: '',
-			focusPosition: null,
 		}
 	},
 	computed: {
 		matchingReference: inputValue => getTargetStateFromReference(inputValue)
 	},
 	methods: {
-		rememberFocus() {
+		cancel() {
+			const haveNavigated = this.get('haveNavigated')
+
 			this.set({
-				focusPosition: {
-					selectionStart: this.refs.input.selectionStart,
-					selectionEnd: this.refs.input.selectionEnd,
-					selectionDirection: this.refs.input.selectionDirection,
-				}
+				show: false,
+				haveNavigated: false
 			})
-		},
-		lostInputFocus(event) {
-			const target = event.explicitOriginalTarget || document.activeElement
-			const input = this.refs.input
 
-			const focusPosition = this.get('focusPosition')
-			if (input !== target && this.get('navigating') && focusPosition) {
-				const { selectionStart, selectionEnd, selectionDirection } = focusPosition
-
-				input.setSelectionRange(selectionStart, selectionEnd, selectionDirection)
-				input.focus()
-			} else {
-				this.set({
-					show: false
-				})
+			if (haveNavigated) {
+				window.history.back()
 			}
 		},
 		onsubmit(event) {
@@ -131,12 +132,14 @@ export default {
 
 			event.preventDefault()
 		},
+		lostInputFocus(event) {
+			this.set({
+				show: false
+			})
+		},
 		onkeydown(event) {
 			if (isEscape(event)) {
-				this.set({
-					show: false
-				})
-				window.history.back()
+				this.cancel()
 			}
 		}
 	}

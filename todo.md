@@ -1,10 +1,5 @@
 # Should be pretty useful
 
-- make the quick navigation popup better
-	- move highlighted-verse out of ASR control and use svelte-querystring-router
-	- only call `stateGo` to navigate to a new book, otherwise use svelte-querystring-router or hash navigation
-	- this should make it possible to eliminate a lot of the "don't let focus slip when navigating" code
-	- make the highlighting work without a verse range, e.g. josh 2:2
 - invent a way to embed the navigation input on the home screen, and then disconnect it and move it to the bottom when a book name is matched
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere

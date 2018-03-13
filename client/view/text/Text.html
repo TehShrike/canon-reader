@@ -61,8 +61,13 @@
 </style>
 
 <script>
+import svelteQuerystringRouter from 'svelte-querystring-router'
+const { attachQuerystringData, getCurrentParameters } = svelteQuerystringRouter
+
 import StateLink from 'component/StateLink.html'
+
 import { getChapterNumberId } from 'lib/get-id.js'
+import { fromRange } from 'lib/simple-range.js'
 
 import TextSectionChildren from './TextSectionChildren.html'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.html'
@@ -91,10 +96,13 @@ export default {
 		return {
 			bookName: null,
 			bookSections: null,
-			currentChapter: null
+			currentChapter: null,
+			querystringParameters: getCurrentParameters()
 		}
 	},
 	oncreate() {
+		attachQuerystringData(this)
+
 		const textElements = this.refs.textContainer.querySelectorAll('.verse-text')
 		const viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
 			const currentChapter = entries.reduce((currentChapter, entry) => {
@@ -152,6 +160,10 @@ export default {
 					.map(({ value }) => value)
 				: []
 		),
+		highlightedRange: querystringParameters => querystringParameters.highlight
+			? fromRange(querystringParameters.highlight)
+			: null
+
 	},
 	helpers: {
 		getChapterNumberId
