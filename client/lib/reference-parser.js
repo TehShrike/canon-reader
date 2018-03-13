@@ -12,7 +12,7 @@ const bookNameRegex = r.combine(
 
 const regex = r.combine(
 	/^/,
-	r.capture(bookNameRegex),
+	r.optional(r.capture(bookNameRegex)),
 	r.capture(r.anyNumber(r.either(/\d/, ':', '-', ' ', alphabetic))),
 	/$/
 )
@@ -34,7 +34,7 @@ export default string => {
 		? extractRangeFromMatch.chapterVerseRange(versePart.match(chapterVerseRangeRegex))
 		: { start: emptyVerseSection, end: emptyVerseSection }
 
-	const bookId = matchBookId(bookPart)
+	const bookId = bookPart ? matchBookId(bookPart) : null
 
 	return Object.assign({}, { bookId }, { start: verseRange.start, end: verseRange.end })
 }

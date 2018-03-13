@@ -1,5 +1,3 @@
-<:Window on:keydown="keydown(event)" />
-
 <:Head>
 	<title>Canon Reader</title>
 </:Head>
@@ -8,7 +6,7 @@
 
 {{#if showReferenceSearch}}
 <div class="search-container">
-	<ReferenceSearch bind:show="showReferenceSearch" :mediator />
+	<ReferenceSearch bind:show="showReferenceSearch" :mediator :currentBookId />
 </div>
 {{/if}}
 
@@ -26,27 +24,24 @@
 <script>
 import ReferenceSearch from 'component/ReferenceSearch.html'
 
-const platform = (window.navigator && window.navigator.platform) || ''
-const isMac = platform.slice(0,3).toLowerCase() === 'mac'
-const code_k = 75
-
-const isK = event => event.key === 'k' || event.keyCode === code_k
-const isModified = event => event.ctrlKey || (isMac && event.metaKey)
-
 export default {
+	oncreate() {
+		this.removeNavigationProvider = this.get('mediator').provideSync(
+			'show navigation input',
+			currentBookId => {
+				this.set({
+					showReferenceSearch: true,
+					currentBookId,
+				})
+			}
+		)
+	},
+	ondestroy() {
+		this.removeNavigationProvider()
+	},
 	data() {
 		return {
 			showReferenceSearch: false
-		}
-	},
-	methods: {
-		keydown(event) {
-			if (isK(event) && isModified(event)) {
-				this.set({
-					showReferenceSearch: true
-				})
-				event.preventDefault()
-			}
 		}
 	},
 	components: {

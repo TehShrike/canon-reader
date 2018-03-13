@@ -3,15 +3,16 @@ import { getChapterNumberId, getChapterVerseId } from 'lib/get-id.js'
 import validateVerseRange from 'lib/validate-verse-range.js'
 import { toRange } from 'lib/simple-range.js'
 
-export default referenceString => {
+export default (referenceString, defaultBookId) => {
 	const parsed = parseReference(referenceString)
+	const bookId = parsed.bookId || defaultBookId
 
-	if (parsed.bookId) {
+	if (bookId) {
 		const { start, end } = validateVerseRange(parsed)
 
 		const stateName = 'main.text'
 		const params = {
-			book: parsed.bookId,
+			book: bookId,
 		}
 
 		if (start.verse) {

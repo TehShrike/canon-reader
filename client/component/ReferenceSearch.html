@@ -110,7 +110,8 @@ export default {
 		}
 	},
 	computed: {
-		matchingReference: inputValue => getTargetStateFromReference(inputValue)
+		matchingReference: (inputValue, currentBookId) =>
+			getTargetStateFromReference(inputValue, currentBookId)
 	},
 	methods: {
 		cancel() {

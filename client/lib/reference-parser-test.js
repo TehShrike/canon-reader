@@ -38,6 +38,24 @@ const cases = [
 			start: { chapter: 3, verse: null, section: null },
 			end: { chapter: 4, verse: null, section: null },
 		},
+	], [
+		'3', {
+			bookId: null,
+			start: { chapter: 3, verse: null, section: null },
+			end: { chapter: 3, verse: null, section: null },
+		},
+	], [
+		'3:4', {
+			bookId: null,
+			start: { chapter: 3, verse: 4, section: null },
+			end: { chapter: 3, verse: 4, section: null },
+		},
+	], [
+		'3-4', {
+			bookId: null,
+			start: { chapter: 3, verse: null, section: null },
+			end: { chapter: 4, verse: null, section: null },
+		},
 	],
 ]
 
