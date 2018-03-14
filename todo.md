@@ -10,6 +10,14 @@
 - use the Pickering Revelation text
 - make the JS bundle smaller
 	- move chromatism use to a script generator (pre-calculate book-of-the-bible-colors)
+- an absolutely positioned menu at the top
+	- book selection
+	- reference search
+	- eventually, word search
+- footer
+	- about page
+	- home page
+	- eventually, an ad
 
 # Should be pretty great
 
