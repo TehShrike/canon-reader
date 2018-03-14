@@ -13,7 +13,7 @@
 
 
 	<div class="text-container" ref:textContainer>
-		{{#each bookSectionsWithChapterAndVerseMarkers as section}}
+		{{#each bookSections as section}}
 			{{#if section.type === 'header'}}
 				<h3>{{section.value}}</h3>
 			{{elseif section.type === 'break'}}
@@ -61,6 +61,7 @@
 </style>
 
 <script>
+import range from 'just-range'
 import svelteQuerystringRouter from 'svelte-querystring-router'
 const { attachQuerystringData, getCurrentParameters } = svelteQuerystringRouter
 
@@ -71,11 +72,6 @@ import { fromRange } from 'lib/simple-range.js'
 
 import TextSectionChildren from './TextSectionChildren.html'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.html'
-
-const flatMap = (ary, fn) => ary.reduce(
-	(acc, element, index) => [ ...acc, ...fn(element, index) ],
-	[]
-)
 
 function observeIntersectionsWithTopOfViewport(elements, cb) {
 	const viewportTopObserver = new IntersectionObserver(entries => {
@@ -121,45 +117,7 @@ export default {
 		this.viewportTopObserver.disconnect()
 	},
 	computed: {
-		bookSectionsWithChapterAndVerseMarkers: bookSections => {
-			let lastChapterNumber = null
-			let lastVerseNumber = null
-
-			return bookSections.map(section => Object.assign({}, section, {
-				children: section.children && flatMap(section.children, chunk => {
-					const { chapterNumber, verseNumber } = chunk
-					const itemsToReturn = []
-
-					if (chapterNumber && chapterNumber !== lastChapterNumber) {
-						itemsToReturn.push({
-							type: 'chapter number',
-							value: chapterNumber
-						})
-						lastChapterNumber = chapterNumber
-					}
-
-					if (verseNumber && verseNumber !== lastVerseNumber) {
-						itemsToReturn.push({
-							type: 'verse number',
-							value: verseNumber,
-							chapterNumber,
-						})
-						lastVerseNumber = verseNumber
-					}
-
-					itemsToReturn.push(chunk)
-
-					return itemsToReturn
-				})
-			}))
-		},
-		chapterNumbers: bookSectionsWithChapterAndVerseMarkers => flatMap(bookSectionsWithChapterAndVerseMarkers,
-			({ children }) => children
-				? children
-					.filter(({ type }) => type === 'chapter number')
-					.map(({ value }) => value)
-				: []
-		),
+		chapterNumbers: chapterCount => range(1, chapterCount + 1),
 		highlightedRange: querystringParameters => querystringParameters.highlight
 			? fromRange(querystringParameters.highlight)
 			: null

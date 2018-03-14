@@ -1,6 +1,9 @@
 node_modules
-public/build
-client/globbed-*.js
 node-v8.9.4-linux-x64
 .reify-cache
 stats.html
+
+public/build
+
+client/globbed-*.js
+client/lib/books

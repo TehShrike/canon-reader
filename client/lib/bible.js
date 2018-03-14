@@ -1,171 +1,135 @@
-import $1chronicles from 'world-english-bible/json/1chronicles.json'
-import $1corinthians from 'world-english-bible/json/1corinthians.json'
-import $1john from 'world-english-bible/json/1john.json'
-import $1kings from 'world-english-bible/json/1kings.json'
-import $1peter from 'world-english-bible/json/1peter.json'
-import $1samuel from 'world-english-bible/json/1samuel.json'
-import $1thessalonians from 'world-english-bible/json/1thessalonians.json'
-import $1timothy from 'world-english-bible/json/1timothy.json'
-import $2chronicles from 'world-english-bible/json/2chronicles.json'
-import $2corinthians from 'world-english-bible/json/2corinthians.json'
-import $2john from 'world-english-bible/json/2john.json'
-import $2kings from 'world-english-bible/json/2kings.json'
-import $2peter from 'world-english-bible/json/2peter.json'
-import $2samuel from 'world-english-bible/json/2samuel.json'
-import $2thessalonians from 'world-english-bible/json/2thessalonians.json'
-import $2timothy from 'world-english-bible/json/2timothy.json'
-import $3john from 'world-english-bible/json/3john.json'
-import $acts from 'world-english-bible/json/acts.json'
-import $amos from 'world-english-bible/json/amos.json'
-import $colossians from 'world-english-bible/json/colossians.json'
-import $daniel from 'world-english-bible/json/daniel.json'
-import $deuteronomy from 'world-english-bible/json/deuteronomy.json'
-import $ecclesiastes from 'world-english-bible/json/ecclesiastes.json'
-import $ephesians from 'world-english-bible/json/ephesians.json'
-import $esther from 'world-english-bible/json/esther.json'
-import $exodus from 'world-english-bible/json/exodus.json'
-import $ezekiel from 'world-english-bible/json/ezekiel.json'
-import $ezra from 'world-english-bible/json/ezra.json'
-import $galatians from 'world-english-bible/json/galatians.json'
-import $genesis from 'world-english-bible/json/genesis.json'
-import $habakkuk from 'world-english-bible/json/habakkuk.json'
-import $haggai from 'world-english-bible/json/haggai.json'
-import $hebrews from 'world-english-bible/json/hebrews.json'
-import $hosea from 'world-english-bible/json/hosea.json'
-import $isaiah from 'world-english-bible/json/isaiah.json'
-import $james from 'world-english-bible/json/james.json'
-import $jeremiah from 'world-english-bible/json/jeremiah.json'
-import $job from 'world-english-bible/json/job.json'
-import $joel from 'world-english-bible/json/joel.json'
-import $john from 'world-english-bible/json/john.json'
-import $jonah from 'world-english-bible/json/jonah.json'
-import $joshua from 'world-english-bible/json/joshua.json'
-import $jude from 'world-english-bible/json/jude.json'
-import $judges from 'world-english-bible/json/judges.json'
-import $lamentations from 'world-english-bible/json/lamentations.json'
-import $leviticus from 'world-english-bible/json/leviticus.json'
-import $luke from 'world-english-bible/json/luke.json'
-import $malachi from 'world-english-bible/json/malachi.json'
-import $mark from 'world-english-bible/json/mark.json'
-import $matthew from 'world-english-bible/json/matthew.json'
-import $micah from 'world-english-bible/json/micah.json'
-import $nahum from 'world-english-bible/json/nahum.json'
-import $nehemiah from 'world-english-bible/json/nehemiah.json'
-import $numbers from 'world-english-bible/json/numbers.json'
-import $obadiah from 'world-english-bible/json/obadiah.json'
-import $philemon from 'world-english-bible/json/philemon.json'
-import $philippians from 'world-english-bible/json/philippians.json'
-import $proverbs from 'world-english-bible/json/proverbs.json'
-import $psalms from 'world-english-bible/json/psalms.json'
-import $revelation from 'world-english-bible/json/revelation.json'
-import $romans from 'world-english-bible/json/romans.json'
-import $ruth from 'world-english-bible/json/ruth.json'
-import $songofsolomon from 'world-english-bible/json/songofsolomon.json'
-import $titus from 'world-english-bible/json/titus.json'
-import $zechariah from 'world-english-bible/json/zechariah.json'
-import $zephaniah from 'world-english-bible/json/zephaniah.json'
-
-function makeArrayOfSections(book) {
-	const sections = []
-	let current = null
-
-	const createNew = type => current = { type, children: [] }
-
-	book.forEach(chunk => {
-		if (chunk.type === 'paragraph start') {
-			createNew('paragraph')
-		} else if (chunk.type === 'stanza start') {
-			createNew('stanza')
-		} else if (chunk.type === 'paragraph end' || chunk.type === 'stanza end') {
-			sections.push(current)
-			current = null
-		} else if (chunk.type === 'break' || chunk.type === 'header') {
-			if (current) {
-				current.children.push(chunk)
-			} else {
-				sections.push(chunk)
-			}
-		} else {
-			if (current === null) {
-				console.error(chunk)
-				throw new Error(`wat`)
-			}
-			current.children.push({
-				chapterNumber: chunk.chapterNumber,
-				verseNumber: chunk.verseNumber,
-				value: chunk.value,
-			})
-		}
-	})
-
-	return sections
-}
+import $1chronicles from 'lib/books/1chronicles.json'
+import $1corinthians from 'lib/books/1corinthians.json'
+import $1john from 'lib/books/1john.json'
+import $1kings from 'lib/books/1kings.json'
+import $1peter from 'lib/books/1peter.json'
+import $1samuel from 'lib/books/1samuel.json'
+import $1thessalonians from 'lib/books/1thessalonians.json'
+import $1timothy from 'lib/books/1timothy.json'
+import $2chronicles from 'lib/books/2chronicles.json'
+import $2corinthians from 'lib/books/2corinthians.json'
+import $2john from 'lib/books/2john.json'
+import $2kings from 'lib/books/2kings.json'
+import $2peter from 'lib/books/2peter.json'
+import $2samuel from 'lib/books/2samuel.json'
+import $2thessalonians from 'lib/books/2thessalonians.json'
+import $2timothy from 'lib/books/2timothy.json'
+import $3john from 'lib/books/3john.json'
+import $acts from 'lib/books/acts.json'
+import $amos from 'lib/books/amos.json'
+import $colossians from 'lib/books/colossians.json'
+import $daniel from 'lib/books/daniel.json'
+import $deuteronomy from 'lib/books/deuteronomy.json'
+import $ecclesiastes from 'lib/books/ecclesiastes.json'
+import $ephesians from 'lib/books/ephesians.json'
+import $esther from 'lib/books/esther.json'
+import $exodus from 'lib/books/exodus.json'
+import $ezekiel from 'lib/books/ezekiel.json'
+import $ezra from 'lib/books/ezra.json'
+import $galatians from 'lib/books/galatians.json'
+import $genesis from 'lib/books/genesis.json'
+import $habakkuk from 'lib/books/habakkuk.json'
+import $haggai from 'lib/books/haggai.json'
+import $hebrews from 'lib/books/hebrews.json'
+import $hosea from 'lib/books/hosea.json'
+import $isaiah from 'lib/books/isaiah.json'
+import $james from 'lib/books/james.json'
+import $jeremiah from 'lib/books/jeremiah.json'
+import $job from 'lib/books/job.json'
+import $joel from 'lib/books/joel.json'
+import $john from 'lib/books/john.json'
+import $jonah from 'lib/books/jonah.json'
+import $joshua from 'lib/books/joshua.json'
+import $jude from 'lib/books/jude.json'
+import $judges from 'lib/books/judges.json'
+import $lamentations from 'lib/books/lamentations.json'
+import $leviticus from 'lib/books/leviticus.json'
+import $luke from 'lib/books/luke.json'
+import $malachi from 'lib/books/malachi.json'
+import $mark from 'lib/books/mark.json'
+import $matthew from 'lib/books/matthew.json'
+import $micah from 'lib/books/micah.json'
+import $nahum from 'lib/books/nahum.json'
+import $nehemiah from 'lib/books/nehemiah.json'
+import $numbers from 'lib/books/numbers.json'
+import $obadiah from 'lib/books/obadiah.json'
+import $philemon from 'lib/books/philemon.json'
+import $philippians from 'lib/books/philippians.json'
+import $proverbs from 'lib/books/proverbs.json'
+import $psalms from 'lib/books/psalms.json'
+import $revelation from 'lib/books/revelation.json'
+import $romans from 'lib/books/romans.json'
+import $ruth from 'lib/books/ruth.json'
+import $songofsolomon from 'lib/books/songofsolomon.json'
+import $titus from 'lib/books/titus.json'
+import $zechariah from 'lib/books/zechariah.json'
+import $zephaniah from 'lib/books/zephaniah.json'
 
 export default {
-	'1chronicles': makeArrayOfSections($1chronicles),
-	'1corinthians': makeArrayOfSections($1corinthians),
-	'1john': makeArrayOfSections($1john),
-	'1kings': makeArrayOfSections($1kings),
-	'1peter': makeArrayOfSections($1peter),
-	'1samuel': makeArrayOfSections($1samuel),
-	'1thessalonians': makeArrayOfSections($1thessalonians),
-	'1timothy': makeArrayOfSections($1timothy),
-	'2chronicles': makeArrayOfSections($2chronicles),
-	'2corinthians': makeArrayOfSections($2corinthians),
-	'2john': makeArrayOfSections($2john),
-	'2kings': makeArrayOfSections($2kings),
-	'2peter': makeArrayOfSections($2peter),
-	'2samuel': makeArrayOfSections($2samuel),
-	'2thessalonians': makeArrayOfSections($2thessalonians),
-	'2timothy': makeArrayOfSections($2timothy),
-	'3john': makeArrayOfSections($3john),
-	'acts': makeArrayOfSections($acts),
-	'amos': makeArrayOfSections($amos),
-	'colossians': makeArrayOfSections($colossians),
-	'daniel': makeArrayOfSections($daniel),
-	'deuteronomy': makeArrayOfSections($deuteronomy),
-	'ecclesiastes': makeArrayOfSections($ecclesiastes),
-	'ephesians': makeArrayOfSections($ephesians),
-	'esther': makeArrayOfSections($esther),
-	'exodus': makeArrayOfSections($exodus),
-	'ezekiel': makeArrayOfSections($ezekiel),
-	'ezra': makeArrayOfSections($ezra),
-	'galatians': makeArrayOfSections($galatians),
-	'genesis': makeArrayOfSections($genesis),
-	'habakkuk': makeArrayOfSections($habakkuk),
-	'haggai': makeArrayOfSections($haggai),
-	'hebrews': makeArrayOfSections($hebrews),
-	'hosea': makeArrayOfSections($hosea),
-	'isaiah': makeArrayOfSections($isaiah),
-	'james': makeArrayOfSections($james),
-	'jeremiah': makeArrayOfSections($jeremiah),
-	'job': makeArrayOfSections($job),
-	'joel': makeArrayOfSections($joel),
-	'john': makeArrayOfSections($john),
-	'jonah': makeArrayOfSections($jonah),
-	'joshua': makeArrayOfSections($joshua),
-	'jude': makeArrayOfSections($jude),
-	'judges': makeArrayOfSections($judges),
-	'lamentations': makeArrayOfSections($lamentations),
-	'leviticus': makeArrayOfSections($leviticus),
-	'luke': makeArrayOfSections($luke),
-	'malachi': makeArrayOfSections($malachi),
-	'mark': makeArrayOfSections($mark),
-	'matthew': makeArrayOfSections($matthew),
-	'micah': makeArrayOfSections($micah),
-	'nahum': makeArrayOfSections($nahum),
-	'nehemiah': makeArrayOfSections($nehemiah),
-	'numbers': makeArrayOfSections($numbers),
-	'obadiah': makeArrayOfSections($obadiah),
-	'philemon': makeArrayOfSections($philemon),
-	'philippians': makeArrayOfSections($philippians),
-	'proverbs': makeArrayOfSections($proverbs),
-	'psalms': makeArrayOfSections($psalms),
-	'revelation': makeArrayOfSections($revelation),
-	'romans': makeArrayOfSections($romans),
-	'ruth': makeArrayOfSections($ruth),
-	'songofsolomon': makeArrayOfSections($songofsolomon),
-	'titus': makeArrayOfSections($titus),
-	'zechariah': makeArrayOfSections($zechariah),
-	'zephaniah': makeArrayOfSections($zephaniah),
+	'1chronicles': $1chronicles,
+	'1corinthians': $1corinthians,
+	'1john': $1john,
+	'1kings': $1kings,
+	'1peter': $1peter,
+	'1samuel': $1samuel,
+	'1thessalonians': $1thessalonians,
+	'1timothy': $1timothy,
+	'2chronicles': $2chronicles,
+	'2corinthians': $2corinthians,
+	'2john': $2john,
+	'2kings': $2kings,
+	'2peter': $2peter,
+	'2samuel': $2samuel,
+	'2thessalonians': $2thessalonians,
+	'2timothy': $2timothy,
+	'3john': $3john,
+	acts: $acts,
+	amos: $amos,
+	colossians: $colossians,
+	daniel: $daniel,
+	deuteronomy: $deuteronomy,
+	ecclesiastes: $ecclesiastes,
+	ephesians: $ephesians,
+	esther: $esther,
+	exodus: $exodus,
+	ezekiel: $ezekiel,
+	ezra: $ezra,
+	galatians: $galatians,
+	genesis: $genesis,
+	habakkuk: $habakkuk,
+	haggai: $haggai,
+	hebrews: $hebrews,
+	hosea: $hosea,
+	isaiah: $isaiah,
+	james: $james,
+	jeremiah: $jeremiah,
+	job: $job,
+	joel: $joel,
+	john: $john,
+	jonah: $jonah,
+	joshua: $joshua,
+	jude: $jude,
+	judges: $judges,
+	lamentations: $lamentations,
+	leviticus: $leviticus,
+	luke: $luke,
+	malachi: $malachi,
+	mark: $mark,
+	matthew: $matthew,
+	micah: $micah,
+	nahum: $nahum,
+	nehemiah: $nehemiah,
+	numbers: $numbers,
+	obadiah: $obadiah,
+	philemon: $philemon,
+	philippians: $philippians,
+	proverbs: $proverbs,
+	psalms: $psalms,
+	revelation: $revelation,
+	romans: $romans,
+	ruth: $ruth,
+	songofsolomon: $songofsolomon,
+	titus: $titus,
+	zechariah: $zechariah,
+	zephaniah: $zephaniah,
 }
