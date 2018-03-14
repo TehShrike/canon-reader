@@ -1,6 +1,5 @@
 # Should be pretty useful
 
-- if you're already at a book, and you use the quick navigation input to only type in a chapter/verse, it should take you there even though you didn't type in a book name
 - invent a way to embed the navigation input on the home screen, and then disconnect it and move it to the bottom when a book name is matched
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere
@@ -17,6 +16,12 @@
 - make the number of chapter numbers displayed based on the viewport height
 - bookmarks
 	- ???
+- search
+	- implement on the server maybe?  gotta see how big the database is
+	- make a map of english words to Strong's numbers
+	- find a database of Strong's numbers to book/chapter/verse
+	- when you search for terms, pull all the Strong's numbers for those words, then find all verses that match them
+	- rank higher if the verse contains the actual strings that were typed in to the search
 - style stuff
 	- make the verse numbers on the left line up with the text better
 - a real home page
@@ -41,7 +46,7 @@
 # Would be nice
 
 - initial-load performance
-	- move the book text processing to a build script and build individual book JSON to `public/books/*.json`
+	- move the built book text to `public/books/*.json`
 	- lazy-load books
 - offline
 	- store books locally
@@ -50,3 +55,6 @@
 - improve cold start time
 	- maybe bundle the server code and transpile to target node 6
 	- maybe use the babel runtime
+- commentaries
+	- Matthew Henry
+	- Treasury of Scripture Knowledge https://www.studylight.org/commentaries/tsk.html
