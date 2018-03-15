@@ -3,17 +3,13 @@
 		<LeftMarginNumber
 			number={{chunk.value}}
 			emphasized={{true}}
-		/>
-		<span
 			id={{ getChapterNumberId(chunk.value) }}
-		></span>
+		/>
 	{{elseif chunk.type === 'verse number'}}
 		<LeftMarginNumber
 			number={{chunk.value}}
-		/>
-		<span
 			id={{ getChapterVerseId(chunk.chapterNumber, chunk.value) }}
-		></span>
+		/>
 	{{else}}
 		<span
 			class="verse-text"
