@@ -2,12 +2,6 @@
 	<title>{{bookName}}</title>
 </:Head>
 
-<div class="sticky-header">
-	<div class="book-notch">
-		<StateLink state="main.book-selection" className="bigger-link">Books</StateLink>
-	</div>
-</div>
-
 <div class="container">
 	<h1 class="book-name-header">
 		{{bookName}}
@@ -37,15 +31,21 @@
 
 <RightMarginChapterNumbers :chapterNumbers :currentChapter />
 
+<div class="sticky-footer">
+	<div class="book-notch">
+		<StateLink state="main.book-selection" className="bigger-link">Books</StateLink>
+	</div>
+</div>
+
 <style>
 @import 'mixins';
 @import 'gutter';
 @import 'variables';
 
-.sticky-header {
+.sticky-footer {
 	position: fixed;
 	left: 0;
-	top: 0;
+	bottom: 0;
 	right: 0;
 	display: flex;
 	justify-content: center;
@@ -54,7 +54,7 @@
 	background-color: $blue-darkened;
 	display: flex;
 
-	clip-path: polygon(0 0, 100% 0, 100% 0, 75% 100%, 25% 100%, 0 0);
+	clip-path: polygon(0 100%, 25% 0, 75% 0, 100% 100%);
 
 	a {
 		padding: 4px 48px;
