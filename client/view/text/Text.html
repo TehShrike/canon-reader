@@ -2,11 +2,13 @@
 	<title>{{bookName}}</title>
 </:Head>
 
-<div class="container">
-	<div class="header">
-		<StateLink state="main.book-selection" className="bigger-link">« Books</StateLink>
+<div class="sticky-header">
+	<div class="book-notch">
+		<StateLink state="main.book-selection" className="bigger-link">Books</StateLink>
 	</div>
+</div>
 
+<div class="container">
 	<h1 class="book-name-header">
 		{{bookName}}
 	</h1>
@@ -38,6 +40,27 @@
 <style>
 @import 'mixins';
 @import 'gutter';
+@import 'variables';
+
+.sticky-header {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+}
+.book-notch {
+	background-color: $blue;
+	display: flex;
+
+	clip-path: polygon(0 0, 100% 0, 100% 0, 75% 100%, 25% 100%, 0 0);
+
+	a {
+		padding: 4px 48px;
+		color: $white;
+	}
+}
 
 .book-name-header {
 	text-align: center;
