@@ -4,6 +4,10 @@
 
 <uiView></uiView>
 
+<div class="footer">
+	<StateLink state="main">Home</StateLink>
+</div>
+
 {{#if showReferenceSearch}}
 <div class="search-container">
 	<ReferenceSearch bind:show="showReferenceSearch" :mediator :currentBookId />
@@ -11,6 +15,8 @@
 {{/if}}
 
 <style>
+@import 'mixins';
+
 .search-container {
 	position: fixed;
 	bottom: 32px;
@@ -19,10 +25,20 @@
 	align-items: center;
 	width: 100%;
 }
+
+.footer {
+	display: flex;
+
+	padding-top: 8px;
+	padding-bottom: 8px;
+
+	@include container-side-padding;
+}
 </style>
 
 <script>
 import ReferenceSearch from 'component/ReferenceSearch.html'
+import StateLink from 'component/StateLink.html'
 
 export default {
 	oncreate() {
@@ -45,7 +61,8 @@ export default {
 		}
 	},
 	components: {
-		ReferenceSearch
+		ReferenceSearch,
+		StateLink,
 	}
 }
 </script>
