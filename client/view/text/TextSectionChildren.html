@@ -10,6 +10,8 @@
 			number={{chunk.value}}
 			id={{ getChapterVerseId(chunk.chapterNumber, chunk.value) }}
 		/>
+	{{elseif chunk.type === 'line break'}}
+		<br>
 	{{else}}
 		<span
 			class="verse-text"

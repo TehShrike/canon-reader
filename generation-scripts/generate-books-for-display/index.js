@@ -56,7 +56,7 @@ function makeArrayOfSections(book) {
 		} else if (chunk.type === `paragraph end` || chunk.type === `stanza end`) {
 			sections.push(current)
 			current = null
-		} else if (chunk.type === `break` || chunk.type === `header`) {
+		} else if (chunk.type === `break` || chunk.type === `header` || chunk.type === `line break`) {
 			if (current) {
 				current.children.push(chunk)
 			} else {

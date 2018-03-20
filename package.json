@@ -92,6 +92,6 @@
     "tape": "4.8.0",
     "tempy": "0.2.1",
     "verse-reference-regex": "1.3.0",
-    "world-english-bible": "0.0.2"
+    "world-english-bible": "1.0.0"
   }
 }
