@@ -21,6 +21,7 @@
 
 # Should be pretty great
 
+- dark mode
 - make the number of chapter numbers displayed based on the viewport height
 - bookmarks
 	- ???
