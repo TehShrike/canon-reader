@@ -1,14 +1,10 @@
 <div class="background-border">
-	<form on:submit="onsubmit(event)">
-		<input
-			type="text"
-			ref:input
-			bind:value="inputValue"
-			on:blur="lostInputFocus(event)"
-			on:keydown="onkeydown(event)"
-			placeholder="prov 30:2"
-		>
-	</form>
+	<ReferenceSearchInput
+		on:submit="onsubmit()"
+		on:escape="cancel()"
+		bind:value="inputValue"
+		autofocus={{true}}
+	/>
 </div>
 
 <style>
@@ -19,22 +15,15 @@
 	background-color: $gray;
 	border-radius: 8px;
 }
-
-input {
-	font-size: 32px;
-	border-radius: 4px;
-	padding: 4px 8px;
-}
 </style>
 
 <script>
 import svelteQuerystringRouter from 'svelte-querystring-router'
 const { navigate } = svelteQuerystringRouter
 
-import getTargetStateFromReference from 'lib/get-target-state-from-reference.js'
+import ReferenceSearchInput from './ReferenceSearchInput.html'
 
-const code_escape = 27
-const isEscape = event => event.key === 'Escape' || event.keyCode === code_escape
+import getTargetStateFromReference from 'lib/get-target-state-from-reference.js'
 
 function navigationState(component) {
 	let lastState = null
@@ -42,6 +31,7 @@ function navigationState(component) {
 	let lastAnchor = null
 
 	component.observe('matchingReference', target => {
+		console.log('something something navigate to', target)
 		if (target) {
 			const mediator = component.get('mediator')
 			const { anchor, stateName, params } = target
@@ -100,9 +90,11 @@ function navigationState(component) {
 
 export default {
 	oncreate() {
-		this.refs.input.focus()
-
 		navigationState(this)
+
+		this.observe('inputValue', inputValue => {
+			console.log('inputValue is', inputValue)
+		})
 	},
 	data() {
 		return {
@@ -112,6 +104,9 @@ export default {
 	computed: {
 		matchingReference: (inputValue, currentBookId) =>
 			getTargetStateFromReference(inputValue, currentBookId)
+	},
+	components: {
+		ReferenceSearchInput,
 	},
 	methods: {
 		cancel() {
@@ -126,23 +121,11 @@ export default {
 				window.history.back()
 			}
 		},
-		onsubmit(event) {
-			this.set({
-				show: false
-			})
-
-			event.preventDefault()
-		},
-		lostInputFocus(event) {
+		onsubmit() {
 			this.set({
 				show: false
 			})
 		},
-		onkeydown(event) {
-			if (isEscape(event)) {
-				this.cancel()
-			}
-		}
 	}
 }
 </script>

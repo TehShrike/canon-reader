@@ -9,9 +9,18 @@
 </div>
 
 {{#if showReferenceSearch}}
-<div class="search-container">
-	<ReferenceSearch bind:show="showReferenceSearch" :mediator :currentBookId />
-</div>
+<ClickWatcher
+	on:clickExternal="onClickOutsideSearch()"
+>
+	<div class="search-container" style={{searchContainerStyle}}>
+		<ReferenceSearch
+			bind:show="showReferenceSearch"
+			:mediator
+			:currentBookId
+			autofocus={{true}}
+		/>
+	</div>
+</ClickWatcher>
 {{/if}}
 
 <style>
@@ -39,21 +48,57 @@
 <script>
 import ReferenceSearch from 'component/ReferenceSearch.html'
 import StateLink from 'component/StateLink.html'
+import ClickWatcher from 'svelte-panel-click'
 
 export default {
 	oncreate() {
-		this.removeNavigationProvider = this.get('mediator').provideSync(
-			'show navigation input',
-			currentBookId => {
-				this.set({
-					showReferenceSearch: true,
-					currentBookId,
-				})
-			}
-		)
+		const provideSync = this.get('mediator').provideSync
+
+		this.observe('searchContainerStyle', searchContainerStyle => {
+			console.log('searchContainerStyle', searchContainerStyle)
+		})
+
+		const providerRemovers = [
+			provideSync('position search box', position => {
+				console.log('position search box called with', position)
+				this.manualPosition = position
+			}),
+			provideSync('unposition search box', () => {
+				this.manualPosition = null
+			}),
+			this.removeNavigationProvider = provideSync(
+				'show navigation input',
+				currentBookId => {
+					this.set({
+						showReferenceSearch: true,
+						currentBookId,
+					})
+				}
+			),
+		]
+
+		this.removeProviders = () => providerRemovers.forEach(remove => remove())
+	},
+	computed: {
+		searchContainerStyle: manualPosition => {
+			return manualPosition
+				? `
+					position: absolute;
+					top: ${manualPosition.top};
+					left: ${manualPosition.left};
+				`
+				: ``
+		}
+	},
+	methods: {
+		onClickOutsideSearch() {
+			this.set({
+				showReferenceSearch: false
+			})
+		}
 	},
 	ondestroy() {
-		this.removeNavigationProvider()
+		this.removeProviders()
 	},
 	data() {
 		return {
@@ -63,6 +108,7 @@ export default {
 	components: {
 		ReferenceSearch,
 		StateLink,
+		ClickWatcher,
 	}
 }
 </script>

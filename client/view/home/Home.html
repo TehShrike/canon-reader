@@ -11,6 +11,10 @@
 		Read
 	</StateLink>
 
+	<div>
+		<ReferenceSearchPosition :mediator />
+	</div>
+
 	<h2>
 		Three goals
 	</h2>
@@ -108,11 +112,13 @@
 </style>
 
 <script>
+import ReferenceSearchPosition from 'component/ReferenceSearchPosition.html'
 import StateLink from 'component/StateLink.html'
 
 export default {
 	components: {
-		StateLink
+		StateLink,
+		ReferenceSearchPosition,
 	}
 }
 </script>
