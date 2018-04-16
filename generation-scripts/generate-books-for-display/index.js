@@ -18,7 +18,9 @@ async function main() {
 
 	const output = books.map(book => {
 		const bookId = getBookId(book.name)
-		const bookData = require(`world-english-bible/json/${ bookId }.json`)
+		const bookData = bookId === `revelation`
+			? loadPickeringRevelation()
+			: require(`world-english-bible/json/${ bookId }.json`)
 
 		const arrayOfSections = makeArrayOfSections(bookData)
 		const bookWithMarkers = bookSectionsWithChapterAndVerseMarkers(arrayOfSections)
@@ -40,6 +42,44 @@ async function main() {
 	}, {})
 
 	writeFile(relative(`../../client/lib/books/chapter-counts.json`), toJson(chapterCounts))
+}
+
+function loadPickeringRevelation() {
+	const revelation = require(`revelation`)
+	let inParagraph = false
+
+	const toTextChunk = chunk => ({
+		chapterNumber: chunk.chapterNumber,
+		verseNumber: chunk.verseNumber,
+		value: chunk.text,
+	})
+
+	return flatMap(
+		revelation.filter(
+			({ type }) => type !== `header`
+		),
+		chunk => {
+			if (chunk.type === `paragraph break`) {
+				inParagraph = false
+
+				return [{
+					type: `paragraph end`,
+				}]
+			}
+
+			const paragraph = chunk.type === `verse`
+
+			if (paragraph && !inParagraph) {
+				inParagraph = true
+				return [
+					{ type: `paragraph start` },
+					toTextChunk(chunk),
+				]
+			}
+
+			return [ toTextChunk(chunk) ]
+		}
+	)
 }
 
 function makeArrayOfSections(book) {
