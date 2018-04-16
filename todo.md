@@ -8,20 +8,21 @@
 	- make it look not jank at the bottom of the screen on mobile
 	- come up with some UI for showing or hiding it that doesn't look jank on mobile
 - use the Pickering Revelation text
-- make the JS bundle smaller
-	- move chromatism use to a script generator (pre-calculate book-of-the-bible-colors)
-- an absolutely positioned menu at the top
+- an absolutely positioned menu at the bottom
 	- book selection
 	- reference search
 	- eventually, word search
 - footer
 	- about page
 	- home page
-	- eventually, an ad
+	- eventually, a pleasant ad
 
 # Should be pretty great
 
 - make the number of chapter numbers displayed based on the viewport height
+- initial-load performance
+	- move the built book text to `public/books/*.json`
+	- lazy-load books
 - bookmarks
 	- ???
 - search
@@ -48,21 +49,14 @@
 - make `main.reference` a better warning page about bad references
 - favicon
 	- make sure the `favicon.ico` served from the root is aggressively cached because of the Chrome reload-on-replaceState bug
-- make large books load faster
+- make large books render faster
 	- try chunking up the books into 5 chapters at a time, and then after changing to the main.text state, add in chunks of 5 chapters at a time on each animation frame until they're all added
 
 # Would be nice
 
-- initial-load performance
-	- move the built book text to `public/books/*.json`
-	- lazy-load books
 - offline
 	- store books locally
 	- add proper offline support
 - dark mode
-- improve cold start time
-	- maybe bundle the server code and transpile to target node 6
-	- maybe use the babel runtime
-- commentaries
-	- Matthew Henry
-	- Treasury of Scripture Knowledge https://www.studylight.org/commentaries/tsk.html
+- make the app JS bundle smaller
+	- move chromatism use to a script generator (pre-calculate book-of-the-bible-colors)
