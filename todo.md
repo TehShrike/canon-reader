@@ -1,6 +1,8 @@
 # Should be pretty useful
 
 - invent a way to embed the navigation input on the home screen, and then disconnect it and move it to the bottom when a book name is matched
+- Instructions on how to set up the site as an app on iOS/Android
+- Instructions on setting up a browser search shortcut in each browser
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere
 	- get greek/hebrew text by book/chapter/verse, with some mapping to Strong's numbers
