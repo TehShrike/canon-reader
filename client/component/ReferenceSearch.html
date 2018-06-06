@@ -1,15 +1,16 @@
-<div class="background-border">
-	<form on:submit="onsubmit(event)">
-		<input
-			type="text"
-			ref:input
-			bind:value="inputValue"
-			on:blur="lostInputFocus(event)"
-			on:keydown="onkeydown(event)"
-			placeholder="prov 30:2"
-		>
-	</form>
-</div>
+<PanelClick on:clickExternal="cancel()">
+	<div class="background-border">
+		<form on:submit="onsubmit(event)">
+			<input
+				type="text"
+				ref:input
+				bind:value="inputValue"
+				on:keydown="onkeydown(event)"
+				placeholder="prov 30:2"
+			>
+		</form>
+	</div>
+</PanelClick>
 
 <style>
 @import 'variables';
@@ -28,6 +29,7 @@ input {
 </style>
 
 <script>
+import PanelClick from 'svelte-panel-click'
 import svelteQuerystringRouter from 'svelte-querystring-router'
 const { navigate } = svelteQuerystringRouter
 
@@ -37,8 +39,6 @@ const code_escape = 27
 const isEscape = event => event.key === 'Escape' || event.keyCode === code_escape
 
 function navigationState(component) {
-	let lastState = null
-	let lastParams = null
 	let lastAnchor = null
 
 	component.observe('matchingReference', target => {
@@ -46,23 +46,28 @@ function navigationState(component) {
 			const mediator = component.get('mediator')
 			const { anchor, stateName, params } = target
 
-			const sameState = lastState === stateName
-				&& lastParams.book === params.book
+			const navigatingToSameBook = mediator.callSync('stateIsActive', stateName, {
+				book: params.book
+			})
 
-			if (!sameState) {
+			// console.log('navigatingToSameBook', navigatingToSameBook)
+
+			if (!navigatingToSameBook) {
 				if (anchor) {
 					mediator.callSync('setAnchorAfterStateTransition', stateName, params, anchor)
 				}
 
+				console.log('changing states, replace', !!component.get('haveNavigated'))
 				mediator.callSync('stateGo', stateName, params, {
-					replace: component.get('haveNavigated')
+					replace: !!component.get('haveNavigated')
 				})
 
 				component.set({
 					haveNavigated: true
 				})
 			} else {
-				const updateQuerystring = params.highlight !== lastParams.highlight
+				const updateQuerystring = mediator.callSync('stateIsActive', stateName, params)
+
 				const updateAnchor = anchor
 					&& anchor !== lastAnchor
 					&& document.getElementById(anchor)
@@ -70,11 +75,16 @@ function navigationState(component) {
 				if (updateQuerystring || updateAnchor) {
 
 					if (updateQuerystring) {
+						console.log('updating querystring, replace', !!component.get('haveNavigated'))
 						navigate({
 							parameters: {
 								highlight: params.highlight
 							},
-							replace: component.get('haveNavigated')
+							replace: !!component.get('haveNavigated')
+						})
+
+						component.set({
+							haveNavigated: true
 						})
 					}
 
@@ -83,16 +93,9 @@ function navigationState(component) {
 						const element = document.getElementById(anchor)
 						element.scrollIntoView(true)
 					}
-
-
-					component.set({
-						haveNavigated: true
-					})
 				}
 			}
 
-			lastState = stateName
-			lastParams = params
 			lastAnchor = anchor
 		}
 	})
@@ -103,11 +106,18 @@ export default {
 		this.refs.input.focus()
 
 		navigationState(this)
+
+		this.observe('haveNavigated', haveNavigated => {
+			console.log('haveNavigated:', haveNavigated)
+		})
 	},
 	data() {
 		return {
 			inputValue: '',
 		}
+	},
+	components: {
+		PanelClick
 	},
 	computed: {
 		matchingReference: (inputValue, currentBookId) =>
@@ -132,11 +142,6 @@ export default {
 			})
 
 			event.preventDefault()
-		},
-		lostInputFocus(event) {
-			this.set({
-				show: false
-			})
 		},
 		onkeydown(event) {
 			if (isEscape(event)) {
