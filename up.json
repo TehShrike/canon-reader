@@ -12,7 +12,7 @@
 		"staging": {
 			"domain": "staging.canonreader.com",
 			"lambda": {
-				"warm": false,
+				"warm": false
 			}
 		},
 		"production": {
