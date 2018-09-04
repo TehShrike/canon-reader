@@ -17,6 +17,16 @@
 	- about page
 	- home page
 	- eventually, a pleasant ad
+- not horrible on iOS when saved to the home page
+	- `<meta name="apple-mobile-web-app-capable" content="yes">`
+	- if in full screen mode:
+		- `const isFullScreenIos = () => !!window.navigator.standalone`
+		- load route/position from store
+			- navigate to the route
+			- after the first navigation, load the position
+		- serialize route/position after every navigation
+	- need to: update asr-scroll-position to emit something whenever it saves position
+
 
 # Should be pretty great
 
