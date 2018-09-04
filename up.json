@@ -10,14 +10,17 @@
 	},
 	"stages": {
 		"staging": {
-			"domain": "staging.canonreader.com"
+			"domain": "staging.canonreader.com",
+			"lambda": {
+				"warm": false,
+			}
 		},
 		"production": {
-			"domain": "canonreader.com"
+			"domain": "canonreader.com",
+			"lambda": {
+				"warm": true,
+				"warm_count": 5
+			}
 		}
-	},
-	"lambda": {
-		"warm": true,
-		"warm_count": 10
 	}
 }
