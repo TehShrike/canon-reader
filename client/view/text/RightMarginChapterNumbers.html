@@ -1,17 +1,17 @@
 <ol>
-	{{#each chapterNumbersToDisplay as number}}
+	{#each chapterNumbersToDisplay as number}
 		<li>
-			{{#if displayChapterMatchesCurrent(number)}}
-				<a href="#{{ getChapterNumberId(currentChapter) }}">
-					<strong>{{ currentChapter }}</strong>
+			{#if displayChapterMatchesCurrent(number)}
+				<a href="#{ getChapterNumberId(currentChapter) }">
+					<strong>{ currentChapter }</strong>
 				</a>
-			{{else}}
-				<a href="#{{ getChapterNumberId(number) }}">
-					{{ number }}
+			{:else}
+				<a href="#{ getChapterNumberId(number) }">
+					{ number }
 				</a>
-			{{/if}}
+			{/if}
 		</li>
-	{{/each}}
+	{/each}
 </ol>
 
 <style>
@@ -66,13 +66,13 @@ export default {
 		getChapterNumberId
 	},
 	computed: {
-		chapterCount: chapterNumbers => chapterNumbers.length,
-		chapterModulusToUse: chapterCount => Math.ceil(chapterCount / maxNumberOfChapterToDisplay),
-		chapterNumbersToDisplay: (chapterNumbers, chapterModulusToUse) =>
+		chapterCount: ({ chapterNumbers }) => chapterNumbers.length,
+		chapterModulusToUse: ({ chapterCount }) => Math.ceil(chapterCount / maxNumberOfChapterToDisplay),
+		chapterNumbersToDisplay: ({ chapterNumbers, chapterModulusToUse }) =>
 			chapterNumbers.filter(number =>
 				(number - 1) % chapterModulusToUse === 0
 			),
-		displayChapterMatchesCurrent: (chapterModulusToUse, currentChapter) =>
+		displayChapterMatchesCurrent: ({ chapterModulusToUse, currentChapter }) =>
 			displayChapter => currentChapter
 				&& currentChapter >= displayChapter
 				&& currentChapter < (displayChapter + chapterModulusToUse)

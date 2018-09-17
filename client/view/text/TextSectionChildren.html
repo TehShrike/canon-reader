@@ -1,28 +1,28 @@
-{{#each children as chunk}}
-	{{#if chunk.type === 'chapter number'}}
+{#each children as chunk}
+	{#if chunk.type === 'chapter number'}
 		<LeftMarginNumber
-			number={{chunk.value}}
-			emphasized={{true}}
-			id={{ getChapterNumberId(chunk.value) }}
+			number={chunk.value}
+			emphasized={true}
+			id={ getChapterNumberId(chunk.value) }
 		/>
-	{{elseif chunk.type === 'verse number'}}
+	{:elseif chunk.type === 'verse number'}
 		<LeftMarginNumber
-			number={{chunk.value}}
-			id={{ getChapterVerseId(chunk.chapterNumber, chunk.value) }}
+			number={chunk.value}
+			id={ getChapterVerseId(chunk.chapterNumber, chunk.value) }
 		/>
-	{{elseif chunk.type === 'line break'}}
+	{:elseif chunk.type === 'line break'}
 		<br>
-	{{else}}
+	{:else}
 		<span
 			class="verse-text"
-			data-chapter-number={{chunk.chapterNumber}}
-			data-verse-number={{chunk.verseNumber}}
-			data-highlighted={{isHighlighted(chunk.chapterNumber, chunk.verseNumber)}}
+			data-chapter-number={chunk.chapterNumber}
+			data-verse-number={chunk.verseNumber}
+			data-highlighted={isHighlighted(chunk.chapterNumber, chunk.verseNumber)}
 		>
-			{{chunk.value}}
+			{chunk.value}
 		</span>
-	{{/if}}
-{{/each}}
+	{/if}
+{/each}
 
 <style>
 @import 'variables';
@@ -47,13 +47,13 @@ export default {
 		LeftMarginNumber,
 	},
 	computed: {
-		comparableRange: highlightedRange => highlightedRange
+		comparableRange: ({ highlightedRange }) => highlightedRange
 			? {
 				start: [highlightedRange.startChapter, highlightedRange.startVerse],
 				end: [highlightedRange.endChapter, highlightedRange.endVerse]
 			}
 			: null,
-		isHighlighted: comparableRange => comparableRange
+		isHighlighted: ({ comparableRange }) => comparableRange
 			? (chapter, verse) => withinRange(comparableRange.start, comparableRange.end, [chapter, verse])
 			: () => false
 	}

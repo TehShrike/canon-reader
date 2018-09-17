@@ -1,35 +1,35 @@
-<:Head>
-	<title>{{bookName}}</title>
-</:Head>
+<svelte:head>
+	<title>{bookName}</title>
+</svelte:head>
 
 <div class="container">
 	<h1 class="book-name-header">
-		{{bookName}}
+		{bookName}
 	</h1>
 
 
 	<div class="text-container" ref:textContainer>
-		{{#each bookSections as section}}
-			{{#if section.type === 'header'}}
-				<h3>{{section.value}}</h3>
-			{{elseif section.type === 'break'}}
+		{#each bookSections as section}
+			{#if section.type === 'header'}
+				<h3>{section.value}</h3>
+			{:elseif section.type === 'break'}
 				<hr>
-			{{elseif section.type === 'paragraph'}}
+			{:elseif section.type === 'paragraph'}
 				<p>
-					<TextSectionChildren children="{{section.children}}" :highlightedRange />
+					<TextSectionChildren children="{section.children}" {highlightedRange} />
 				</p>
-			{{elseif section.type === 'stanza'}}
+			{:elseif section.type === 'stanza'}
 				<blockquote>
-					<TextSectionChildren children="{{section.children}}" :highlightedRange />
+					<TextSectionChildren children="{section.children}" {highlightedRange} />
 				</blockquote>
-			{{else}}
+			{:else}
 				<h1>WAT BROKEN</h1>
-			{{/if}}
-		{{/each}}
+			{/if}
+		{/each}
 	</div>
 </div>
 
-<RightMarginChapterNumbers :chapterNumbers :currentChapter />
+<RightMarginChapterNumbers {chapterNumbers} {currentChapter} />
 
 <div class="sticky-footer">
 	<div class="book-notch">
@@ -58,7 +58,7 @@
 
 	clip-path: polygon(0 100%, 25% 0, 75% 0, 100% 100%);
 
-	a {
+	:global(a) {
 		padding: 4px 48px;
 		color: $white;
 	}
@@ -73,7 +73,7 @@
 	@include container-vertical-padding;
 }
 
-.bigger-link {
+:global(.bigger-link) {
 	font-size: x-large;
 	font-family: sans-serif;
 }
@@ -142,8 +142,8 @@ export default {
 		this.viewportTopObserver.disconnect()
 	},
 	computed: {
-		chapterNumbers: chapterCount => range(1, chapterCount + 1),
-		highlightedRange: querystringParameters => querystringParameters.highlight
+		chapterNumbers: ({ chapterCount }) => range(1, chapterCount + 1),
+		highlightedRange: ({ querystringParameters }) => querystringParameters.highlight
 			? fromRange(querystringParameters.highlight)
 			: null
 

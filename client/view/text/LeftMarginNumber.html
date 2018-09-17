@@ -2,12 +2,12 @@
 	<!-- &#8203; -->
 	<div
 		class="number"
-		data-emphasized="{{emphasized}}"
-		data-hidden="{{hidden}}"
-		style="z-index: {{zIndex}}"
-		id={{id}}
+		data-emphasized="{emphasized}"
+		data-hidden="{hidden}"
+		style="z-index: {zIndex}"
+		id={id}
 	>
-		{{number}}
+		{number}
 	</div>
 </div>
 
@@ -57,7 +57,7 @@ export default {
 		}
 	},
 	computed: {
-		zIndex: (number, emphasized) => emphasized
+		zIndex: ({ number, emphasized }) => emphasized
 			? reallyBig + number
 			: reallyBig - number
 	},

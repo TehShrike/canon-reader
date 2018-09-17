@@ -1,10 +1,10 @@
 <a
-	href="{{href}}"
-	data-active="{{stateIsActive(state, params)}}"
+	href="{href}"
+	data-active="{stateIsActive(state, params)}"
 	on:click="navigate(event)"
-	class="{{className}}"
+	class="{className}"
 >
-	{{yield}}
+	<slot></slot>
 </a>
 
 <script>
@@ -43,9 +43,9 @@ export default {
 		}
 	},
 	computed: {
-		hashFragment: anchor => anchor ? `#${anchor}` : '',
-		path: (state, params, options) => makePath(state, params, options),
-		href: (path, hashFragment) => path + hashFragment
+		hashFragment: ({ anchor }) => anchor ? `#${anchor}` : '',
+		path: ({ state, params, options }) => makePath(state, params, options),
+		href: ({ path, hashFragment }) => path + hashFragment
 	},
 	methods: {
 		navigate(event) {

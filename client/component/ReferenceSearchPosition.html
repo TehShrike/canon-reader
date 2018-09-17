@@ -18,7 +18,7 @@ export default {
 	oncreate() {
 		const { top, left, right, bottom } =  this.refs.container.getBoundingClientRect()
 
-		this.get('mediator').callSync('position search box', {
+		this.get().mediator.callSync('position search box', {
 			top,
 			left,
 			right,
@@ -26,7 +26,7 @@ export default {
 		})
 	},
 	ondestroy() {
-		this.get('mediator').callSync('unposition search box')
+		this.get().mediator.callSync('unposition search box')
 	}
 }
 </script>

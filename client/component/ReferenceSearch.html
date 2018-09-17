@@ -3,7 +3,7 @@
 		on:submit="onsubmit()"
 		on:escape="cancel()"
 		bind:value="inputValue"
-		autofocus={{true}}
+		autofocus={true}
 	/>
 </div>
 
@@ -26,91 +26,89 @@ import ReferenceSearchInput from './ReferenceSearchInput.html'
 import getTargetStateFromReference from 'lib/get-target-state-from-reference.js'
 
 function navigationState(component) {
-	let lastState = null
-	let lastParams = null
-	let lastAnchor = null
+	const { matchingReference, mediator, haveNavigated, lastState, lastParams, lastAnchor } = component.get()
 
-	component.observe('matchingReference', target => {
-		console.log('something something navigate to', target)
-		if (target) {
-			const mediator = component.get('mediator')
-			const { anchor, stateName, params } = target
+	console.log('something something navigate to', matchingReference)
+	if (matchingReference) {
+		const { anchor, stateName, params } = matchingReference
 
-			const sameState = lastState === stateName
-				&& lastParams.book === params.book
+		const sameState = lastState === stateName
+			&& lastParams.book === params.book
 
-			if (!sameState) {
-				if (anchor) {
-					mediator.callSync('setAnchorAfterStateTransition', stateName, params, anchor)
+		if (!sameState) {
+			if (anchor) {
+				mediator.callSync('setAnchorAfterStateTransition', stateName, params, anchor)
+			}
+
+			mediator.callSync('stateGo', stateName, params, {
+				replace: haveNavigated
+			})
+
+			component.set({
+				haveNavigated: true
+			})
+		} else {
+			const updateQuerystring = params.highlight !== lastParams.highlight
+			const updateAnchor = anchor
+				&& anchor !== lastAnchor
+				&& document.getElementById(anchor)
+
+			if (updateQuerystring || updateAnchor) {
+
+				if (updateQuerystring) {
+					navigate({
+						parameters: {
+							highlight: params.highlight
+						},
+						replace: haveNavigated
+					})
 				}
 
-				mediator.callSync('stateGo', stateName, params, {
-					replace: component.get('haveNavigated')
-				})
+				if (updateAnchor) {
+					window.history.replaceState({}, '', `#${anchor}`)
+					const element = document.getElementById(anchor)
+					element.scrollIntoView(true)
+				}
+
 
 				component.set({
 					haveNavigated: true
 				})
-			} else {
-				const updateQuerystring = params.highlight !== lastParams.highlight
-				const updateAnchor = anchor
-					&& anchor !== lastAnchor
-					&& document.getElementById(anchor)
-
-				if (updateQuerystring || updateAnchor) {
-
-					if (updateQuerystring) {
-						navigate({
-							parameters: {
-								highlight: params.highlight
-							},
-							replace: component.get('haveNavigated')
-						})
-					}
-
-					if (updateAnchor) {
-						window.history.replaceState({}, '', `#${anchor}`)
-						const element = document.getElementById(anchor)
-						element.scrollIntoView(true)
-					}
-
-
-					component.set({
-						haveNavigated: true
-					})
-				}
 			}
-
-			lastState = stateName
-			lastParams = params
-			lastAnchor = anchor
 		}
-	})
+
+		component.set({
+			lastState: stateName,
+			lastParams: params,
+			lastAnchor: anchor,
+		})
+	}
 }
 
 export default {
-	oncreate() {
-		navigationState(this)
-
-		this.observe('inputValue', inputValue => {
-			console.log('inputValue is', inputValue)
-		})
-	},
 	data() {
 		return {
 			inputValue: '',
+			lastState: null,
+			lastParams: null,
+			lastAnchor: null,
 		}
 	},
 	computed: {
-		matchingReference: (inputValue, currentBookId) =>
+		matchingReference: ({ inputValue, currentBookId }) =>
 			getTargetStateFromReference(inputValue, currentBookId)
+	},
+	onstate({ changed }) {
+		if (changed.matchingReference) {
+			navigationState(this)
+		}
 	},
 	components: {
 		ReferenceSearchInput,
 	},
 	methods: {
 		cancel() {
-			const haveNavigated = this.get('haveNavigated')
+			const haveNavigated = this.get().haveNavigated
 
 			this.set({
 				show: false,

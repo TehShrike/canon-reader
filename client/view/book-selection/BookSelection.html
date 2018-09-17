@@ -1,16 +1,16 @@
 <div class="book-names">
-	{{#each bookNames as name}}
-		<div class="book" style="background-color: {{ getBookColor(name.id) }}">
-			<StateLink state="main.text" params="{{ { book: name.id } }}">
+	{#each bookNames as name}
+		<div class="book" style="background-color: { getBookColor(name.id) }">
+			<StateLink state="main.text" params="{ { book: name.id } }">
 				<div class="short-name">
-					{{name.short}}
+					{name.short}
 				</div>
 				<div class="full-name">
-					{{name.full}}
+					{name.full}
 				</div>
 			</StateLink>
 		</div>
-	{{/each}}
+	{/each}
 </div>
 
 <style>
@@ -31,7 +31,7 @@
 
 	outline: 1px solid grey;
 
-	a {
+	:global(a) {
 		width: 100%;
 		height: 100%;
 
@@ -86,7 +86,7 @@ export default {
 		}
 	},
 	computed: {
-		bookNames: books => books.map(({ name, aliases }) => {
+		bookNames: ({ books }) => books.map(({ name, aliases }) => {
 			const useFirstAliasForShort = name.length > 5 && aliases[0]
 
 			return {

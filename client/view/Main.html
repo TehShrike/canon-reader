@@ -1,6 +1,6 @@
-<:Head>
+<svelte:head>
 	<title>Canon Reader</title>
-</:Head>
+</svelte:head>
 
 <uiView></uiView>
 
@@ -8,20 +8,20 @@
 	<StateLink state="main">Home</StateLink>
 </div>
 
-{{#if showReferenceSearch}}
+{#if showReferenceSearch}
 <ClickWatcher
 	on:clickExternal="onClickOutsideSearch()"
 >
-	<div class="search-container" style={{searchContainerStyle}}>
+	<div class="search-container" style={searchContainerStyle}>
 		<ReferenceSearch
 			bind:show="showReferenceSearch"
-			:mediator
-			:currentBookId
-			autofocus={{true}}
+			{mediator}
+			{currentBookId}
+			autofocus={true}
 		/>
 	</div>
 </ClickWatcher>
-{{/if}}
+{/if}
 
 <style>
 @import 'mixins';
@@ -52,11 +52,7 @@ import ClickWatcher from 'svelte-panel-click'
 
 export default {
 	oncreate() {
-		const provideSync = this.get('mediator').provideSync
-
-		this.observe('searchContainerStyle', searchContainerStyle => {
-			console.log('searchContainerStyle', searchContainerStyle)
-		})
+		const provideSync = this.get().mediator.provideSync
 
 		const providerRemovers = [
 			provideSync('position search box', position => {
@@ -80,7 +76,7 @@ export default {
 		this.removeProviders = () => providerRemovers.forEach(remove => remove())
 	},
 	computed: {
-		searchContainerStyle: manualPosition => {
+		searchContainerStyle: ({ manualPosition }) => {
 			return manualPosition
 				? `
 					position: absolute;

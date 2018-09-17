@@ -28,13 +28,14 @@ export default {
 		}
 	},
 	oncreate() {
-		if (this.get('autofocus')) {
+		if (this.get().autofocus) {
 			this.refs.input.focus()
 		}
-
-		this.observe('value', value => {
-			console.log('Inside the input, the value is', value)
-		})
+	},
+	onstate({ changed, current }) {
+		if (changed.value) {
+			console.log('Inside the input, the value is', current.value)
+		}
 	},
 	methods: {
 		onkeydown(event) {
