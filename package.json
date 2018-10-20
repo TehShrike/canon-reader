@@ -19,7 +19,8 @@
     "build:css": "postcss-alt \"client/view/**/*.css\" \"public/build/style.css\"",
     "watch:css": "postcss-alt \"client/view/**/*.css\" \"public/build/style.css\" --watch=\"client/**/*.css\"",
     "serve": "node server/index.js",
-    "dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:* serve"
+    "dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:* serve",
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
