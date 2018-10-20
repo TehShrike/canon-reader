@@ -2,12 +2,6 @@
 	"name": "canon-reader4",
 	"profile": "josh",
 	"regions": ["us-east-1"],
-	"hooks": {
-		"build": "make"
-	},
-	"proxy": {
-		"command": "./node-v8.9.4-linux-x64/bin/node server/index.js"
-	},
 	"stages": {
 		"staging": {
 			"domain": "staging.canonreader.com",
