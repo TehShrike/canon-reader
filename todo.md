@@ -1,5 +1,6 @@
 # Should be pretty useful
 
+- PK commentary
 - navigation input
 	- let's move away from reloading the page as you type.  It sucks as long as it takes >50ms for a book to load, anyway
 	- go to having the user hit enter to actually make the search happen
