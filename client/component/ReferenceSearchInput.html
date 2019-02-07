@@ -17,6 +17,23 @@ input {
 }
 </style>
 
+<!--
+
+- color the border green if the input can go somewhere valid
+- expect:
+	- current book, if any
+- display:
+	- currently inferred book name
+	- currently understood chapter number
+	- currently understood verse number
+
+If it's feasible to validate chapter/verse numbers, then that validation
+needs to be moved to a function in lib
+
+Don't fire "submit" if the input isn't properly understood/green
+
+-->
+
 <script>
 const code_escape = 27
 const isEscape = event => event.key === 'Escape' || event.keyCode === code_escape
