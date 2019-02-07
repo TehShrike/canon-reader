@@ -15,7 +15,6 @@
 	- make it look not jank at the bottom of the screen on mobile
 	- come up with some UI for showing or hiding it that doesn't look jank on mobile
 		- https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html
-- use the Pickering Revelation text
 - an absolutely positioned menu at the bottom
 	- book selection
 	- reference search
