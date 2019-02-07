@@ -40,7 +40,7 @@
 - make the number of chapter numbers displayed based on the viewport height
 - initial-load performance
 	- move the built book text to `public/books/*.json`
-	- lazy-load books
+	- lazy-load books with https://github.com/TehShrike/dynamic-import-iife
 - bookmarks
 	- ???
 - search
