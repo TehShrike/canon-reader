@@ -1,13 +1,6 @@
 # Should be pretty useful
 
 - PK commentary
-- navigation input
-	- let's move away from reloading the page as you type.  It sucks as long as it takes >50ms for a book to load, anyway
-	- go to having the user hit enter to actually make the search happen
-	- eventually it would be nice to give some feedback that you've typed something valid
-		- highlight words/chapters/verses green as they are matched
-		- or, maybe just display the parsed output as they type
-	- still need to invent a way to embed the navigation input on the home screen, and then disconnect it and move it to the bottom when a book name is matched
 - inline greek/hebrew definitions
 	- download Strong's numbers/definitions from somewhere
 	- get greek/hebrew text by book/chapter/verse, with some mapping to Strong's numbers
@@ -29,9 +22,6 @@
 # Should be pretty great
 
 - make the number of chapter numbers displayed based on the viewport height
-- initial-load performance
-	- move the built book text to `public/books/*.json`
-	- lazy-load books with https://github.com/TehShrike/dynamic-import-iife
 - bookmarks
 	- ???
 - search
