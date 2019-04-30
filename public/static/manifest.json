@@ -1,0 +1,11 @@
+{
+  "lang": "en",
+  "short_name": "Canon Reader",
+  "name": "Canon Reader",
+  "description": "A Bible reading app that supports quick navigation, and long reading",
+  "icons": [],
+  "start_url": "https://canonreader.com/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#02277F"
+}
