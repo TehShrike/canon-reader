@@ -16,5 +16,8 @@
 				"warm_count": 5
 			}
 		}
+	},
+	"lambda": {
+		"runtime": "nodejs12.x"
 	}
 }
