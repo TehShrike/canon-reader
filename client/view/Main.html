@@ -24,7 +24,6 @@
 {/if}
 
 <style>
-@import 'mixins';
 
 .search-container {
 	position: fixed;
@@ -41,7 +40,13 @@
 	padding-top: 8px;
 	padding-bottom: 8px;
 
-	@include container-side-padding;
+	padding-left: var(--default-padding);
+	padding-right: var(--default-padding);
+}
+
+.container {
+	padding-left: var(--default-padding);
+	padding-right: var(--default-padding);
 }
 </style>
 

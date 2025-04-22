@@ -38,9 +38,6 @@
 </div>
 
 <style>
-@import 'mixins';
-@import 'gutter';
-@import 'variables';
 
 .sticky-footer {
 	position: fixed;
@@ -53,15 +50,15 @@
 
 
 .book-notch {
-	background-color: $blue-darkened;
+	background-color: var(--blue-darkened);
 	display: flex;
 
 	clip-path: polygon(0 100%, 25% 0, 75% 0, 100% 100%);
+}
 
-	:global(a) {
-		padding: 4px 48px;
-		color: $white;
-	}
+.book-notch :global(a) {
+	padding: 4px 48px;
+	color: var(--white);
 }
 
 .book-name-header {
@@ -69,8 +66,10 @@
 }
 
 .container {
-	@include container-side-padding;
-	@include container-vertical-padding;
+	padding-left: var(--default-padding);
+	padding-right: var(--default-padding);
+	padding-top: var(--default-padding);
+	padding-bottom: var(--default-padding);
 }
 
 :global(.bigger-link) {
@@ -80,8 +79,8 @@
 
 .text-container {
 	max-width: 600px;
-	margin-left: $gutterSize;
-	margin-right: $gutterSize;
+	margin-left: var(--gutter-size);
+	margin-right: var(--gutter-size);
 }
 </style>
 

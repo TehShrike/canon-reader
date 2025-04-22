@@ -6,3 +6,5 @@ public/build
 
 client/globbed-*.js
 client/lib/books
+
+.DS_Store

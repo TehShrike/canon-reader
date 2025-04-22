@@ -7,17 +7,18 @@
 - maybe eventually someday inject a live-reload script like live-server does
 */
 
-const Koa = require(`koa`)
-const createRouter = require(`koa-bestest-router`)
-const compress = require(`koa-compress`)
-const conditionalGet = require(`koa-conditional-get`)
-const etag = require(`koa-etag`)
-const send = require(`koa-send`)
+import Koa from 'koa'
+import createRouter from 'koa-bestest-router'
+import compress from 'koa-compress'
+import conditionalGet from 'koa-conditional-get'
+import etag from 'koa-etag'
+import send from 'koa-send'
+import { join } from 'path'
 
-const relative = path => require(`path`).join(__dirname, path)
-const staticPath = relative(`../public/static`)
-const buildPath = relative(`../public/build`)
-const publicPath = relative(`../public`)
+const relative = path => join(import.meta.url, path)
+const staticPath = relative('../public/static')
+const buildPath = relative('../public/build')
+const publicPath = relative('../public')
 
 startServer(process.env.PORT || 8888)
 
@@ -31,7 +32,7 @@ function startServer(port) {
 	app.use(createRouter({
 		GET: {
 			'/robots.txt': async context => {
-				context.body = process.env.UP_STAGE === 'production' ? '' : `User-agent: *\nDisallow: /\n`
+				context.body = process.env.UP_STAGE === 'production' ? '' : 'User-agent: *\nDisallow: /\n'
 			},
 			'/static/:path(.+)': async context => {
 				await send(context, context.params.path, { root: staticPath })
@@ -40,7 +41,7 @@ function startServer(port) {
 				await send(context, context.params.path, { root: buildPath })
 			},
 			'/(.*)': async context => {
-				await send(context, `index.html`, { root: publicPath })
+				await send(context, 'index.html', { root: publicPath })
 			},
 		},
 	}, { set404: true }))

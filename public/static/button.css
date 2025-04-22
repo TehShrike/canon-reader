@@ -1,5 +1,3 @@
-@import 'variables';
-
 button:not(:disabled), .button:not(:disabled) {
 	cursor: pointer;
 }
@@ -23,7 +21,7 @@ button, .button {
 	transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 
 	margin: 0;
-	font-family: $sans-serif;
+	font-family: var(--sans-serif);
 }
 
 button:hover, .button:hover {
@@ -31,15 +29,15 @@ button:hover, .button:hover {
 }
 
 .button-primary {
-	color: $white;
-	background-color: $blue;
-	border-color: $blue;
+	color: var(--white);
+	background-color: var(--blue);
+	border-color: var(--blue);
 }
 .button-primary:visited {
-	color: $white;
+	color: var(--white);
 }
 .button-primary:hover {
-	color: $white;
-	background-color: $blue-darkened;
-	border-color: $blue-darkened;
+	color: var(--white);
+	background-color: var(--blue-darkened);
+	border-color: var(--blue-darkened);
 }

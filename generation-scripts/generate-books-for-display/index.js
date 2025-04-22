@@ -1,26 +1,30 @@
-require(`reify`)
-const pify = require(`pify`)
-const books = require(`books-of-the-bible`)
-const flatMap = require(`../../client/lib/flat-map.js`).default
-const makeDir = require(`make-dir`)
-const { writeFile } = pify(require(`fs`))
-const { getBookId } = require(`../../client/lib/get-id.js`)
+import { join } from 'path'
+import pify from 'pify'
+import books from 'books-of-the-bible'
+import flatMap from '../../client/lib/flat-map.js'
+import makeDir from 'make-dir'
+import { writeFile } from 'fs/promises'
+import { getBookId } from '../../client/lib/get-id.js'
+import { readFileSync } from 'fs'
 
-const relative = path => require(`path`).join(__dirname, path)
-const toJson = object => JSON.stringify(object, null, `\t`)
+const relative = path => join(import.meta.dirname, path)
+const toJson = object => JSON.stringify(object, null, '\t')
+import { createRequire } from 'module'
+
+const require = createRequire(import.meta.url)
 
 main().catch(err => {
 	console.error(err)
 })
 
 async function main() {
-	await makeDir(relative(`../../client/lib/books`))
+	await makeDir(relative('../../client/lib/books'))
 
 	const output = books.map(book => {
 		const bookId = getBookId(book.name)
-		const bookData = bookId === `revelation`
+		const bookData = bookId === 'revelation'
 			? loadPickeringRevelation()
-			: require(`world-english-bible/json/${ bookId }.json`)
+			: JSON.parse(readFileSync(require.resolve(`world-english-bible/json/${ bookId }.json`), 'utf8'))
 
 		const arrayOfSections = makeArrayOfSections(bookData)
 		const bookWithMarkers = bookSectionsWithChapterAndVerseMarkers(arrayOfSections)
@@ -32,20 +36,22 @@ async function main() {
 		}
 	})
 
-	output.forEach(({ bookWithMarkers, id }) => {
+	await Promise.all(output.map(({ bookWithMarkers, id }) => {
 		writeFile(relative(`../../client/lib/books/${ id }.json`), toJson(bookWithMarkers))
-	})
+	}))
+	console.log(`wrote ${ output.length } books`)
 
 	const chapterCounts = output.reduce((acc, { numberOfChapters, id }) => {
 		acc[id] = numberOfChapters
 		return acc
 	}, {})
 
-	writeFile(relative(`../../client/lib/books/chapter-counts.json`), toJson(chapterCounts))
+	await writeFile(relative('../../client/lib/books/chapter-counts.json'), toJson(chapterCounts))
+	console.log('wrote chapter-counts.json')
 }
 
 function loadPickeringRevelation() {
-	const revelation = require(`revelation`)
+	const revelation = JSON.parse(readFileSync(require.resolve('revelation/revelation.json'), 'utf8'))
 	let inParagraph = false
 
 	const toTextChunk = chunk => ({
@@ -56,23 +62,23 @@ function loadPickeringRevelation() {
 
 	return flatMap(
 		revelation.filter(
-			({ type }) => type !== `header`
+			({ type }) => type !== 'header'
 		),
 		chunk => {
-			if (chunk.type === `paragraph break`) {
+			if (chunk.type === 'paragraph break') {
 				inParagraph = false
 
 				return [{
-					type: `paragraph end`,
+					type: 'paragraph end',
 				}]
 			}
 
-			const paragraph = chunk.type === `verse`
+			const paragraph = chunk.type === 'verse'
 
 			if (paragraph && !inParagraph) {
 				inParagraph = true
 				return [
-					{ type: `paragraph start` },
+					{ type: 'paragraph start' },
 					toTextChunk(chunk),
 				]
 			}
@@ -89,14 +95,14 @@ function makeArrayOfSections(book) {
 	const createNew = type => current = { type, children: [] }
 
 	book.forEach(chunk => {
-		if (chunk.type === `paragraph start`) {
-			createNew(`paragraph`)
-		} else if (chunk.type === `stanza start`) {
-			createNew(`stanza`)
-		} else if (chunk.type === `paragraph end` || chunk.type === `stanza end`) {
+		if (chunk.type === 'paragraph start') {
+			createNew('paragraph')
+		} else if (chunk.type === 'stanza start') {
+			createNew('stanza')
+		} else if (chunk.type === 'paragraph end' || chunk.type === 'stanza end') {
 			sections.push(current)
 			current = null
-		} else if (chunk.type === `break` || chunk.type === `header` || chunk.type === `line break`) {
+		} else if (chunk.type === 'break' || chunk.type === 'header' || chunk.type === 'line break') {
 			if (current) {
 				current.children.push(chunk)
 			} else {
@@ -129,7 +135,7 @@ function bookSectionsWithChapterAndVerseMarkers(bookSections) {
 
 			if (chapterNumber && chapterNumber !== lastChapterNumber) {
 				itemsToReturn.push({
-					type: `chapter number`,
+					type: 'chapter number',
 					value: chapterNumber,
 				})
 				lastChapterNumber = chapterNumber
@@ -137,7 +143,7 @@ function bookSectionsWithChapterAndVerseMarkers(bookSections) {
 
 			if (verseNumber && verseNumber !== lastVerseNumber) {
 				itemsToReturn.push({
-					type: `verse number`,
+					type: 'verse number',
 					value: verseNumber,
 					chapterNumber,
 				})
@@ -155,7 +161,7 @@ function getNumberOfChapters(bookSectionsWithChapterAndVerseMarkers) {
 	return flatMap(bookSectionsWithChapterAndVerseMarkers,
 		({ children }) => children
 			? children
-				.filter(({ type }) => type === `chapter number`)
+				.filter(({ type }) => type === 'chapter number')
 				.map(({ value }) => value)
 			: []
 	).length

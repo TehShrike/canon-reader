@@ -1,5 +1,6 @@
-const test = require('tape')
-const referenceParser = require('./reference-parser.js').default
+import test from 'node:test'
+import assert from 'node:assert'
+import referenceParser from './reference-parser.js'
 
 const cases = [
 	[
@@ -59,10 +60,10 @@ const cases = [
 	],
 ]
 
-test(`reference-regex`, t => {
+test(`reference-regex`, () => {
 	cases.forEach(([ input, expectedOutput ]) => {
 		const output = referenceParser(input)
-		t.deepEqual(output, expectedOutput, input)
+		assert.deepEqual(output, expectedOutput, input)
 	})
-	t.end()
+	console.log('done')
 })
