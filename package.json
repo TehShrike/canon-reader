@@ -17,9 +17,8 @@
 		"glob:services": "glob-module-file --pattern=\"client/service/**/*.js\" --format=es --pathPrefix=../ --outputPath=client/globbed-services.js",
 		"glob:views": "glob-module-file --pattern=\"client/view/**/*.js\" --format=es --pathPrefix=../ --outputPath=client/globbed-views.js",
 		"create-symlinks": "del-cli client/node_modules && make-dir client/node_modules/ && cd client/node_modules && symlink ../component/ component && symlink ../lib/ lib && cd ../../",
-		"serve": "node server/index.js",
-		"dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:* serve",
-		"start": "node server/index.js"
+		"serve": "live-server --no-css-inject public",
+		"dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:* serve"
 	},
 	"repository": {
 		"type": "git",
@@ -39,6 +38,7 @@
 	"homepage": "https://github.com/TehShrike/simple-bible-reader#readme",
 	"devDependencies": {
 		"key-master": "^3.1.0",
+		"live-server": "^1.2.2",
 		"reify": "^0.13.7",
 		"watch": "1.0.2"
 	},
