@@ -1,3 +1,12 @@
+# the 2025 modernization
+
+- rollup -> esbuild
+- svelte 2 -> svelte 5
+- convert to non-pushstate routing
+- deploy to github pages
+- point domain to github pages
+- destroy the lambda and any other AWS resources
+
 # Should be pretty useful
 
 - PK commentary
