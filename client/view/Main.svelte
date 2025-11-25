@@ -40,11 +40,6 @@
 	padding-left: var(--default-padding);
 	padding-right: var(--default-padding);
 }
-
-.container {
-	padding-left: var(--default-padding);
-	padding-right: var(--default-padding);
-}
 </style>
 
 <script lang="ts">
@@ -57,15 +52,15 @@ interface Position {
 	left: string
 }
 
-interface MainState {
-	showReferenceSearch: boolean
-	currentBookId?: string
-	manualPosition?: Position
+interface Props {
+	mediator: any
 }
 
-let state: MainState = {
-	showReferenceSearch: false
-}
+let { mediator }: Props = $props()
+
+let showReferenceSearch = $state(false)
+let currentBookId = $state<string | undefined>(undefined)
+let manualPosition = $state<Position | null>(null)
 
 let removeProviders: () => void
 
@@ -75,14 +70,14 @@ $effect(() => {
 	const providerRemovers = [
 		provideSync('position search box', (position: Position) => {
 			console.log('position search box called with', position)
-			state.manualPosition = position
+			manualPosition = position
 		}),
 		provideSync('unposition search box', () => {
-			state.manualPosition = null
+			manualPosition = null
 		}),
-		provideSync('show navigation input', (currentBookId: string) => {
-			state.showReferenceSearch = true
-			state.currentBookId = currentBookId
+		provideSync('show navigation input', (bookId: string) => {
+			showReferenceSearch = true
+			currentBookId = bookId
 		})
 	]
 
@@ -93,15 +88,15 @@ $effect(() => {
 	}
 })
 
-$derived.searchContainerStyle = state.manualPosition
+const searchContainerStyle = $derived(manualPosition
 	? `
 		position: absolute;
-		top: ${state.manualPosition.top};
-		left: ${state.manualPosition.left};
+		top: ${manualPosition.top};
+		left: ${manualPosition.left};
 	`
-	: ''
+	: '')
 
 function onClickOutsideSearch() {
-	state.showReferenceSearch = false
+	showReferenceSearch = false
 }
 </script>

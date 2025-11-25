@@ -54,10 +54,10 @@ interface Props {
 	hidden?: boolean
 }
 
-let { number, id, emphasized = false, hidden = false } = $props<Props>()
+let { number, id, emphasized = false, hidden = false }: Props = $props()
 let placeholder: HTMLElement
 
-$derived.zIndex = emphasized
+const zIndex = $derived(emphasized
 	? reallyBig + number
-	: reallyBig - number
+	: reallyBig - number)
 </script>

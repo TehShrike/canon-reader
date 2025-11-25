@@ -12,10 +12,10 @@
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
 
 interface Props {
-	mediator: unknown
+	mediator: any
 }
 
-let { mediator } = $props<Props>()
+let { mediator }: Props = $props()
 let container: HTMLElement
 
 $effect(() => {

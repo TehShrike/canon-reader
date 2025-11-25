@@ -1,9 +1,9 @@
-<form on:submit={onsubmit}>
+<form onsubmit={handleSubmit}>
 	<input
 		type="text"
 		bind:this={input}
 		bind:value
-		on:keydown={onkeydown}
+		onkeydown={handleKeydown}
 		placeholder="prov 30:2"
 	>
 </form>
@@ -40,10 +40,12 @@ const isEscape = (event: KeyboardEvent) => event.key === 'Escape' || event.keyCo
 
 interface Props {
 	autofocus?: boolean
+	value?: string
+	onsubmit?: () => void
+	onescape?: () => void
 }
 
-let { autofocus } = $props<Props>()
-let value = ''
+let { autofocus, value = $bindable(''), onsubmit, onescape }: Props = $props()
 let input: HTMLInputElement
 
 $effect(() => {
@@ -56,14 +58,14 @@ $effect(() => {
 	console.log('Inside the input, the value is', value)
 })
 
-function onkeydown(event: KeyboardEvent) {
+function handleKeydown(event: KeyboardEvent) {
 	if (isEscape(event)) {
-		dispatch('escape')
+		onescape?.()
 	}
 }
 
-function onsubmit(event: Event) {
-	dispatch('submit')
+function handleSubmit(event: Event) {
 	event.preventDefault()
+	onsubmit?.()
 }
 </script>

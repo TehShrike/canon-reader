@@ -108,8 +108,8 @@ import ReferenceSearchPosition from 'component/ReferenceSearchPosition.svelte'
 import StateLink from 'component/StateLink.svelte'
 
 interface Props {
-	mediator: unknown
+	mediator: any
 }
 
-let { mediator } = $props<Props>()
+let { mediator }: Props = $props()
 </script>

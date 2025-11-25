@@ -1,16 +1,16 @@
 {#each children as chunk}
 	{#if chunk.type === 'chapter number'}
 		<LeftMarginNumber
-			number={chunk.value}
+			number={Number(chunk.value)}
 			emphasized={true}
-			id={getChapterNumberId(chunk.value)}
+			id={getChapterNumberId(Number(chunk.value))}
 		/>
-	{:elseif chunk.type === 'verse number'}
+	{:else if chunk.type === 'verse number'}
 		<LeftMarginNumber
-			number={chunk.value}
-			id={getChapterVerseId(chunk.chapterNumber, chunk.value)}
+			number={Number(chunk.value)}
+			id={getChapterVerseId(chunk.chapterNumber, Number(chunk.value))}
 		/>
-	{:elseif chunk.type === 'line break'}
+	{:else if chunk.type === 'line break'}
 		<br>
 	{:else}
 		<span
@@ -37,7 +37,7 @@ import LeftMarginNumber from './LeftMarginNumber.svelte'
 
 interface TextChunk {
 	type: 'chapter number' | 'verse number' | 'line break' | 'text'
-	value: string
+	value: string | number
 	chapterNumber?: number
 	verseNumber?: number
 }
@@ -54,16 +54,16 @@ interface Props {
 	highlightedRange?: HighlightedRange
 }
 
-let { children, highlightedRange } = $props<Props>()
+let { children, highlightedRange }: Props = $props()
 
-$derived.comparableRange = highlightedRange
+const comparableRange = $derived(highlightedRange
 	? {
 		start: [highlightedRange.startChapter, highlightedRange.startVerse],
 		end: [highlightedRange.endChapter, highlightedRange.endVerse]
 	}
-	: null
+	: null)
 
-$derived.isHighlighted = comparableRange
+const isHighlighted = $derived(comparableRange
 	? (chapter: number, verse: number) => withinRange(comparableRange.start, comparableRange.end, [chapter, verse])
-	: () => false
+	: () => false)
 </script>

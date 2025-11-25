@@ -11,13 +11,13 @@
 		{#each bookSections as section}
 			{#if section.type === 'header'}
 				<h3>{section.value}</h3>
-			{:elseif section.type === 'break'}
+			{:else if section.type === 'break'}
 				<hr>
-			{:elseif section.type === 'paragraph'}
+			{:else if section.type === 'paragraph'}
 				<p>
 					<TextSectionChildren children={section.children} {highlightedRange} />
 				</p>
-			{:elseif section.type === 'stanza'}
+			{:else if section.type === 'stanza'}
 				<blockquote>
 					<TextSectionChildren children={section.children} {highlightedRange} />
 				</blockquote>
@@ -91,27 +91,29 @@ import { fromRange } from 'lib/simple-range.js'
 import TextSectionChildren from './TextSectionChildren.svelte'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
 
+interface TextChunk {
+	type: 'chapter number' | 'verse number' | 'line break' | 'text'
+	value: string | number
+	chapterNumber?: number
+	verseNumber?: number
+}
+
 interface BookSection {
 	type: 'header' | 'break' | 'paragraph' | 'stanza'
 	value?: string
-	children?: unknown[]
+	children?: TextChunk[]
 }
 
-interface TextState {
-	bookName: string | null
-	bookSections: BookSection[] | null
-	currentChapter: number | null
-	querystringParameters: Record<string, string>
-	chapterCount?: number
+interface Props {
+	bookName: string
+	bookSections: BookSection[]
+	chapterCount: number
 }
 
-let state: TextState = {
-	bookName: null,
-	bookSections: null,
-	currentChapter: null,
-	querystringParameters: getCurrentParameters()
-}
+let { bookName, bookSections, chapterCount }: Props = $props()
 
+let currentChapter = $state<number | null>(null)
+let querystringParameters = $state<Record<string, string>>(getCurrentParameters())
 let textContainer: HTMLElement
 let viewportTopObserver: IntersectionObserver
 
@@ -130,19 +132,21 @@ function observeIntersectionsWithTopOfViewport(elements: NodeListOf<Element>, cb
 }
 
 $effect(() => {
+	const state = { querystringParameters }
 	attachQuerystringData(state)
+	querystringParameters = state.querystringParameters
 
 	const textElements = textContainer?.querySelectorAll('.verse-text')
 	if (textElements) {
 		viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
-			const currentChapter = entries.reduce((currentChapter, entry) => {
+			const chapter = entries.reduce((current, entry) => {
 				const data = (entry.target as HTMLElement).dataset
 				const entryChapter = parseInt(data.chapterNumber || '0', 10)
-				return Math.max(currentChapter, entryChapter)
+				return Math.max(current, entryChapter)
 			}, 0)
 
-			if (currentChapter) {
-				state.currentChapter = currentChapter
+			if (chapter) {
+				currentChapter = chapter
 			}
 		})
 	}
@@ -152,8 +156,8 @@ $effect(() => {
 	}
 })
 
-$derived.chapterNumbers = state.chapterCount ? range(1, state.chapterCount + 1) : []
-$derived.highlightedRange = state.querystringParameters.highlight
-	? fromRange(state.querystringParameters.highlight)
-	: null
+const chapterNumbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
+const highlightedRange = $derived(querystringParameters.highlight
+	? fromRange(querystringParameters.highlight)
+	: null)
 </script>

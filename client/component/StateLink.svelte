@@ -1,13 +1,14 @@
 <a
 	href={href}
 	data-active={stateIsActive(state, params)}
-	on:click={navigate}
+	onclick={navigate}
 	class={className}
 >
-	<slot />
+	{@render children()}
 </a>
 
 <script lang="ts">
+import type { Snippet } from 'svelte'
 import shouldInterceptClick from 'click-should-be-intercepted-for-navigation'
 import mediator from 'lib/mediator-instance.js'
 
@@ -17,9 +18,10 @@ interface Props {
 	inherit?: boolean
 	className?: string
 	anchor?: string
+	children: Snippet
 }
 
-let { state, params = {}, inherit = false, className = '', anchor = '' } = $props<Props>()
+let { state, params = {}, inherit = false, className = '', anchor = '', children }: Props = $props()
 
 const stateIsActive = (...args: unknown[]) => mediator.callSync('stateIsActive', ...args)
 const makePath = (...args: unknown[]) => mediator.callSync('makePath', ...args)
@@ -28,9 +30,9 @@ function currentPath() {
 	return window.location.pathname + window.location.search
 }
 
-$derived.hashFragment = anchor ? `#${anchor}` : ''
-$derived.path = makePath(state, params, { inherit })
-$derived.href = path + hashFragment
+const hashFragment = $derived(anchor ? `#${anchor}` : '')
+const path = $derived(makePath(state, params, { inherit }))
+const href = $derived(path + hashFragment)
 
 let cancelListener: () => void
 

@@ -21,4 +21,11 @@
 
 <script lang="ts">
 import StateLink from 'component/StateLink.svelte'
+
+interface Props {
+	route?: string
+	parameters?: Record<string, string>
+}
+
+let { route, parameters }: Props = $props()
 </script>

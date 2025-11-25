@@ -84,7 +84,7 @@ interface BookName {
 	id: string
 }
 
-$derived.bookNames = books.map(({ name, aliases }: Book) => {
+const bookNames = $derived(books.map(({ name, aliases }: Book) => {
 	const useFirstAliasForShort = name.length > 5 && aliases[0]
 
 	return {
@@ -92,7 +92,7 @@ $derived.bookNames = books.map(({ name, aliases }: Book) => {
 		short: useFirstAliasForShort ? aliases[0] : name,
 		id: getBookId(name)
 	}
-})
+}))
 
 function getBookColor(id: string): string {
 	return bookColors[id]

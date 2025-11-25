@@ -1,4 +1,4 @@
-import Text from './Text.html'
+import Text from './Text.svelte'
 import bibleBooksMap from 'lib/bible.js'
 import chapterCounts from 'lib/books/chapter-counts.json'
 

@@ -60,14 +60,14 @@ interface Props {
 	currentChapter: number | null
 }
 
-let { chapterNumbers, currentChapter } = $props<Props>()
+let { chapterNumbers, currentChapter }: Props = $props()
 
-$derived.chapterCount = chapterNumbers.length
-$derived.chapterModulusToUse = Math.ceil(chapterCount / maxNumberOfChapterToDisplay)
-$derived.chapterNumbersToDisplay = chapterNumbers.filter(number =>
+const chapterCount = $derived(chapterNumbers.length)
+const chapterModulusToUse = $derived(Math.ceil(chapterCount / maxNumberOfChapterToDisplay))
+const chapterNumbersToDisplay = $derived(chapterNumbers.filter(number =>
 	(number - 1) % chapterModulusToUse === 0
-)
-$derived.displayChapterMatchesCurrent = (displayChapter: number) => currentChapter
+))
+const displayChapterMatchesCurrent = $derived((displayChapter: number) => currentChapter
 	&& currentChapter >= displayChapter
-	&& currentChapter < (displayChapter + chapterModulusToUse)
+	&& currentChapter < (displayChapter + chapterModulusToUse))
 </script>

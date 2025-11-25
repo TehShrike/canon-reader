@@ -1,9 +1,9 @@
 <div class="background-border">
 	<ReferenceSearchInput
-		on:submit={onsubmit}
-		on:escape={cancel}
+		onsubmit={handleSubmit}
+		onescape={cancel}
 		bind:value={inputValue}
-		autofocus={true}
+		{autofocus}
 	/>
 </div>
 
@@ -32,19 +32,20 @@ interface Reference {
 }
 
 interface Props {
-	mediator: unknown
+	mediator: any
 	currentBookId?: string
-	show: boolean
+	show?: boolean
+	autofocus?: boolean
 }
 
-let { mediator, currentBookId, show } = $props<Props>()
-let inputValue = ''
+let { mediator, currentBookId, show = $bindable(false), autofocus = false }: Props = $props()
+let inputValue = $state('')
 let lastState: string | null = null
 let lastParams: Reference['params'] | null = null
 let lastAnchor: string | null = null
 let haveNavigated = false
 
-$derived.matchingReference = getTargetStateFromReference(inputValue, currentBookId)
+const matchingReference = $derived(getTargetStateFromReference(inputValue, currentBookId))
 
 function navigationState() {
 	if (!matchingReference) return
@@ -111,7 +112,7 @@ function cancel() {
 	}
 }
 
-function onsubmit() {
+function handleSubmit() {
 	show = false
 }
 </script>

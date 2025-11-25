@@ -1,4 +1,4 @@
-import NotFound from './NotFound.html'
+import NotFound from './NotFound.svelte'
 
 export default mediator => ({
 	name: 'main.not-found',

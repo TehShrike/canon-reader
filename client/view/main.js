@@ -1,4 +1,4 @@
-import Main from './Main.html'
+import Main from './Main.svelte'
 
 export default mediator => ({
 	name: `main`,

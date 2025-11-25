@@ -1,4 +1,4 @@
-import Home from './Home.html'
+import Home from './Home.svelte'
 
 export default mediator => ({
 	name: `main.home`,

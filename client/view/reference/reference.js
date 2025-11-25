@@ -1,4 +1,4 @@
-import Reference from './Reference.html'
+import Reference from './Reference.svelte'
 import getTargetStateFromReference from 'lib/get-target-state-from-reference.js'
 
 export default mediator => ({
