@@ -8,7 +8,7 @@
 	{:else if chunk.type === 'verse number'}
 		<LeftMarginNumber
 			number={Number(chunk.value)}
-			id={getChapterVerseId(chunk.chapterNumber, Number(chunk.value))}
+			id={getChapterVerseId(chunk.chapterNumber ?? 0, Number(chunk.value))}
 		/>
 	{:else if chunk.type === 'line break'}
 		<br>
@@ -17,7 +17,7 @@
 			class="verse-text"
 			data-chapter-number={chunk.chapterNumber}
 			data-verse-number={chunk.verseNumber}
-			data-highlighted={isHighlighted(chunk.chapterNumber, chunk.verseNumber)}
+			data-highlighted={isHighlighted(chunk.chapterNumber ?? 0, chunk.verseNumber ?? 0)}
 		>
 			{chunk.value}
 		</span>
@@ -31,7 +31,7 @@
 </style>
 
 <script lang="ts">
-import { getChapterNumberId, getChapterVerseId } from 'lib/get-id.js'
+import { getChapterNumberId, getChapterVerseId } from '#lib/get-id.ts'
 import withinRange from 'multi-part-range-compare'
 import LeftMarginNumber from './LeftMarginNumber.svelte'
 
@@ -51,7 +51,7 @@ interface HighlightedRange {
 
 interface Props {
 	children: TextChunk[]
-	highlightedRange?: HighlightedRange
+	highlightedRange?: HighlightedRange | undefined
 }
 
 let { children, highlightedRange }: Props = $props()

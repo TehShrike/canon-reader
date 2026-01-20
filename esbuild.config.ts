@@ -1,17 +1,15 @@
 import { build, context, type BuildOptions, type Plugin } from 'esbuild'
-import * as esbuildSvelteModule from 'esbuild-svelte'
-
-const sveltePlugin = (esbuildSvelteModule as unknown as { default: (options?: Record<string, unknown>) => Plugin }).default
+import sveltePlugin from 'esbuild-svelte'
 
 const is_watch = process.argv.includes('--watch')
 const is_dev = process.argv.includes('--dev') || is_watch
 
 const build_options: BuildOptions = {
-	entryPoints: ['client/index.js'],
+	entryPoints: ['client/index.ts'],
 	bundle: true,
 	outfile: 'public/build/index-bundle.js',
 	format: 'iife',
-	target: ['es2020'],
+	target: ['esnext'],
 	sourcemap: true,
 	minify: !is_dev,
 	plugins: [
@@ -23,10 +21,6 @@ const build_options: BuildOptions = {
 	],
 	loader: {
 		'.json': 'json',
-	},
-	alias: {
-		'lib': './client/lib',
-		'component': './client/component',
 	},
 	logLevel: 'info',
 }

@@ -20,7 +20,7 @@
 </style>
 
 <script lang="ts">
-import StateLink from 'component/StateLink.svelte'
+import StateLink from '#component/StateLink.svelte'
 
 interface Props {
 	route?: string

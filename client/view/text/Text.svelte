@@ -15,11 +15,11 @@
 				<hr>
 			{:else if section.type === 'paragraph'}
 				<p>
-					<TextSectionChildren children={section.children} {highlightedRange} />
+					<TextSectionChildren children={section.children ?? []} {highlightedRange} />
 				</p>
 			{:else if section.type === 'stanza'}
 				<blockquote>
-					<TextSectionChildren children={section.children} {highlightedRange} />
+					<TextSectionChildren children={section.children ?? []} {highlightedRange} />
 				</blockquote>
 			{:else}
 				<h1>WAT BROKEN</h1>
@@ -85,9 +85,9 @@ import range from 'just-range'
 import svelteQuerystringRouter from 'svelte-querystring-router'
 const { attachQuerystringData, getCurrentParameters } = svelteQuerystringRouter
 
-import StateLink from 'component/StateLink.svelte'
-import { getChapterNumberId } from 'lib/get-id.js'
-import { fromRange } from 'lib/simple-range.js'
+import StateLink from '#component/StateLink.svelte'
+import { getChapterNumberId } from '#lib/get-id.ts'
+import { fromRange } from '#lib/simple-range.ts'
 import TextSectionChildren from './TextSectionChildren.svelte'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
 
@@ -159,5 +159,5 @@ $effect(() => {
 const chapterNumbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
 const highlightedRange = $derived(querystringParameters.highlight
 	? fromRange(querystringParameters.highlight)
-	: null)
+	: undefined)
 </script>

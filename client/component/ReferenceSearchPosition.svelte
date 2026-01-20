@@ -21,7 +21,7 @@ let container: HTMLElement
 $effect(() => {
 	const { top, left, right, bottom } = container.getBoundingClientRect()
 
-	mediator.callSync('position search box', {
+	mediator.call('position search box', {
 		top,
 		left,
 		right,
@@ -29,7 +29,7 @@ $effect(() => {
 	})
 
 	return () => {
-		mediator.callSync('unposition search box')
+		mediator.call('unposition search box')
 	}
 })
 </script>

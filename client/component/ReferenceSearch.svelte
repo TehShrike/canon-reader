@@ -20,7 +20,7 @@ import svelteQuerystringRouter from 'svelte-querystring-router'
 const { navigate } = svelteQuerystringRouter
 
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
-import getTargetStateFromReference from 'lib/get-target-state-from-reference.js'
+import getTargetStateFromReference from '#lib/get-target-state-from-reference.ts'
 
 interface Reference {
 	anchor?: string
@@ -33,7 +33,7 @@ interface Reference {
 
 interface Props {
 	mediator: any
-	currentBookId?: string
+	currentBookId?: string | undefined
 	show?: boolean
 	autofocus?: boolean
 }
@@ -57,10 +57,10 @@ function navigationState() {
 
 	if (!sameState) {
 		if (anchor) {
-			mediator.callSync('setAnchorAfterStateTransition', stateName, params, anchor)
+			mediator.call('setAnchorAfterStateTransition', stateName, params, anchor)
 		}
 
-		mediator.callSync('stateGo', stateName, params, {
+		mediator.call('stateGo', stateName, params, {
 			replace: haveNavigated
 		})
 

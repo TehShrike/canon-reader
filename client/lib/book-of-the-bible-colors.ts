@@ -1,8 +1,8 @@
 import { adjacent } from 'chromatism2'
 
-const colors = adjacent(-50, 8, '#cfddff').hex
+const colors: string[] = adjacent(-50, 8, '#cfddff').hex
 
-const sections = {
+const sections: Record<string, number> = {
 	'genesis': 0,
 	'exodus': 0,
 	'leviticus': 0,
@@ -71,7 +71,7 @@ const sections = {
 	'revelation': 7,
 }
 
-export default Object.keys(sections).reduce((map, key) => {
-	map[key] = colors[sections[key]]
+export default Object.keys(sections).reduce<Record<string, string>>((map, key) => {
+	map[key] = colors[sections[key]!]!
 	return map
 }, Object.create(null))

@@ -104,8 +104,8 @@
 </style>
 
 <script lang="ts">
-import ReferenceSearchPosition from 'component/ReferenceSearchPosition.svelte'
-import StateLink from 'component/StateLink.svelte'
+import ReferenceSearchPosition from '#component/ReferenceSearchPosition.svelte'
+import StateLink from '#component/StateLink.svelte'
 
 interface Props {
 	mediator: any

@@ -1,8 +1,14 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import referenceParser from './reference-parser.js'
+import referenceParser from './reference-parser.ts'
 
-const cases = [
+interface ParsedReference {
+	bookId: string | null
+	start: { chapter: number | null; verse: number | null; section: string | null }
+	end: { chapter: number | null; verse: number | null; section: string | null }
+}
+
+const cases: Array<[string, ParsedReference]> = [
 	[
 		'rev 13:13', {
 			bookId: 'revelation',

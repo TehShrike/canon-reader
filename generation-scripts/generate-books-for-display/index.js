@@ -1,14 +1,14 @@
 import { join } from 'path'
-import pify from 'pify'
 import books from 'books-of-the-bible'
-import flatMap from '../../client/lib/flat-map.js'
+import flatMap from '../../client/lib/flat-map.ts'
 import makeDir from 'make-dir'
 import { writeFile } from 'fs/promises'
-import { getBookId } from '../../client/lib/get-id.js'
+import { getBookId } from '../../client/lib/get-id.ts'
 import { readFileSync } from 'fs'
 
 const relative = path => join(import.meta.dirname, path)
 const toJson = object => JSON.stringify(object, null, '\t')
+const toTypeScript = object => `export default ${toJson(object)} as const\n`
 import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
@@ -37,7 +37,7 @@ async function main() {
 	})
 
 	await Promise.all(output.map(({ bookWithMarkers, id }) => {
-		writeFile(relative(`../../client/lib/books/${ id }.json`), toJson(bookWithMarkers))
+		writeFile(relative(`../../client/lib/books/${ id }.ts`), toTypeScript(bookWithMarkers))
 	}))
 	console.log(`wrote ${ output.length } books`)
 
@@ -46,8 +46,8 @@ async function main() {
 		return acc
 	}, {})
 
-	await writeFile(relative('../../client/lib/books/chapter-counts.json'), toJson(chapterCounts))
-	console.log('wrote chapter-counts.json')
+	await writeFile(relative('../../client/lib/books/chapter-counts.ts'), toTypeScript(chapterCounts))
+	console.log('wrote chapter-counts.ts')
 }
 
 function loadPickeringRevelation() {

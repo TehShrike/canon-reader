@@ -43,13 +43,15 @@
 </style>
 
 <script lang="ts">
-import ReferenceSearch from 'component/ReferenceSearch.svelte'
-import StateLink from 'component/StateLink.svelte'
+import ReferenceSearch from '#component/ReferenceSearch.svelte'
+import StateLink from '#component/StateLink.svelte'
 import ClickWatcher from 'svelte-panel-click'
 
 interface Position {
-	top: string
-	left: string
+	top: number
+	left: number
+	right: number
+	bottom: number
 }
 
 interface Props {
@@ -65,17 +67,17 @@ let manualPosition = $state<Position | null>(null)
 let removeProviders: () => void
 
 $effect(() => {
-	const provideSync = mediator.provideSync
+	const provide = mediator.provide
 
 	const providerRemovers = [
-		provideSync('position search box', (position: Position) => {
+		provide('position search box', (position: Position) => {
 			console.log('position search box called with', position)
 			manualPosition = position
 		}),
-		provideSync('unposition search box', () => {
+		provide('unposition search box', () => {
 			manualPosition = null
 		}),
-		provideSync('show navigation input', (bookId: string) => {
+		provide('show navigation input', (bookId: string) => {
 			showReferenceSearch = true
 			currentBookId = bookId
 		})
@@ -91,8 +93,8 @@ $effect(() => {
 const searchContainerStyle = $derived(manualPosition
 	? `
 		position: absolute;
-		top: ${manualPosition.top};
-		left: ${manualPosition.left};
+		top: ${manualPosition.top}px;
+		left: ${manualPosition.left}px;
 	`
 	: '')
 

@@ -1,7 +1,10 @@
 # the 2025 modernization
 
-- rollup -> esbuild
-- svelte 2 -> svelte 5
+- types for the mediator
+- convert to TS
+- get the bold chapter working on the right again
+- get the keyboard shortcut working again
+- switch to export maps in the package.json rather than the manual aliases in esbuild.config
 - convert to non-pushstate routing
 - deploy to github pages
 - point domain to github pages

@@ -69,9 +69,9 @@
 
 <script lang="ts">
 import books from 'books-of-the-bible'
-import bookColors from 'lib/book-of-the-bible-colors.js'
-import { getBookId } from 'lib/get-id.js'
-import StateLink from 'component/StateLink.svelte'
+import bookColors from '#lib/book-of-the-bible-colors.ts'
+import { getBookId } from '#lib/get-id.ts'
+import StateLink from '#component/StateLink.svelte'
 
 interface Book {
 	name: string
@@ -95,6 +95,6 @@ const bookNames = $derived(books.map(({ name, aliases }: Book) => {
 }))
 
 function getBookColor(id: string): string {
-	return bookColors[id]
+	return bookColors[id] ?? ''
 }
 </script>

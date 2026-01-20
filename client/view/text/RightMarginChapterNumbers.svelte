@@ -1,7 +1,7 @@
 <ol>
 	{#each chapterNumbersToDisplay as number}
 		<li>
-			{#if displayChapterMatchesCurrent(number)}
+			{#if displayChapterMatchesCurrent(number) && currentChapter !== null}
 				<a href="#{getChapterNumberId(currentChapter)}">
 					<strong>{currentChapter}</strong>
 				</a>
@@ -51,7 +51,7 @@ a {
 </style>
 
 <script lang="ts">
-import { getChapterNumberId } from 'lib/get-id.js'
+import { getChapterNumberId } from '#lib/get-id.ts'
 
 const maxNumberOfChapterToDisplay = 15
 

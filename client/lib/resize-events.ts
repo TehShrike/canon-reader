@@ -1,5 +1,6 @@
+// @ts-expect-error no types available
 import createEmitter from 'better-emitter'
-import browserEvent from './browser-event.js'
+import browserEvent from './browser-event.ts'
 
 const emitter = createEmitter()
 let resizing = false
@@ -25,8 +26,8 @@ export default emitter
 
 
 
-function debounce(fn, ms) {
-	let timeoutId = null
+function debounce(fn: () => void, ms: number): () => void {
+	let timeoutId: ReturnType<typeof setTimeout> | null = null
 
 	return () => {
 		if (timeoutId) {
@@ -39,4 +40,3 @@ function debounce(fn, ms) {
 		}, ms)
 	}
 }
-
