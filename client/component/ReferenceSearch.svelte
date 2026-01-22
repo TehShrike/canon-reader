@@ -16,9 +16,7 @@
 </style>
 
 <script lang="ts">
-import svelteQuerystringRouter from 'svelte-querystring-router'
-const { navigate } = svelteQuerystringRouter
-
+import { navigate } from '#lib/querystring_store.svelte.ts'
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
 import getTargetStateFromReference from '#lib/get-target-state-from-reference.ts'
 

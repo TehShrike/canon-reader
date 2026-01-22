@@ -82,10 +82,9 @@
 
 <script lang="ts">
 import range from 'just-range'
-import svelteQuerystringRouter from 'svelte-querystring-router'
-const { attachQuerystringData, getCurrentParameters } = svelteQuerystringRouter
 
 import StateLink from '#component/StateLink.svelte'
+import { querystring_params } from '#lib/querystring_store.svelte.ts'
 import { getChapterNumberId } from '#lib/get-id.ts'
 import { fromRange } from '#lib/simple-range.ts'
 import TextSectionChildren from './TextSectionChildren.svelte'
@@ -113,7 +112,6 @@ interface Props {
 let { bookName, bookSections, chapterCount }: Props = $props()
 
 let currentChapter = $state<number | null>(null)
-let querystringParameters = $state<Record<string, string>>(getCurrentParameters())
 let textContainer: HTMLElement
 let viewportTopObserver: IntersectionObserver
 
@@ -132,10 +130,6 @@ function observeIntersectionsWithTopOfViewport(elements: NodeListOf<Element>, cb
 }
 
 $effect(() => {
-	const state = { querystringParameters }
-	attachQuerystringData(state)
-	querystringParameters = state.querystringParameters
-
 	const textElements = textContainer?.querySelectorAll('.verse-text')
 	if (textElements) {
 		viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
@@ -157,7 +151,7 @@ $effect(() => {
 })
 
 const chapterNumbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
-const highlightedRange = $derived(querystringParameters.highlight
-	? fromRange(querystringParameters.highlight)
+const highlightedRange = $derived(querystring_params.params.highlight
+	? fromRange(querystring_params.params.highlight)
 	: undefined)
 </script>

@@ -1,16 +1,3 @@
-declare module 'svelte-querystring-router' {
-	interface NavigateOptions {
-		parameters?: Record<string, string | undefined>
-		replace?: boolean
-	}
-	const router: {
-		navigate: (options: NavigateOptions) => void
-		attachQuerystringData: <T>(component: T) => T
-		getCurrentParameters: () => Record<string, string>
-	}
-	export default router
-}
-
 declare module 'click-should-be-intercepted-for-navigation' {
 	export default function shouldInterceptClick(event: MouseEvent): boolean
 }
