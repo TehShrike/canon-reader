@@ -47,18 +47,22 @@ function getBookColor(id: string): string {
 
 <style>
 .book-names {
-	padding: 4px;
+	margin: 4px;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
 	font-family: sans-serif;
+	border-top: 1px solid gray;
+	border-left: 1px solid gray;
 }
 
 .book {
 	height: 15vw;
 	flex-basis: 25%;
 	white-space: nowrap;
-	outline: 1px solid grey;
+	box-sizing: border-box;
+	border-bottom: 1px solid gray;
+	border-right: 1px solid gray;
 }
 
 .book :global(a) {
