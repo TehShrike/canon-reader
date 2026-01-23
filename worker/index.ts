@@ -19,6 +19,6 @@ export default {
 		}
 
 		const indexUrl = new URL('/index.html', url.origin)
-		return env.ASSETS.fetch(indexUrl, request)
+		return env.ASSETS.fetch(indexUrl)
 	},
 }
