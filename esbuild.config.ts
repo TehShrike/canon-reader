@@ -7,7 +7,7 @@ const is_dev = process.argv.includes('--dev') || is_watch
 const build_options: BuildOptions = {
 	entryPoints: ['client/index.ts'],
 	bundle: true,
-	outfile: 'public/build/index-bundle.js',
+	outfile: 'build/build/index-bundle.js',
 	format: 'iife',
 	target: ['esnext'],
 	sourcemap: true,

@@ -10,21 +10,29 @@
 	"scripts": {
 		"ci:test": "npm t",
 		"prep-build": "run-p glob generate:*",
-		"build": "npm-run-all prep-build --parallel build:*",
+		"copy:public": "node copy_public_to_build.ts",
+		"build": "npm-run-all prep-build copy:public --parallel build:*",
 		"build:js": "node esbuild.config.ts",
+		"build:worker": "node esbuild.worker.ts",
 		"watch:js": "node esbuild.config.ts --watch",
 		"watch:glob": "watch \"npm run glob\" client/service client/view",
 		"generate:books": "node generation-scripts/generate-books-for-display/index.js",
 		"glob": "run-p glob:*",
 		"glob:services": "glob-module-file --pattern=\"client/service/**/*.ts\" --format=es --pathPrefix=../ --outputPath=client/globbed-services.ts",
 		"glob:views": "glob-module-file --pattern=\"client/view/**/*.ts\" --format=es --pathPrefix=../ --outputPath=client/globbed-views.ts",
-		"serve": "live-server --no-css-inject public",
-		"dev": "cross-env NODE_ENV=development npm-run-all prep-build --parallel watch:* serve",
+		"dev:worker:build": "node esbuild.worker.ts --watch",
+		"dev:worker:serve": "wrangler pages dev build --port=8788",
+		"dev:worker": "run-p dev:worker:*",
+		"dev:setup_local_wrangler": "node setup_local_wrangler.ts",
+		"dev:open_browser": "open http://localhost:8788",
+		"dev": "cross-env NODE_ENV=development npm-run-all prep-build copy:public --parallel watch:* dev:worker:serve",
 		"test": "run-p test:*",
 		"test:types:svelte": "svelte-check --no-tsconfig --fail-on-warnings",
 		"test:types:everything_else": "tsc --noEmit",
+		"test:types:worker": "tsc -p worker --noEmit",
 		"test:types": "run-s -c test:types:*",
-		"test:unit": "node --test --test-reporter=tap --test-name-pattern=\"client/.*/.*-test.ts\""
+		"test:unit": "node --test --test-reporter=tap --test-name-pattern=\"client/.*/.*-test.ts\"",
+		"regenerate_worker_types": "wrangler types ./worker/worker_types.d.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -50,7 +58,8 @@
 		"live-server": "^1.2.2",
 		"svelte-check": "^4.3.4",
 		"typescript": "^5.7.2",
-		"watch": "1.0.2"
+		"watch": "1.0.2",
+		"wrangler": "^4.60.0"
 	},
 	"dependencies": {
 		"abstract-state-router": "^8.0.4",

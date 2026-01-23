@@ -2,7 +2,9 @@ node_modules
 .reify-cache
 stats.html
 
-public/build
+build/
+.wrangler/
+worker/worker_types.d.ts
 
 client/globbed-*.js
 client/lib/books
