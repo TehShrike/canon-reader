@@ -2,6 +2,7 @@ import parseReference from '#lib/reference-parser.ts'
 import { getChapterNumberId, getChapterVerseId } from '#lib/get-id.ts'
 import validateVerseRange from '#lib/validate-verse-range.ts'
 import { toRange } from '#lib/simple-range.ts'
+import formatReferenceDisplay from '#lib/format-reference-display.ts'
 
 interface TargetState {
 	stateName: string
@@ -10,6 +11,7 @@ interface TargetState {
 		highlight?: string
 	}
 	anchor: string | null
+	displayText: string
 }
 
 export default (referenceString: string, defaultBookId?: string): TargetState | undefined => {
@@ -33,11 +35,13 @@ export default (referenceString: string, defaultBookId?: string): TargetState | 
 		}
 
 		const anchor = getAnchor(start.chapter, start.verse)
+		const displayText = formatReferenceDisplay(bookId, start, end)
 
 		return {
 			stateName,
 			params,
 			anchor,
+			displayText,
 		}
 	}
 }

@@ -46,10 +46,8 @@ stateRouter.on(`routeNotFound`, (route: string, parameters: Record<string, unkno
 	stateRouter.go(`main.not-found`, Object.assign({ route }, parameters), { replace: true })
 })
 
-stateRouter.on(`stateChangeStart`, (state: { name: string }, params: unknown) => console.log(`stateChangeStart`, state.name, params))
 stateRouter.on(`stateChangeError`, (error: unknown) => console.error(error))
 stateRouter.on(`stateError`, (error: unknown) => console.error(error))
-stateRouter.on(`stateChangeEnd`, (state: { name: string }, params: unknown) => console.log(`stateChangeEnd`, state.name, params))
 
 Promise.all(moduleInitializationPromises).then(() => {
 	stateRouter.evaluateCurrentRoute(`main`)
