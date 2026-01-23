@@ -1,3 +1,35 @@
+<script lang="ts">
+import books from 'books-of-the-bible'
+import bookColors from '#lib/book-of-the-bible-colors.ts'
+import { getBookId } from '#lib/get-id.ts'
+import StateLink from '#component/StateLink.svelte'
+
+interface Book {
+	name: string
+	aliases: string[]
+}
+
+interface BookName {
+	full: string
+	short: string
+	id: string
+}
+
+const bookNames = $derived(books.map(({ name, aliases }: Book) => {
+	const useFirstAliasForShort = name.length > 5 && aliases[0]
+
+	return {
+		full: name,
+		short: useFirstAliasForShort ? aliases[0] : name,
+		id: getBookId(name)
+	}
+}))
+
+function getBookColor(id: string): string {
+	return bookColors[id] ?? ''
+}
+</script>
+
 <div class="book-names">
 	{#each bookNames as name}
 		<div class="book" style="background-color: {getBookColor(name.id)}">
@@ -66,35 +98,3 @@
 	}
 }
 </style>
-
-<script lang="ts">
-import books from 'books-of-the-bible'
-import bookColors from '#lib/book-of-the-bible-colors.ts'
-import { getBookId } from '#lib/get-id.ts'
-import StateLink from '#component/StateLink.svelte'
-
-interface Book {
-	name: string
-	aliases: string[]
-}
-
-interface BookName {
-	full: string
-	short: string
-	id: string
-}
-
-const bookNames = $derived(books.map(({ name, aliases }: Book) => {
-	const useFirstAliasForShort = name.length > 5 && aliases[0]
-
-	return {
-		full: name,
-		short: useFirstAliasForShort ? aliases[0] : name,
-		id: getBookId(name)
-	}
-}))
-
-function getBookColor(id: string): string {
-	return bookColors[id] ?? ''
-}
-</script>

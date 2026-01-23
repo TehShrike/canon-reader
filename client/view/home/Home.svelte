@@ -1,3 +1,14 @@
+<script lang="ts">
+import ReferenceSearchPosition from '#component/ReferenceSearchPosition.svelte'
+import StateLink from '#component/StateLink.svelte'
+
+interface Props {
+	mediator: any
+}
+
+let { mediator }: Props = $props()
+</script>
+
 <div class="container">
 	<h1>Canon Reader</h1>
 	<p>
@@ -102,14 +113,3 @@
 	border-radius: 5px;
 }
 </style>
-
-<script lang="ts">
-import ReferenceSearchPosition from '#component/ReferenceSearchPosition.svelte'
-import StateLink from '#component/StateLink.svelte'
-
-interface Props {
-	mediator: any
-}
-
-let { mediator }: Props = $props()
-</script>

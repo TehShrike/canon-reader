@@ -1,3 +1,25 @@
+<script lang="ts">
+import { getChapterNumberId } from '#lib/get-id.ts'
+
+const maxNumberOfChapterToDisplay = 15
+
+interface Props {
+	chapterNumbers: number[]
+	currentChapter: number | null
+}
+
+let { chapterNumbers, currentChapter }: Props = $props()
+
+const chapterCount = $derived(chapterNumbers.length)
+const chapterModulusToUse = $derived(Math.ceil(chapterCount / maxNumberOfChapterToDisplay))
+const chapterNumbersToDisplay = $derived(chapterNumbers.filter(number =>
+	(number - 1) % chapterModulusToUse === 0
+))
+const displayChapterMatchesCurrent = $derived((displayChapter: number) => currentChapter
+	&& currentChapter >= displayChapter
+	&& currentChapter < (displayChapter + chapterModulusToUse))
+</script>
+
 <ol>
 	{#each chapterNumbersToDisplay as number}
 		<li>
@@ -49,25 +71,3 @@ a {
 	align-items: center;
 }
 </style>
-
-<script lang="ts">
-import { getChapterNumberId } from '#lib/get-id.ts'
-
-const maxNumberOfChapterToDisplay = 15
-
-interface Props {
-	chapterNumbers: number[]
-	currentChapter: number | null
-}
-
-let { chapterNumbers, currentChapter }: Props = $props()
-
-const chapterCount = $derived(chapterNumbers.length)
-const chapterModulusToUse = $derived(Math.ceil(chapterCount / maxNumberOfChapterToDisplay))
-const chapterNumbersToDisplay = $derived(chapterNumbers.filter(number =>
-	(number - 1) % chapterModulusToUse === 0
-))
-const displayChapterMatchesCurrent = $derived((displayChapter: number) => currentChapter
-	&& currentChapter >= displayChapter
-	&& currentChapter < (displayChapter + chapterModulusToUse))
-</script>

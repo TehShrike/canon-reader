@@ -1,3 +1,14 @@
+<script lang="ts">
+import StateLink from '#component/StateLink.svelte'
+
+interface Props {
+	route?: string
+	parameters?: Record<string, string>
+}
+
+let { route, parameters }: Props = $props()
+</script>
+
 <div class="container">
 	<h1>
 		Not Found
@@ -18,14 +29,3 @@
 	padding-bottom: var(--default-padding);
 }
 </style>
-
-<script lang="ts">
-import StateLink from '#component/StateLink.svelte'
-
-interface Props {
-	route?: string
-	parameters?: Record<string, string>
-}
-
-let { route, parameters }: Props = $props()
-</script>

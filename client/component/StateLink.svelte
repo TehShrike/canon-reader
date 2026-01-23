@@ -1,12 +1,3 @@
-<a
-	href={href}
-	data-active={stateIsActive(state, params)}
-	onclick={navigate}
-	class={className}
->
-	{@render children()}
-</a>
-
 <script lang="ts">
 import type { Snippet } from 'svelte'
 import shouldInterceptClick from 'click-should-be-intercepted-for-navigation'
@@ -63,3 +54,12 @@ function navigate(event: MouseEvent) {
 	}
 }
 </script>
+
+<a
+	href={href}
+	data-active={stateIsActive(state, params)}
+	onclick={navigate}
+	class={className}
+>
+	{@render children()}
+</a>

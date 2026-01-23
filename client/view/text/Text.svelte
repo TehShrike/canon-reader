@@ -1,3 +1,79 @@
+<script lang="ts">
+import range from 'just-range'
+
+import StateLink from '#component/StateLink.svelte'
+import { querystring_params } from '#lib/querystring_store.svelte.ts'
+import { getChapterNumberId } from '#lib/get-id.ts'
+import { fromRange } from '#lib/simple-range.ts'
+import TextSectionChildren from './TextSectionChildren.svelte'
+import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
+
+interface TextChunk {
+	type: 'chapter number' | 'verse number' | 'line break' | 'text'
+	value: string | number
+	chapterNumber?: number
+	verseNumber?: number
+}
+
+interface BookSection {
+	type: 'header' | 'break' | 'paragraph' | 'stanza'
+	value?: string
+	children?: TextChunk[]
+}
+
+interface Props {
+	bookName: string
+	bookSections: BookSection[]
+	chapterCount: number
+}
+
+let { bookName, bookSections, chapterCount }: Props = $props()
+
+let currentChapter = $state<number | null>(null)
+let textContainer: HTMLElement
+let viewportTopObserver: IntersectionObserver
+
+function observeIntersectionsWithTopOfViewport(elements: NodeListOf<Element>, cb: (entries: IntersectionObserverEntry[]) => void) {
+	const observer = new IntersectionObserver(entries => {
+		const intersectingEntries = entries.filter(entry => entry.isIntersecting)
+		cb(intersectingEntries)
+	}, {
+		rootMargin: '0px 0px -95%',
+		threshold: 0.1
+	})
+
+	Array.from(elements).forEach(element => observer.observe(element))
+
+	return observer
+}
+
+$effect(() => {
+	const textElements = textContainer?.querySelectorAll('.verse-text')
+	if (textElements) {
+		viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
+			const chapter = entries.reduce((current, entry) => {
+				const data = (entry.target as HTMLElement).dataset
+				const entryChapter = parseInt(data.chapterNumber || '0', 10)
+				return Math.max(current, entryChapter)
+			}, 0)
+
+			if (chapter) {
+				currentChapter = chapter
+			}
+		})
+	}
+
+	return () => {
+		viewportTopObserver?.disconnect()
+	}
+})
+
+const chapterNumbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
+const highlightedRange = $derived(querystring_params.params.highlight
+	? fromRange(querystring_params.params.highlight)
+	: undefined)
+</script>
+
 <svelte:head>
 	<title>{bookName}</title>
 </svelte:head>
@@ -79,79 +155,3 @@
 	margin-right: var(--gutter-size);
 }
 </style>
-
-<script lang="ts">
-import range from 'just-range'
-
-import StateLink from '#component/StateLink.svelte'
-import { querystring_params } from '#lib/querystring_store.svelte.ts'
-import { getChapterNumberId } from '#lib/get-id.ts'
-import { fromRange } from '#lib/simple-range.ts'
-import TextSectionChildren from './TextSectionChildren.svelte'
-import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
-
-interface TextChunk {
-	type: 'chapter number' | 'verse number' | 'line break' | 'text'
-	value: string | number
-	chapterNumber?: number
-	verseNumber?: number
-}
-
-interface BookSection {
-	type: 'header' | 'break' | 'paragraph' | 'stanza'
-	value?: string
-	children?: TextChunk[]
-}
-
-interface Props {
-	bookName: string
-	bookSections: BookSection[]
-	chapterCount: number
-}
-
-let { bookName, bookSections, chapterCount }: Props = $props()
-
-let currentChapter = $state<number | null>(null)
-let textContainer: HTMLElement
-let viewportTopObserver: IntersectionObserver
-
-function observeIntersectionsWithTopOfViewport(elements: NodeListOf<Element>, cb: (entries: IntersectionObserverEntry[]) => void) {
-	const observer = new IntersectionObserver(entries => {
-		const intersectingEntries = entries.filter(entry => entry.isIntersecting)
-		cb(intersectingEntries)
-	}, {
-		rootMargin: '0px 0px -95%',
-		threshold: 0.1
-	})
-
-	Array.from(elements).forEach(element => observer.observe(element))
-
-	return observer
-}
-
-$effect(() => {
-	const textElements = textContainer?.querySelectorAll('.verse-text')
-	if (textElements) {
-		viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
-			const chapter = entries.reduce((current, entry) => {
-				const data = (entry.target as HTMLElement).dataset
-				const entryChapter = parseInt(data.chapterNumber || '0', 10)
-				return Math.max(current, entryChapter)
-			}, 0)
-
-			if (chapter) {
-				currentChapter = chapter
-			}
-		})
-	}
-
-	return () => {
-		viewportTopObserver?.disconnect()
-	}
-})
-
-const chapterNumbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
-const highlightedRange = $derived(querystring_params.params.highlight
-	? fromRange(querystring_params.params.highlight)
-	: undefined)
-</script>

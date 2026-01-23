@@ -1,13 +1,3 @@
-<div bind:this={container} class="wat">
-	<ReferenceSearchInput />
-</div>
-
-<style>
-.wat {
-	visibility: hidden;
-}
-</style>
-
 <script lang="ts">
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
 
@@ -33,3 +23,13 @@ $effect(() => {
 	}
 })
 </script>
+
+<div bind:this={container} class="wat">
+	<ReferenceSearchInput />
+</div>
+
+<style>
+.wat {
+	visibility: hidden;
+}
+</style>

@@ -1,3 +1,21 @@
+<script lang="ts">
+const reallyBig = 1000
+
+interface Props {
+	number: number
+	id: string
+	emphasized?: boolean
+	hidden?: boolean
+}
+
+let { number, id, emphasized = false, hidden = false }: Props = $props()
+let placeholder: HTMLElement
+
+const zIndex = $derived(emphasized
+	? reallyBig + number
+	: reallyBig - number)
+</script>
+
 <div class="placeholder" bind:this={placeholder}>
 	<!-- &#8203; -->
 	<div
@@ -43,21 +61,3 @@
 	display: none;
 }
 </style>
-
-<script lang="ts">
-const reallyBig = 1000
-
-interface Props {
-	number: number
-	id: string
-	emphasized?: boolean
-	hidden?: boolean
-}
-
-let { number, id, emphasized = false, hidden = false }: Props = $props()
-let placeholder: HTMLElement
-
-const zIndex = $derived(emphasized
-	? reallyBig + number
-	: reallyBig - number)
-</script>

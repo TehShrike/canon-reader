@@ -1,45 +1,3 @@
-<svelte:head>
-	<title>Canon Reader</title>
-</svelte:head>
-
-<uiView></uiView>
-
-<div class="footer">
-	<StateLink state="main">Home</StateLink>
-</div>
-
-{#if showReferenceSearch}
-<ClickOutside onclickoutside={onClickOutsideSearch}>
-	<div class="search-container" style={searchContainerStyle}>
-		<ReferenceSearch
-			bind:show={showReferenceSearch}
-			{mediator}
-			{currentBookId}
-			autofocus={true}
-		/>
-	</div>
-</ClickOutside>
-{/if}
-
-<style>
-.search-container {
-	position: fixed;
-	bottom: 96px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-}
-
-.footer {
-	display: flex;
-	padding-top: 8px;
-	padding-bottom: 8px;
-	padding-left: var(--default-padding);
-	padding-right: var(--default-padding);
-}
-</style>
-
 <script lang="ts">
 import ReferenceSearch from '#component/ReferenceSearch.svelte'
 import StateLink from '#component/StateLink.svelte'
@@ -100,3 +58,45 @@ function onClickOutsideSearch() {
 	showReferenceSearch = false
 }
 </script>
+
+<svelte:head>
+	<title>Canon Reader</title>
+</svelte:head>
+
+<uiView></uiView>
+
+<div class="footer">
+	<StateLink state="main">Home</StateLink>
+</div>
+
+{#if showReferenceSearch}
+<ClickOutside onclickoutside={onClickOutsideSearch}>
+	<div class="search-container" style={searchContainerStyle}>
+		<ReferenceSearch
+			bind:show={showReferenceSearch}
+			{mediator}
+			{currentBookId}
+			autofocus={true}
+		/>
+	</div>
+</ClickOutside>
+{/if}
+
+<style>
+.search-container {
+	position: fixed;
+	bottom: 96px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.footer {
+	display: flex;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: var(--default-padding);
+	padding-right: var(--default-padding);
+}
+</style>

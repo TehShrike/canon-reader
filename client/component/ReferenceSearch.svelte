@@ -1,20 +1,3 @@
-<div class="background-border">
-	<ReferenceSearchInput
-		onsubmit={handleSubmit}
-		onescape={cancel}
-		bind:value={inputValue}
-		{autofocus}
-	/>
-</div>
-
-<style>
-.background-border {
-	padding: 16px;
-	background-color: var(--gray);
-	border-radius: 8px;
-}
-</style>
-
 <script lang="ts">
 import { navigate } from '#lib/querystring_store.svelte.ts'
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
@@ -114,3 +97,20 @@ function handleSubmit() {
 	show = false
 }
 </script>
+
+<div class="background-border">
+	<ReferenceSearchInput
+		onsubmit={handleSubmit}
+		onescape={cancel}
+		bind:value={inputValue}
+		{autofocus}
+	/>
+</div>
+
+<style>
+.background-border {
+	padding: 16px;
+	background-color: var(--gray);
+	border-radius: 8px;
+}
+</style>
