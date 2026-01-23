@@ -9,9 +9,7 @@
 </div>
 
 {#if showReferenceSearch}
-<ClickWatcher
-	on:clickExternal={onClickOutsideSearch}
->
+<ClickOutside onclickoutside={onClickOutsideSearch}>
 	<div class="search-container" style={searchContainerStyle}>
 		<ReferenceSearch
 			bind:show={showReferenceSearch}
@@ -20,7 +18,7 @@
 			autofocus={true}
 		/>
 	</div>
-</ClickWatcher>
+</ClickOutside>
 {/if}
 
 <style>
@@ -45,7 +43,7 @@
 <script lang="ts">
 import ReferenceSearch from '#component/ReferenceSearch.svelte'
 import StateLink from '#component/StateLink.svelte'
-import ClickWatcher from 'svelte-panel-click'
+import ClickOutside from '#lib/ClickOutside.svelte'
 
 interface Position {
 	top: number

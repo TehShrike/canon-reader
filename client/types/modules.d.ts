@@ -2,14 +2,6 @@ declare module 'click-should-be-intercepted-for-navigation' {
 	export default function shouldInterceptClick(event: MouseEvent): boolean
 }
 
-declare module 'svelte-panel-click' {
-	import type { SvelteComponent } from 'svelte'
-	export default class ClickWatcher extends SvelteComponent<
-		Record<string, never>,
-		{ clickExternal: CustomEvent }
-	> {}
-}
-
 declare module 'just-range' {
 	export default function range(start: number, end?: number): number[]
 }
