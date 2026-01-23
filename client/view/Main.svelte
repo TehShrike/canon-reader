@@ -2,6 +2,7 @@
 import ReferenceSearch from '#component/ReferenceSearch.svelte'
 import StateLink from '#component/StateLink.svelte'
 import ClickOutside from '#lib/ClickOutside.svelte'
+import type { TypedMediator } from '#lib/mediator-instance.ts'
 
 interface Position {
 	top: number
@@ -11,7 +12,7 @@ interface Position {
 }
 
 interface Props {
-	mediator: any
+	mediator: TypedMediator
 }
 
 let { mediator }: Props = $props()
@@ -33,9 +34,9 @@ $effect(() => {
 		provide('unposition search box', () => {
 			manualPosition = null
 		}),
-		provide('show navigation input', (bookId: string) => {
+		provide('show navigation input', (bookId: string | null) => {
 			showReferenceSearch = true
-			currentBookId = bookId
+			currentBookId = bookId ?? undefined
 		})
 	]
 

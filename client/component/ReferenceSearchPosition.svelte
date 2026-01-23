@@ -1,8 +1,9 @@
 <script lang="ts">
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
+import type { TypedMediator } from '#lib/mediator-instance.ts'
 
 interface Props {
-	mediator: any
+	mediator: TypedMediator
 }
 
 let { mediator }: Props = $props()

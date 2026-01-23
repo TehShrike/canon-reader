@@ -1,9 +1,10 @@
 <script lang="ts">
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
 import getTargetStateFromReference from '#lib/get-target-state-from-reference.ts'
+import type { TypedMediator } from '#lib/mediator-instance.ts'
 
 interface Props {
-	mediator: any
+	mediator: TypedMediator
 	currentBookId?: string | undefined
 	show?: boolean
 	autofocus?: boolean
