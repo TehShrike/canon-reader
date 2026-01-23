@@ -1,0 +1,43 @@
+button:not(:disabled), .button:not(:disabled) {
+	cursor: pointer;
+}
+
+button, .button {
+	text-transform: none;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	font-weight: 400;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	user-select: none;
+	border: 1px solid transparent;
+	padding: 16px;
+	line-height: 1.5;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+	margin: 0;
+	font-family: var(--sans-serif);
+}
+
+button:hover, .button:hover {
+	border: 1px solid transparent;
+}
+
+.button-primary {
+	color: var(--white);
+	background-color: var(--blue);
+	border-color: var(--blue);
+}
+.button-primary:visited {
+	color: var(--white);
+}
+.button-primary:hover {
+	color: var(--white);
+	background-color: var(--blue-darkened);
+	border-color: var(--blue-darkened);
+}

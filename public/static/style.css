@@ -1,0 +1,130 @@
+/* Heavily stolen from http://pixyll.com/ */
+
+:root {
+	--black: #333;
+	--white: #fafafa;
+	--gray: #717171;
+	--background-yellow: #ffffcc;
+
+	--blue: #034DFF;
+	--blue-darkened: #02277F;
+	--blue-lightened: #5083FF;
+
+	--sans-serif: "Lato", "Helvetica Neue", Helvetica, sans-serif;
+	--serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", serif;
+
+	--gutter-size: 32px;
+
+	--default-padding: .5rem;
+
+	@media screen and (min-width: 600px) {
+		--default-padding: 1rem;
+
+		body {
+			font-size: 1.1rem;
+		}
+		blockquote {
+			margin-left: 1rem;
+		}
+	}
+
+	@media screen and (min-width: 1000px) {
+		--default-padding: 2rem;
+
+		body {
+			font-size: 1.2rem;
+		}
+	}
+}
+
+html {
+	font-size: 16px;
+}
+
+body {
+	width: 100%;
+	color: var(--black);
+	background-color: var(--white);
+	font-family: var(--serif);
+	line-height: 1.5;
+	margin: 0;
+}
+
+a {
+  color: #0076df;
+  text-decoration: none;
+}
+
+a:visited {
+	color: #00488a;
+}
+
+a:hover, a:focus, a:active {
+	border: 0;
+	color: #000a13;
+}
+
+hr {
+	border: 0;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #ccc;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+h1 {
+	font-size: 2.5rem;
+}
+
+h2 {
+	font-size: 2rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+}
+
+h4 {
+	font-size: 1rem;
+}
+
+h5 {
+	font-size: 0.875rem;
+}
+
+h6 {
+	font-size: 0.75rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--sans-serif);
+	font-weight: 900;
+	line-height: 1.25;
+	margin-top: 1em;
+	margin-bottom: .5em;
+}
+
+p, dl, ol, ul {
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
+
+ol, ul {
+	padding-left: 2rem;
+}
+
+li {
+	padding-top: .3em;
+	padding-bottom: .3em;
+}
+
+blockquote {
+	margin: 2rem .5rem;
+	padding-left: .5rem;
+	padding-right: .5rem;
+}
+
+blockquote, blockquote p {
+	font-style: italic;
+}

@@ -1,0 +1,31 @@
+{
+  "include": ["client/**/*.ts", "client/**/*.svelte"],
+  "exclude": ["node_modules/**", "public/**"],
+  "compilerOptions": {
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
+    "types": ["node", "svelte"],
+    "paths": {
+      "#lib/*": ["./client/lib/*"],
+      "#component/*": ["./client/component/*"]
+    },
+
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  }
+}

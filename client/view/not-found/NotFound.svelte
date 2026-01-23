@@ -1,0 +1,31 @@
+<script lang="ts">
+import StateLink from '#component/StateLink.svelte'
+
+interface Props {
+	route?: string
+	parameters?: Record<string, string>
+}
+
+let { route, parameters }: Props = $props()
+</script>
+
+<div class="container">
+	<h1>
+		Not Found
+	</h1>
+	{#if route}
+		<p>No route for {route}</p>
+	{/if}
+	<p>
+		<StateLink state="main.home">Home</StateLink>
+	</p>
+</div>
+
+<style>
+.container {
+	padding-left: var(--default-padding);
+	padding-right: var(--default-padding);
+	padding-top: var(--default-padding);
+	padding-bottom: var(--default-padding);
+}
+</style>

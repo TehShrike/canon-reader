@@ -1,3 +1,11 @@
+# the 2025 modernization
+
+- convert to non-pushstate routing
+- deploy to CF Pages
+- point domain to CF Pages
+- destroy the lambda and any other AWS resources
+- types for the mediator
+
 # Should be pretty useful
 
 - PK commentary

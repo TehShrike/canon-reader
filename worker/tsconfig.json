@@ -1,0 +1,9 @@
+{
+	"extends": "../tsconfig.json",
+	"include": ["./**/*.ts"],
+	"compilerOptions": {
+		"lib": ["esnext"],
+		"types": ["./worker_types.d.ts"],
+		"exactOptionalPropertyTypes": false
+	}
+}
