@@ -1,14 +1,10 @@
 # the 2025 modernization
 
-- types for the mediator
-- convert to TS
-- get the bold chapter working on the right again
-- get the keyboard shortcut working again
-- switch to export maps in the package.json rather than the manual aliases in esbuild.config
 - convert to non-pushstate routing
-- deploy to github pages
-- point domain to github pages
+- deploy to CF Pages
+- point domain to CF Pages
 - destroy the lambda and any other AWS resources
+- types for the mediator
 
 # Should be pretty useful
 
