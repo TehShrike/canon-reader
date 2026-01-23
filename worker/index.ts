@@ -1,13 +1,17 @@
 interface Env {
 	ASSETS: Fetcher
+	ENVIRONMENT?: string
 }
+
+const DISALLOW_ROBOTS = 'User-agent: *\nDisallow: /\n'
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		const url = new URL(request.url)
 
 		if (url.pathname === '/robots.txt') {
-			return new Response('', { headers: { 'Content-Type': 'text/plain' } })
+			const content = env.ENVIRONMENT === 'production' ? '' : DISALLOW_ROBOTS
+			return new Response(content, { headers: { 'Content-Type': 'text/plain' } })
 		}
 
 		if (url.pathname.startsWith('/static/') || url.pathname.startsWith('/build/')) {
