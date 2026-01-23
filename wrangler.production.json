@@ -1,8 +1,5 @@
 {
 	"name": "canon-reader",
 	"pages_build_output_dir": "build",
-	"compatibility_date": "2024-11-01",
-	"vars": {
-		"ENVIRONMENT": "production"
-	}
+	"compatibility_date": "2024-11-01"
 }

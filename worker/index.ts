@@ -1,6 +1,5 @@
 interface Env {
 	ASSETS: Fetcher
-	ENVIRONMENT?: string
 }
 
 const DISALLOW_ROBOTS = 'User-agent: *\nDisallow: /\n'
@@ -8,9 +7,10 @@ const DISALLOW_ROBOTS = 'User-agent: *\nDisallow: /\n'
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
 		const url = new URL(request.url)
+		const isProduction = url.hostname === 'canonreader.com'
 
 		if (url.pathname === '/robots.txt') {
-			const content = env.ENVIRONMENT === 'production' ? '' : DISALLOW_ROBOTS
+			const content = isProduction ? '' : DISALLOW_ROBOTS
 			return new Response(content, { headers: { 'Content-Type': 'text/plain' } })
 		}
 
