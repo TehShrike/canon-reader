@@ -4,6 +4,7 @@ stats.html
 
 build/
 .wrangler/
+.dev.vars
 worker/worker_types.d.ts
 
 client/globbed-*.js
