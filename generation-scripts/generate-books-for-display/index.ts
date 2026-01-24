@@ -12,6 +12,7 @@ const require = createRequire(import.meta.url)
 
 const relative = (path: string) => join(import.meta.dirname, path)
 const toJson = (object: unknown) => JSON.stringify(object, null, '\t')
+const toBookTypeScript = (object: unknown) => `import type { Book } from '#lib/book_types.ts'\n\nconst book: Book = ${toJson(object)}\n\nexport default book\n`
 const toTypeScript = (object: unknown) => `export default ${toJson(object)} as const\n`
 
 // Input types from world-english-bible and revelation packages
@@ -73,7 +74,7 @@ async function main() {
 	}))
 
 	await Promise.all(output.map(({ book_with_markers, id }) => {
-		return writeFile(relative(`../../lib/books/${id}.ts`), toTypeScript(book_with_markers))
+		return writeFile(relative(`../../lib/books/${id}.ts`), toBookTypeScript(book_with_markers))
 	}))
 	console.log(`wrote ${output.length} books`)
 

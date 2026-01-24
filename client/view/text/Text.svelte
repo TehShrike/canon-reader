@@ -1,20 +1,23 @@
 <script lang="ts">
 import range from 'just-range'
 
-import StateLink from '#component/StateLink.svelte'
 import BookSections from '#component/BookSections.svelte'
+import StickyFooter from '#component/StickyFooter.svelte'
 import { querystring_params } from '#lib/querystring_store.svelte.ts'
 import { from_range } from '#lib/simple_range.ts'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
 import type { BookSection } from '#lib/book_types.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Props {
+	mediator: TypedMediator
+	book_id: string
 	book_name: string
 	book_sections: BookSection[]
 	chapter_count: number
 }
 
-let { book_name, book_sections, chapter_count }: Props = $props()
+let { mediator, book_id, book_name, book_sections, chapter_count }: Props = $props()
 
 let current_chapter = $state<number | null>(null)
 let text_container: HTMLElement
@@ -77,33 +80,9 @@ const highlighted_range = $derived(querystring_params.params.highlight
 
 <RightMarginChapterNumbers {chapter_numbers} {current_chapter} />
 
-<div class="sticky_footer">
-	<div class="book_notch">
-		<StateLink state="main.book-selection" class_name="bigger_link">Books</StateLink>
-	</div>
-</div>
+<StickyFooter {mediator} current_book_id={book_id} />
 
 <style>
-.sticky_footer {
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	display: flex;
-	justify-content: center;
-}
-
-.book_notch {
-	background-color: var(--blue-darkened);
-	display: flex;
-	clip-path: polygon(0 100%, 25% 0, 75% 0, 100% 100%);
-}
-
-.book_notch :global(a) {
-	padding: 4px 48px;
-	color: var(--white);
-}
-
 .book_name_header {
 	text-align: center;
 }
@@ -113,11 +92,6 @@ const highlighted_range = $derived(querystring_params.params.highlight
 	padding-right: var(--default-padding);
 	padding-top: var(--default-padding);
 	padding-bottom: var(--default-padding);
-}
-
-:global(.bigger_link) {
-	font-size: x-large;
-	font-family: sans-serif;
 }
 
 .text_container {

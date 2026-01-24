@@ -1,7 +1,9 @@
 <script lang="ts">
 import StateLink from '#component/StateLink.svelte'
 import BookSections from '#component/BookSections.svelte'
+import StickyFooter from '#component/StickyFooter.svelte'
 import type { BookSection } from '#lib/book_types.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Result {
 	reference: string
@@ -16,11 +18,12 @@ interface Result {
 }
 
 interface Props {
+	mediator: TypedMediator
 	query: string
 	results: Result[]
 }
 
-let { query, results }: Props = $props()
+let { mediator, query, results }: Props = $props()
 
 const sorted_results = $derived(
 	[...results].sort((a, b) => b.match_quality - a.match_quality)
@@ -68,6 +71,8 @@ $inspect(sorted_results)
 		{/each}
 	{/if}
 </div>
+
+<StickyFooter {mediator} />
 
 <style>
 .container {

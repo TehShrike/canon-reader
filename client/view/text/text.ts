@@ -20,6 +20,8 @@ export default (mediator: TypedMediator): State => ({
 		assert(book, `No book found for id: ${book_id}`)
 
 		return Promise.resolve({
+			mediator,
+			book_id,
 			book_sections,
 			book_name: book.name,
 			chapter_count: (chapterCounts as Record<string, number>)[book_id]!,

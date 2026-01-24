@@ -80,7 +80,7 @@ function extract_sections_for_range(
 	return filter_book_to_range(book_sections, in_range)
 }
 
-export default (_mediator: TypedMediator): State => ({
+export default (mediator: TypedMediator): State => ({
 	name: `main.verse-lookup`,
 	route: `verse-lookup`,
 	querystringParameters: ['q'],
@@ -123,6 +123,7 @@ export default (_mediator: TypedMediator): State => ({
 		assert(results_with_sections.length === resolved_results.length, `Some results had no matching sections`)
 
 		return {
+			mediator,
 			query,
 			results: results_with_sections,
 		}
