@@ -28,14 +28,10 @@ const href = $derived(path + hash_fragment)
 let cancel_listener: () => void
 
 $effect(() => {
-	cancel_listener = mediator.call(
-		'on_state_router',
-		'stateChangeEnd',
-		() => {
-			// Force reactivity update
-			state_is_active(state, params)
-		}
-	)
+	cancel_listener = mediator.call('on_state_change_end', () => {
+		// Force reactivity update
+		state_is_active(state, params)
+	})
 
 	return () => {
 		cancel_listener()

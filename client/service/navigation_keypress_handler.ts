@@ -11,9 +11,9 @@ const is_modified = (event: KeyboardEvent): boolean => event.ctrlKey || (is_mac 
 export default (mediator: TypedMediator): void => {
 	let current_book: string | null = null
 
-	mediator.call(`on_state_router`, `stateChangeEnd`, (state: { name: string }, parameters: { book?: string }) => {
+	mediator.call(`on_state_change_end`, (state, parameters) => {
 		if (state.name.indexOf(`main.text`) === 0) {
-			current_book = parameters.book ?? null
+			current_book = (parameters as { book?: string }).book ?? null
 		} else {
 			current_book = null
 		}

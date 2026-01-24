@@ -1,25 +1,7 @@
 import Reference from './Reference.svelte'
 import get_target_state_from_reference from '#lib/get_target_state_from_reference.ts'
 import type { TypedMediator } from '#lib/mediator_instance.ts'
-
-interface Parameters {
-	s?: string
-}
-
-interface RedirectError {
-	redirectTo: {
-		name: string
-		params: Record<string, string>
-	}
-}
-
-export interface State {
-	name: string
-	route: string
-	querystringParameters: string[]
-	template: typeof Reference
-	resolve: (data: unknown, parameters: Parameters) => Promise<{ reference: string }>
-}
+import type { State, Redirect } from '#lib/asr_types.ts'
 
 export default (mediator: TypedMediator): State => ({
 	name: 'main.reference',
@@ -43,7 +25,7 @@ export default (mediator: TypedMediator): State => ({
 					name: state_name,
 					params,
 				},
-			} as RedirectError)
+			} as Redirect)
 		}
 
 		return Promise.resolve({

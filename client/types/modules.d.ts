@@ -26,25 +26,9 @@ declare module 'hash-brown-router' {
 	export default function makeRouter(sausage: unknown): unknown
 }
 
-declare module 'abstract-state-router' {
-	interface StateRouter {
-		go: (state: string, params?: Record<string, unknown>, options?: { replace?: boolean; inherit?: boolean }) => void
-		makePath: (state: string, params?: Record<string, unknown>, options?: { inherit?: boolean }) => string
-		stateIsActive: (state: string, params?: Record<string, unknown>) => boolean
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		on: (event: string, cb: (...args: any[]) => void) => void
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		once: (event: string, cb: (...args: any[]) => void) => void
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		removeListener: (event: string, cb: (...args: any[]) => void) => void
-		addState: (state: unknown) => void
-		evaluateCurrentRoute: (defaultState: string) => void
-	}
-	export default function StateRouter(renderer: unknown, target: Element | null, options?: unknown): StateRouter
-}
-
 declare module 'svelte-state-renderer' {
-	export default function makeSvelteStateRenderer(): unknown
+	import type { SvelteRenderer } from '#lib/asr_types.ts'
+	export default function makeSvelteStateRenderer(): SvelteRenderer
 }
 
 declare module 'asr-scroll-position' {

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       abstract-state-router:
-        specifier: ^8.0.4
-        version: 8.0.4
+        specifier: ^8.0.6
+        version: 8.0.6
       asr-scroll-position:
         specifier: 1.1.0
         version: 1.1.0
@@ -76,7 +76,7 @@ importers:
         version: 5.48.0
       svelte-state-renderer:
         specifier: ^6.0.0
-        version: 6.0.0(abstract-state-router@8.0.4)(svelte@5.48.0)
+        version: 6.0.0(abstract-state-router@8.0.6)(svelte@5.48.0)
       verse-reference-regex:
         specifier: 1.3.0
         version: 1.3.0
@@ -665,8 +665,8 @@ packages:
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
 
-  abstract-state-router@8.0.4:
-    resolution: {integrity: sha512-80PgsYSaCudnvu7klBzZKjUUTxQdo7KRUlLa9zLC5j95eArTvGSVBDccBO8oZVe2vpYau8UxNpdlWzLc5Z7bgA==}
+  abstract-state-router@8.0.6:
+    resolution: {integrity: sha512-zbykxJt4lGox6YNrfBHVzPSVVvNqhBib6Bukl51H0XRBsf+Y6Zcgxj8GQEiFWLdxws/UiafIOOyu8nudbkZNcw==}
 
   accepts@1.3.8:
     resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
@@ -2898,7 +2898,7 @@ snapshots:
     dependencies:
       '@types/node': 24.10.9
 
-  abstract-state-router@8.0.4:
+  abstract-state-router@8.0.6:
     dependencies:
       combine-arrays: 1.0.2
       eventemitter3: 4.0.7
@@ -4846,9 +4846,9 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-state-renderer@6.0.0(abstract-state-router@8.0.4)(svelte@5.48.0):
+  svelte-state-renderer@6.0.0(abstract-state-router@8.0.6)(svelte@5.48.0):
     dependencies:
-      abstract-state-router: 8.0.4
+      abstract-state-router: 8.0.6
       svelte: 5.48.0
 
   svelte@5.48.0:

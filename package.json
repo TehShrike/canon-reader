@@ -66,7 +66,7 @@
 		"wrangler": "^4.60.0"
 	},
 	"dependencies": {
-		"abstract-state-router": "^8.0.4",
+		"abstract-state-router": "^8.0.6",
 		"asr-scroll-position": "1.1.0",
 		"books-of-the-bible": "^2.0.0",
 		"chromatism2": "3.0.2",

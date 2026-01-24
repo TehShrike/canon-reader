@@ -1,13 +1,6 @@
 import Main from './Main.svelte'
 import type { TypedMediator } from '#lib/mediator_instance.ts'
-
-export interface State {
-	name: string
-	route: string
-	defaultChild: string
-	template: typeof Main
-	resolve: () => Promise<{ mediator: TypedMediator }>
-}
+import type { State } from '#lib/asr_types.ts'
 
 export default (mediator: TypedMediator): State => ({
 	name: `main`,

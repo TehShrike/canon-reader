@@ -1,43 +1,28 @@
 import Text from './Text.svelte'
 import bibleBooksMap from '#lib/bible.ts'
 import chapterCounts from '#lib/books/chapter-counts.ts'
+import assert from '#lib/assert.ts'
 import type { TypedMediator } from '#lib/mediator_instance.ts'
-
-interface Parameters {
-	book: string
-}
-
-export interface State {
-	name: string
-	route: string
-	template: typeof Text
-	resolve: (data: unknown, parameters: Parameters) => Promise<{
-		bookSections: unknown
-		bookName: string
-		chapterCount: number
-	}>
-}
+import type { State } from '#lib/asr_types.ts'
 
 export default (mediator: TypedMediator): State => ({
 	name: `main.text`,
 	route: `text/:book`,
 	template: Text,
 	resolve(_data, parameters) {
-		const bookSections = bibleBooksMap[parameters.book]
-		if (!bookSections) {
-			throw new Error(`No book text found for ${ parameters.book }`)
-		}
+		const book_id = parameters.book
+		assert(book_id, `No book parameter provided`)
 
-		const book = mediator.call(`get_book_by_id`, parameters.book)
-		if (!book) {
-			throw new Error(`No book found for id: ${ parameters.book }`)
-		}
-		const bookName = book.name
+		const bookSections = bibleBooksMap[book_id]
+		assert(bookSections, `No book text found for ${book_id}`)
+
+		const book = mediator.call(`get_book_by_id`, book_id)
+		assert(book, `No book found for id: ${book_id}`)
 
 		return Promise.resolve({
 			bookSections,
-			bookName,
-			chapterCount: (chapterCounts as Record<string, number>)[parameters.book]!,
+			bookName: book.name,
+			chapterCount: (chapterCounts as Record<string, number>)[book_id]!,
 		})
 	},
 })

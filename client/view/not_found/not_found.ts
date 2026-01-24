@@ -1,17 +1,5 @@
 import NotFound from './NotFound.svelte'
-
-interface Parameters {
-	route?: string
-	[key: string]: string | undefined
-}
-
-export interface State {
-	name: string
-	route: string
-	querystringParameters: string[]
-	template: typeof NotFound
-	resolve: (data: unknown, parameters: Parameters) => Promise<{ route: string | undefined; parameters: Record<string, string | undefined> }>
-}
+import type { State } from '#lib/asr_types.ts'
 
 export default (_mediator: unknown): State => ({
 	name: 'main.not-found',

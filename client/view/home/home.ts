@@ -1,10 +1,5 @@
 import Home from './Home.svelte'
-
-export interface State {
-	name: string
-	route: string
-	template: typeof Home
-}
+import type { State } from '#lib/asr_types.ts'
 
 export default (_mediator: unknown): State => ({
 	name: `main.home`,
