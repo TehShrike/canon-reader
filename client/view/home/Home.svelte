@@ -1,13 +1,5 @@
 <script lang="ts">
-import ReferenceSearchPosition from '#component/ReferenceSearchPosition.svelte'
 import StateLink from '#component/StateLink.svelte'
-import type { TypedMediator } from '#lib/mediator_instance.ts'
-
-interface Props {
-	mediator: TypedMediator
-}
-
-let { mediator }: Props = $props()
 </script>
 
 <div class="container">
@@ -22,10 +14,6 @@ let { mediator }: Props = $props()
 	>
 		Read
 	</StateLink>
-
-	<div>
-		<ReferenceSearchPosition {mediator} />
-	</div>
 
 	<h2>
 		Three goals

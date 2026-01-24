@@ -4,13 +4,6 @@ import StateLink from '#component/StateLink.svelte'
 import ClickOutside from '#lib/ClickOutside.svelte'
 import type { TypedMediator } from '#lib/mediator_instance.ts'
 
-interface Position {
-	top: number
-	left: number
-	right: number
-	bottom: number
-}
-
 interface Props {
 	mediator: TypedMediator
 }
@@ -19,41 +12,13 @@ let { mediator }: Props = $props()
 
 let show_reference_search = $state(false)
 let current_book_id = $state<string | undefined>(undefined)
-let manual_position = $state<Position | null>(null)
-
-let remove_providers: () => void
 
 $effect(() => {
-	const provide = mediator.provide
-
-	const provider_removers = [
-		provide('position_search_box', (position: Position) => {
-			console.log('position_search_box called with', position)
-			manual_position = position
-		}),
-		provide('unposition_search_box', () => {
-			manual_position = null
-		}),
-		provide('show_navigation_input', (book_id: string | null) => {
-			show_reference_search = true
-			current_book_id = book_id ?? undefined
-		})
-	]
-
-	remove_providers = () => provider_removers.forEach(remove => remove())
-
-	return () => {
-		remove_providers()
-	}
+	return mediator.provide('show_navigation_input', (book_id: string | null) => {
+		show_reference_search = true
+		current_book_id = book_id ?? undefined
+	})
 })
-
-const search_container_style = $derived(manual_position
-	? `
-		position: absolute;
-		top: ${manual_position.top}px;
-		left: ${manual_position.left}px;
-	`
-	: '')
 
 function on_click_outside_search() {
 	show_reference_search = false
@@ -72,7 +37,7 @@ function on_click_outside_search() {
 
 {#if show_reference_search}
 <ClickOutside onclickoutside={on_click_outside_search}>
-	<div class="search_container" style={search_container_style}>
+	<div class="search_container">
 		<ReferenceSearch
 			bind:show={show_reference_search}
 			{mediator}

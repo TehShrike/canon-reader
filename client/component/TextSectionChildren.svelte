@@ -26,14 +26,14 @@ const is_highlighted = $derived(comparable_range
 {#each children as chunk}
 	{#if chunk.type === 'chapter number'}
 		<LeftMarginNumber
-			number={Number(chunk.value)}
+			number={chunk.value}
 			emphasized={true}
-			id={get_chapter_number_id(Number(chunk.value))}
+			id={get_chapter_number_id(chunk.value)}
 		/>
 	{:else if chunk.type === 'verse number'}
 		<LeftMarginNumber
-			number={Number(chunk.value)}
-			id={get_chapter_verse_id(chunk.chapterNumber ?? 0, Number(chunk.value))}
+			number={chunk.value}
+			id={get_chapter_verse_id(chunk.chapterNumber ?? 0, chunk.value)}
 		/>
 	{:else if chunk.type === 'line break'}
 		<br>

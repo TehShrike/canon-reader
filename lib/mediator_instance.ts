@@ -17,8 +17,6 @@ type MediatorRegistry = {
 
 	get_book_by_id: (id: string) => { name: string; aliases: string[] } | undefined
 
-	position_search_box: (position: { top: number; left: number; right: number; bottom: number }) => void
-	unposition_search_box: () => void
 	show_navigation_input: (book_id: string | null) => void
 }
 
