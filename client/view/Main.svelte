@@ -57,6 +57,11 @@ function on_click_outside_search() {
 	align-items: center;
 	width: 100%;
 	z-index: 2;
+	pointer-events: none;
+}
+
+.search_container > :global(*) {
+	pointer-events: auto;
 }
 
 .footer {
