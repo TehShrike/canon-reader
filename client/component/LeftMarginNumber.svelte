@@ -1,6 +1,4 @@
 <script lang="ts">
-const really_big = 1000
-
 interface Props {
 	number: number
 	id: string
@@ -9,14 +7,13 @@ interface Props {
 }
 
 let { number, id, emphasized = false, hidden = false }: Props = $props()
-let placeholder: HTMLElement
 
 const z_index = $derived(emphasized
-	? really_big + number
-	: really_big - number)
+	? 0
+	: 0 - number)
 </script>
 
-<div class="placeholder" bind:this={placeholder}>
+<div class="placeholder">
 	<!-- &#8203; -->
 	<div
 		class="number"

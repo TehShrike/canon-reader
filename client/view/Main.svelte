@@ -91,6 +91,7 @@ function on_click_outside_search() {
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	z-index: 2;
 }
 
 .footer {
