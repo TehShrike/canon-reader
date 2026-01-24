@@ -17,7 +17,7 @@ const cases: Array<[string, ParsedReference]> = [
 		},
 	], [
 		'josss', {
-			bookId: 'joshua',
+			bookId: null,
 			start: { chapter: null, verse: null, section: null },
 			end: { chapter: null, verse: null, section: null },
 		},
@@ -68,7 +68,7 @@ const cases: Array<[string, ParsedReference]> = [
 
 test(`reference_parser`, () => {
 	cases.forEach(([ input, expected_output ]) => {
-		const output = referenceParser(input)
+		const output = reference_parser(input)
 		assert.deepStrictEqual(output, expected_output, input)
 	})
 })

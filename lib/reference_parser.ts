@@ -1,5 +1,6 @@
 import shortBookNames from '#lib/short_book_names.ts'
-import { get_book_id } from '#lib/get_id.ts'
+import { get_book_id as normalize_book_id } from '#lib/get_id.ts'
+import assert from '#lib/assert.ts'
 
 // @ts-expect-error no types available
 import { extractRangeFromMatch, createChapterVerseRangeRegex } from 'verse-reference-regex'
@@ -54,8 +55,13 @@ export default (string: string): ParsedReference => {
 }
 
 function match_book_id(any_string: string): string | null {
-	const sanitized_string = get_book_id(any_string)
+	const sanitized_string = normalize_book_id(any_string)
 	return find_matching_short_book_name('', sanitized_string)
+}
+
+const all_alphabetic_characters_at_the_start_of_this_string_match_the_beginning_of_the_other_string = (input: string, other: string): boolean => {
+	const alphabetic_prefix = input.match(/^[a-z]*/)?.[0] || ''
+	return other.startsWith(alphabetic_prefix)
 }
 
 function find_matching_short_book_name(last_string_tested: string, rest_of_string: string): string | null {
@@ -67,9 +73,20 @@ function find_matching_short_book_name(last_string_tested: string, rest_of_strin
 	const this_string_test = last_string_tested + new_character_to_test
 
 	const matching_book_id = shortBookNames.short_id_to_long_id[this_string_test]
+	const remaining_string_to_check = rest.join('')
+
 	if (matching_book_id) {
-		return matching_book_id
+		if (rest.length === 0) {
+			return matching_book_id
+		}
+
+		const end_of_matching_id = matching_book_id.slice(this_string_test.length)
+		if (all_alphabetic_characters_at_the_start_of_this_string_match_the_beginning_of_the_other_string(remaining_string_to_check, end_of_matching_id)) {
+			return matching_book_id
+		}
+
+		return null
 	}
 
-	return find_matching_short_book_name(this_string_test, rest.join(''))
+	return find_matching_short_book_name(this_string_test, remaining_string_to_check)
 }
