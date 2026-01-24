@@ -62,6 +62,6 @@ input {
 	font-size: 32px;
 	border-radius: 4px;
 	padding: 4px 8px;
-	max-width: calc(100% - 24px);
+	width: calc(100% - 20px);
 }
 </style>

@@ -51,7 +51,10 @@ function handle_submit() {
 	padding: 16px;
 	background-color: var(--gray);
 	border-radius: 8px;
+	width: 60vw;
+	max-width: 600px;
 }
+
 
 .reference_feedback {
 	margin-top: 8px;
