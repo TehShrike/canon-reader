@@ -26,7 +26,7 @@ export default {
 					headers: { 'Content-Type': 'application/json' },
 				})
 			}
-			return new Response(await verse_lookup(env.ANTHROPIC_API_KEY, query), {
+			return new Response(JSON.stringify(await verse_lookup(env.ANTHROPIC_API_KEY, query)), {
 				headers: { 'Content-Type': 'application/json' },
 			})
 		}
