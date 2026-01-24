@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { Snippet } from 'svelte'
 import shouldInterceptClick from 'click-should-be-intercepted-for-navigation'
-import mediator from '#lib/mediator-instance.ts'
+import mediator from '#lib/mediator_instance.ts'
 
 interface Props {
 	state: string
@@ -14,31 +14,31 @@ interface Props {
 
 let { state, params = {}, inherit = false, className = '', anchor = '', children }: Props = $props()
 
-const stateIsActive = (state: string, params?: Record<string, unknown>) => mediator.call('stateIsActive', state, params)
-const makePath = (state: string, params?: Record<string, unknown>, options?: { inherit?: boolean }) => mediator.call('makePath', state, params, options)
+const state_is_active = (state: string, params?: Record<string, unknown>) => mediator.call('state_is_active', state, params)
+const make_path = (state: string, params?: Record<string, unknown>, options?: { inherit?: boolean }) => mediator.call('make_path', state, params, options)
 
-function currentPath() {
+function current_path() {
 	return window.location.pathname + window.location.search
 }
 
-const hashFragment = $derived(anchor ? `#${anchor}` : '')
-const path = $derived(makePath(state, params, { inherit }))
-const href = $derived(path + hashFragment)
+const hash_fragment = $derived(anchor ? `#${anchor}` : '')
+const path = $derived(make_path(state, params, { inherit }))
+const href = $derived(path + hash_fragment)
 
-let cancelListener: () => void
+let cancel_listener: () => void
 
 $effect(() => {
-	cancelListener = mediator.call(
-		'onStateRouter',
+	cancel_listener = mediator.call(
+		'on_state_router',
 		'stateChangeEnd',
 		() => {
 			// Force reactivity update
-			stateIsActive(state, params)
+			state_is_active(state, params)
 		}
 	)
 
 	return () => {
-		cancelListener()
+		cancel_listener()
 	}
 })
 
@@ -46,10 +46,10 @@ function navigate(event: MouseEvent) {
 	if (shouldInterceptClick(event)) {
 		event.preventDefault()
 
-		if (path !== currentPath()) {
-			mediator.call('goWithHashFragment', state, params, { inherit }, anchor)
+		if (path !== current_path()) {
+			mediator.call('go_with_hash_fragment', state, params, { inherit }, anchor)
 		} else {
-			window.location.href = hashFragment
+			window.location.href = hash_fragment
 		}
 	}
 }
@@ -57,7 +57,7 @@ function navigate(event: MouseEvent) {
 
 <a
 	href={href}
-	data-active={stateIsActive(state, params)}
+	data-active={state_is_active(state, params)}
 	onclick={navigate}
 	class={className}
 >

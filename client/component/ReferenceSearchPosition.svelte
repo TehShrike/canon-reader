@@ -1,6 +1,6 @@
 <script lang="ts">
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Props {
 	mediator: TypedMediator
@@ -12,7 +12,7 @@ let container: HTMLElement
 $effect(() => {
 	const { top, left, right, bottom } = container.getBoundingClientRect()
 
-	mediator.call('position search box', {
+	mediator.call('position_search_box', {
 		top,
 		left,
 		right,
@@ -20,7 +20,7 @@ $effect(() => {
 	})
 
 	return () => {
-		mediator.call('unposition search box')
+		mediator.call('unposition_search_box')
 	}
 })
 </script>

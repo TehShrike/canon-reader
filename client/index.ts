@@ -1,7 +1,7 @@
-import views from './globbed-views.ts'
-import statefulServices from './globbed-services.ts'
+import views from './globbed_views.ts'
+import statefulServices from './globbed_services.ts'
 
-import mediator from '#lib/mediator-instance.ts'
+import mediator from '#lib/mediator_instance.ts'
 
 import sausage from 'sausage-router'
 import makeRouter from 'hash-brown-router'
@@ -17,16 +17,16 @@ const stateRouter = StateRouter(
 	}
 )
 
-mediator.provide(`stateGo`, stateRouter.go)
-mediator.provide(`makePath`, stateRouter.makePath)
-mediator.provide(`stateIsActive`, stateRouter.stateIsActive)
+mediator.provide(`state_go`, stateRouter.go)
+mediator.provide(`make_path`, stateRouter.makePath)
+mediator.provide(`state_is_active`, stateRouter.stateIsActive)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-mediator.provide(`onStateRouter`, (event: string, cb: (...args: any[]) => void) => {
+mediator.provide(`on_state_router`, (event: string, cb: (...args: any[]) => void) => {
 	stateRouter.on(event, cb)
 	return () => stateRouter.removeListener(event, cb)
 })
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-mediator.provide(`onceStateRouter`, (event: string, cb: (...args: any[]) => void) => {
+mediator.provide(`once_state_router`, (event: string, cb: (...args: any[]) => void) => {
 	stateRouter.once(event, cb)
 	return () => stateRouter.removeListener(event, cb)
 })

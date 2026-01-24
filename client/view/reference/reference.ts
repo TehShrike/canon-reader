@@ -1,6 +1,6 @@
 import Reference from './Reference.svelte'
-import getTargetStateFromReference from '#lib/get-target-state-from-reference.ts'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import get_target_state_from_reference from '#lib/get_target_state_from_reference.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Parameters {
 	s?: string
@@ -29,18 +29,18 @@ export default (mediator: TypedMediator): State => ({
 	resolve(_data, parameters) {
 		const reference = parameters.s || ''
 
-		const targetState = getTargetStateFromReference(reference)
+		const target_state = get_target_state_from_reference(reference)
 
-		if (targetState) {
-			const { anchor, stateName, params } = targetState
+		if (target_state) {
+			const { anchor, state_name, params } = target_state
 
 			if (anchor) {
-				mediator.call('setAnchorAfterStateTransition', stateName, params, anchor)
+				mediator.call('set_anchor_after_state_transition', state_name, params, anchor)
 			}
 
 			return Promise.reject({
 				redirectTo: {
-					name: stateName,
+					name: state_name,
 					params,
 				},
 			} as RedirectError)

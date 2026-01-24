@@ -1,7 +1,7 @@
 import Text from './Text.svelte'
 import bibleBooksMap from '#lib/bible.ts'
 import chapterCounts from '#lib/books/chapter-counts.ts'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Parameters {
 	book: string
@@ -28,7 +28,7 @@ export default (mediator: TypedMediator): State => ({
 			throw new Error(`No book text found for ${ parameters.book }`)
 		}
 
-		const book = mediator.call(`getBookById`, parameters.book)
+		const book = mediator.call(`get_book_by_id`, parameters.book)
 		if (!book) {
 			throw new Error(`No book found for id: ${ parameters.book }`)
 		}

@@ -1,6 +1,6 @@
 <script lang="ts">
 const code_escape = 27
-const isEscape = (event: KeyboardEvent) => event.key === 'Escape' || event.keyCode === code_escape
+const is_escape = (event: KeyboardEvent) => event.key === 'Escape' || event.keyCode === code_escape
 
 interface Props {
 	autofocus?: boolean
@@ -18,24 +18,24 @@ $effect(() => {
 	}
 })
 
-function handleKeydown(event: KeyboardEvent) {
-	if (isEscape(event)) {
+function handle_keydown(event: KeyboardEvent) {
+	if (is_escape(event)) {
 		onEscape?.()
 	}
 }
 
-function handleSubmit(event: Event) {
+function handle_submit(event: Event) {
 	event.preventDefault()
 	onSubmit?.()
 }
 </script>
 
-<form onsubmit={handleSubmit}>
+<form onsubmit={handle_submit}>
 	<input
 		type="text"
 		bind:this={input}
 		bind:value
-		onkeydown={handleKeydown}
+		onkeydown={handle_keydown}
 		placeholder="prov 30:2"
 	>
 </form>

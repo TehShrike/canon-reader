@@ -3,8 +3,8 @@ import range from 'just-range'
 
 import StateLink from '#component/StateLink.svelte'
 import { querystring_params } from '#lib/querystring_store.svelte.ts'
-import { getChapterNumberId } from '#lib/get-id.ts'
-import { fromRange } from '#lib/simple-range.ts'
+import { get_chapter_number_id } from '#lib/get_id.ts'
+import { from_range } from '#lib/simple_range.ts'
 import TextSectionChildren from './TextSectionChildren.svelte'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
 
@@ -29,14 +29,14 @@ interface Props {
 
 let { bookName, bookSections, chapterCount }: Props = $props()
 
-let currentChapter = $state<number | null>(null)
-let textContainer: HTMLElement
-let viewportTopObserver: IntersectionObserver
+let current_chapter = $state<number | null>(null)
+let text_container: HTMLElement
+let viewport_top_observer: IntersectionObserver
 
-function observeIntersectionsWithTopOfViewport(elements: NodeListOf<Element>, cb: (entries: IntersectionObserverEntry[]) => void) {
+function observe_intersections_with_top_of_viewport(elements: NodeListOf<Element>, cb: (entries: IntersectionObserverEntry[]) => void) {
 	const observer = new IntersectionObserver(entries => {
-		const intersectingEntries = entries.filter(entry => entry.isIntersecting)
-		cb(intersectingEntries)
+		const intersecting_entries = entries.filter(entry => entry.isIntersecting)
+		cb(intersecting_entries)
 	}, {
 		rootMargin: '0px 0px -95%',
 		threshold: 0.1
@@ -48,29 +48,29 @@ function observeIntersectionsWithTopOfViewport(elements: NodeListOf<Element>, cb
 }
 
 $effect(() => {
-	const textElements = textContainer?.querySelectorAll('.verse-text')
-	if (textElements) {
-		viewportTopObserver = observeIntersectionsWithTopOfViewport(textElements, entries => {
+	const text_elements = text_container?.querySelectorAll('.verse_text')
+	if (text_elements) {
+		viewport_top_observer = observe_intersections_with_top_of_viewport(text_elements, entries => {
 			const chapter = entries.reduce((current, entry) => {
 				const data = (entry.target as HTMLElement).dataset
-				const entryChapter = parseInt(data.chapterNumber || '0', 10)
-				return Math.max(current, entryChapter)
+				const entry_chapter = parseInt(data.chapterNumber || '0', 10)
+				return Math.max(current, entry_chapter)
 			}, 0)
 
 			if (chapter) {
-				currentChapter = chapter
+				current_chapter = chapter
 			}
 		})
 	}
 
 	return () => {
-		viewportTopObserver?.disconnect()
+		viewport_top_observer?.disconnect()
 	}
 })
 
-const chapterNumbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
-const highlightedRange = $derived(querystring_params.params.highlight
-	? fromRange(querystring_params.params.highlight)
+const chapter_numbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
+const highlighted_range = $derived(querystring_params.params.highlight
+	? from_range(querystring_params.params.highlight)
 	: undefined)
 </script>
 
@@ -79,11 +79,11 @@ const highlightedRange = $derived(querystring_params.params.highlight
 </svelte:head>
 
 <div class="container">
-	<h1 class="book-name-header">
+	<h1 class="book_name_header">
 		{bookName}
 	</h1>
 
-	<div class="text-container" bind:this={textContainer}>
+	<div class="text_container" bind:this={text_container}>
 		{#each bookSections as section}
 			{#if section.type === 'header'}
 				<h3>{section.value}</h3>
@@ -91,11 +91,11 @@ const highlightedRange = $derived(querystring_params.params.highlight
 				<hr>
 			{:else if section.type === 'paragraph'}
 				<p>
-					<TextSectionChildren children={section.children ?? []} {highlightedRange} />
+					<TextSectionChildren children={section.children ?? []} highlightedRange={highlighted_range} />
 				</p>
 			{:else if section.type === 'stanza'}
 				<blockquote>
-					<TextSectionChildren children={section.children ?? []} {highlightedRange} />
+					<TextSectionChildren children={section.children ?? []} highlightedRange={highlighted_range} />
 				</blockquote>
 			{:else}
 				<h1>WAT BROKEN</h1>
@@ -104,16 +104,16 @@ const highlightedRange = $derived(querystring_params.params.highlight
 	</div>
 </div>
 
-<RightMarginChapterNumbers {chapterNumbers} {currentChapter} />
+<RightMarginChapterNumbers chapterNumbers={chapter_numbers} currentChapter={current_chapter} />
 
-<div class="sticky-footer">
-	<div class="book-notch">
-		<StateLink state="main.book-selection" className="bigger-link">Books</StateLink>
+<div class="sticky_footer">
+	<div class="book_notch">
+		<StateLink state="main.book-selection" className="bigger_link">Books</StateLink>
 	</div>
 </div>
 
 <style>
-.sticky-footer {
+.sticky_footer {
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -122,18 +122,18 @@ const highlightedRange = $derived(querystring_params.params.highlight
 	justify-content: center;
 }
 
-.book-notch {
+.book_notch {
 	background-color: var(--blue-darkened);
 	display: flex;
 	clip-path: polygon(0 100%, 25% 0, 75% 0, 100% 100%);
 }
 
-.book-notch :global(a) {
+.book_notch :global(a) {
 	padding: 4px 48px;
 	color: var(--white);
 }
 
-.book-name-header {
+.book_name_header {
 	text-align: center;
 }
 
@@ -144,12 +144,12 @@ const highlightedRange = $derived(querystring_params.params.highlight
 	padding-bottom: var(--default-padding);
 }
 
-:global(.bigger-link) {
+:global(.bigger_link) {
 	font-size: x-large;
 	font-family: sans-serif;
 }
 
-.text-container {
+.text_container {
 	max-width: 600px;
 	margin-left: var(--gutter-size);
 	margin-right: var(--gutter-size);

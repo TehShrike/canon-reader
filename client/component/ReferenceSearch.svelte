@@ -1,7 +1,7 @@
 <script lang="ts">
 import ReferenceSearchInput from './ReferenceSearchInput.svelte'
-import getTargetStateFromReference from '#lib/get-target-state-from-reference.ts'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import get_target_state_from_reference from '#lib/get_target_state_from_reference.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Props {
 	mediator: TypedMediator
@@ -11,47 +11,47 @@ interface Props {
 }
 
 let { mediator, currentBookId, show = $bindable(false), autofocus = false }: Props = $props()
-let inputValue = $state('')
+let input_value = $state('')
 
-const matchingReference = $derived(getTargetStateFromReference(inputValue, currentBookId))
+const matching_reference = $derived(get_target_state_from_reference(input_value, currentBookId))
 
 function cancel() {
 	show = false
 }
 
-function handleSubmit() {
-	if (matchingReference) {
-		const { anchor, stateName, params } = matchingReference
+function handle_submit() {
+	if (matching_reference) {
+		const { anchor, state_name, params } = matching_reference
 
 		if (anchor) {
-			mediator.call('setAnchorAfterStateTransition', stateName, params, anchor)
+			mediator.call('set_anchor_after_state_transition', state_name, params, anchor)
 		}
 
-		mediator.call('stateGo', stateName, params)
+		mediator.call('state_go', state_name, params)
 	}
 
 	show = false
 }
 </script>
 
-<div class="background-border">
+<div class="background_border">
 	<ReferenceSearchInput
-		onSubmit={handleSubmit}
+		onSubmit={handle_submit}
 		onEscape={cancel}
-		bind:value={inputValue}
+		bind:value={input_value}
 		{autofocus}
 	/>
-	<div class="reference-feedback">{matchingReference?.displayText ?? ''}&nbsp;</div>
+	<div class="reference_feedback">{matching_reference?.display_text ?? ''}&nbsp;</div>
 </div>
 
 <style>
-.background-border {
+.background_border {
 	padding: 16px;
 	background-color: var(--gray);
 	border-radius: 8px;
 }
 
-.reference-feedback {
+.reference_feedback {
 	margin-top: 8px;
 	color: var(--white);
 	font-family: var(--sans-serif);

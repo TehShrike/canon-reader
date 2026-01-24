@@ -1,7 +1,7 @@
 <script lang="ts">
 import ReferenceSearchPosition from '#component/ReferenceSearchPosition.svelte'
 import StateLink from '#component/StateLink.svelte'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Props {
 	mediator: TypedMediator
@@ -18,7 +18,7 @@ let { mediator }: Props = $props()
 
 	<StateLink
 		state="main.book-selection"
-		className="button button-primary read-button"
+		className="button button_primary read_button"
 	>
 		Read
 	</StateLink>
@@ -86,7 +86,7 @@ let { mediator }: Props = $props()
 	text-align: center;
 }
 
-:global(.read-button) {
+:global(.read_button) {
 	width: 300px;
 	max-width: 80%;
 	height: 100px;

@@ -1,5 +1,5 @@
 import Main from './Main.svelte'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 export interface State {
 	name: string

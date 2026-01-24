@@ -1,9 +1,9 @@
 import { join } from 'path'
 import books from 'books-of-the-bible'
-import flatMap from '../../client/lib/flat-map.ts'
+import flatMap from '../../client/lib/flat_map.ts'
 import makeDir from 'make-dir'
 import { writeFile } from 'fs/promises'
-import { getBookId } from '../../client/lib/get-id.ts'
+import { get_book_id } from '../../client/lib/get_id.ts'
 import { readFileSync } from 'fs'
 
 const relative = path => join(import.meta.dirname, path)
@@ -21,32 +21,32 @@ async function main() {
 	await makeDir(relative('../../client/lib/books'))
 
 	const output = books.map(book => {
-		const bookId = getBookId(book.name)
-		const bookData = bookId === 'revelation'
+		const book_id = get_book_id(book.name)
+		const book_data = book_id === 'revelation'
 			? loadPickeringRevelation()
-			: JSON.parse(readFileSync(require.resolve(`world-english-bible/json/${ bookId }.json`), 'utf8'))
+			: JSON.parse(readFileSync(require.resolve(`world-english-bible/json/${ book_id }.json`), 'utf8'))
 
-		const arrayOfSections = makeArrayOfSections(bookData)
-		const bookWithMarkers = bookSectionsWithChapterAndVerseMarkers(arrayOfSections)
+		const array_of_sections = makeArrayOfSections(book_data)
+		const book_with_markers = bookSectionsWithChapterAndVerseMarkers(array_of_sections)
 
 		return {
-			bookWithMarkers,
-			numberOfChapters: getNumberOfChapters(bookWithMarkers),
-			id: bookId,
+			book_with_markers,
+			number_of_chapters: getNumberOfChapters(book_with_markers),
+			id: book_id,
 		}
 	})
 
-	await Promise.all(output.map(({ bookWithMarkers, id }) => {
-		writeFile(relative(`../../client/lib/books/${ id }.ts`), toTypeScript(bookWithMarkers))
+	await Promise.all(output.map(({ book_with_markers, id }) => {
+		writeFile(relative(`../../client/lib/books/${ id }.ts`), toTypeScript(book_with_markers))
 	}))
 	console.log(`wrote ${ output.length } books`)
 
-	const chapterCounts = output.reduce((acc, { numberOfChapters, id }) => {
-		acc[id] = numberOfChapters
+	const chapter_counts = output.reduce((acc, { number_of_chapters, id }) => {
+		acc[id] = number_of_chapters
 		return acc
 	}, {})
 
-	await writeFile(relative('../../client/lib/books/chapter-counts.ts'), toTypeScript(chapterCounts))
+	await writeFile(relative('../../client/lib/books/chapter-counts.ts'), toTypeScript(chapter_counts))
 	console.log('wrote chapter-counts.ts')
 }
 

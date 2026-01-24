@@ -28,15 +28,15 @@ button:hover, .button:hover {
 	border: 1px solid transparent;
 }
 
-.button-primary {
+.button_primary {
 	color: var(--white);
 	background-color: var(--blue);
 	border-color: var(--blue);
 }
-.button-primary:visited {
+.button_primary:visited {
 	color: var(--white);
 }
-.button-primary:hover {
+.button_primary:hover {
 	color: var(--white);
 	background-color: var(--blue-darkened);
 	border-color: var(--blue-darkened);

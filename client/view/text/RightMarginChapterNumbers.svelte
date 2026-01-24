@@ -1,7 +1,7 @@
 <script lang="ts">
-import { getChapterNumberId } from '#lib/get-id.ts'
+import { get_chapter_number_id } from '#lib/get_id.ts'
 
-const maxNumberOfChapterToDisplay = 15
+const max_number_of_chapter_to_display = 15
 
 interface Props {
 	chapterNumbers: number[]
@@ -10,25 +10,25 @@ interface Props {
 
 let { chapterNumbers, currentChapter }: Props = $props()
 
-const chapterCount = $derived(chapterNumbers.length)
-const chapterModulusToUse = $derived(Math.ceil(chapterCount / maxNumberOfChapterToDisplay))
-const chapterNumbersToDisplay = $derived(chapterNumbers.filter(number =>
-	(number - 1) % chapterModulusToUse === 0
+const chapter_count = $derived(chapterNumbers.length)
+const chapter_modulus_to_use = $derived(Math.ceil(chapter_count / max_number_of_chapter_to_display))
+const chapter_numbers_to_display = $derived(chapterNumbers.filter(number =>
+	(number - 1) % chapter_modulus_to_use === 0
 ))
-const displayChapterMatchesCurrent = $derived((displayChapter: number) => currentChapter
-	&& currentChapter >= displayChapter
-	&& currentChapter < (displayChapter + chapterModulusToUse))
+const display_chapter_matches_current = $derived((display_chapter: number) => currentChapter
+	&& currentChapter >= display_chapter
+	&& currentChapter < (display_chapter + chapter_modulus_to_use))
 </script>
 
 <ol>
-	{#each chapterNumbersToDisplay as number}
+	{#each chapter_numbers_to_display as number}
 		<li>
-			{#if displayChapterMatchesCurrent(number) && currentChapter !== null}
-				<a href="#{getChapterNumberId(currentChapter)}">
+			{#if display_chapter_matches_current(number) && currentChapter !== null}
+				<a href="#{get_chapter_number_id(currentChapter)}">
 					<strong>{currentChapter}</strong>
 				</a>
 			{:else}
-				<a href="#{getChapterNumberId(number)}">
+				<a href="#{get_chapter_number_id(number)}">
 					{number}
 				</a>
 			{/if}

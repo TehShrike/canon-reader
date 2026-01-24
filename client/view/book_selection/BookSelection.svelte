@@ -1,7 +1,7 @@
 <script lang="ts">
 import books from 'books-of-the-bible'
-import bookColors from '#lib/book-of-the-bible-colors.ts'
-import { getBookId } from '#lib/get-id.ts'
+import bookColors from '#lib/book_of_the_bible_colors.ts'
+import { get_book_id } from '#lib/get_id.ts'
 import StateLink from '#component/StateLink.svelte'
 
 interface Book {
@@ -21,7 +21,7 @@ const bookNames = $derived(books.map(({ name, aliases }: Book) => {
 	return {
 		full: name,
 		short: useFirstAliasForShort ? aliases[0] : name,
-		id: getBookId(name)
+		id: get_book_id(name)
 	}
 }))
 
@@ -30,14 +30,14 @@ function getBookColor(id: string): string {
 }
 </script>
 
-<div class="book-names">
+<div class="book_names">
 	{#each bookNames as name}
 		<div class="book" style="background-color: {getBookColor(name.id)}">
 			<StateLink state="main.text" params={{ book: name.id }}>
-				<div class="short-name">
+				<div class="short_name">
 					{name.short}
 				</div>
-				<div class="full-name">
+				<div class="full_name">
 					{name.full}
 				</div>
 			</StateLink>
@@ -46,7 +46,7 @@ function getBookColor(id: string): string {
 </div>
 
 <style>
-.book-names {
+.book_names {
 	margin: 4px;
 	display: flex;
 	flex-wrap: wrap;
@@ -75,16 +75,16 @@ function getBookColor(id: string): string {
 	justify-content: center;
 }
 
-.short-name {
+.short_name {
 	display: none;
 }
 
 @media (max-width: 550px) {
-	.short-name {
+	.short_name {
 		display: inherit;
 	}
 
-	.full-name {
+	.full_name {
 		display: none;
 	}
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { getChapterNumberId, getChapterVerseId } from '#lib/get-id.ts'
+import { get_chapter_number_id, get_chapter_verse_id } from '#lib/get_id.ts'
 import withinRange from 'multi-part-range-compare'
 import LeftMarginNumber from './LeftMarginNumber.svelte'
 
@@ -41,18 +41,18 @@ const isHighlighted = $derived(comparableRange
 		<LeftMarginNumber
 			number={Number(chunk.value)}
 			emphasized={true}
-			id={getChapterNumberId(Number(chunk.value))}
+			id={get_chapter_number_id(Number(chunk.value))}
 		/>
 	{:else if chunk.type === 'verse number'}
 		<LeftMarginNumber
 			number={Number(chunk.value)}
-			id={getChapterVerseId(chunk.chapterNumber ?? 0, Number(chunk.value))}
+			id={get_chapter_verse_id(chunk.chapterNumber ?? 0, Number(chunk.value))}
 		/>
 	{:else if chunk.type === 'line break'}
 		<br>
 	{:else}
 		<span
-			class="verse-text"
+			class="verse_text"
 			data-chapter-number={chunk.chapterNumber}
 			data-verse-number={chunk.verseNumber}
 			data-highlighted={isHighlighted(chunk.chapterNumber ?? 0, chunk.verseNumber ?? 0)}

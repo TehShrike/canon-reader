@@ -2,7 +2,7 @@
 import ReferenceSearch from '#component/ReferenceSearch.svelte'
 import StateLink from '#component/StateLink.svelte'
 import ClickOutside from '#lib/ClickOutside.svelte'
-import type { TypedMediator } from '#lib/mediator-instance.ts'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Position {
 	top: number
@@ -17,46 +17,46 @@ interface Props {
 
 let { mediator }: Props = $props()
 
-let showReferenceSearch = $state(false)
-let currentBookId = $state<string | undefined>(undefined)
-let manualPosition = $state<Position | null>(null)
+let show_reference_search = $state(false)
+let current_book_id = $state<string | undefined>(undefined)
+let manual_position = $state<Position | null>(null)
 
-let removeProviders: () => void
+let remove_providers: () => void
 
 $effect(() => {
 	const provide = mediator.provide
 
-	const providerRemovers = [
-		provide('position search box', (position: Position) => {
-			console.log('position search box called with', position)
-			manualPosition = position
+	const provider_removers = [
+		provide('position_search_box', (position: Position) => {
+			console.log('position_search_box called with', position)
+			manual_position = position
 		}),
-		provide('unposition search box', () => {
-			manualPosition = null
+		provide('unposition_search_box', () => {
+			manual_position = null
 		}),
-		provide('show navigation input', (bookId: string | null) => {
-			showReferenceSearch = true
-			currentBookId = bookId ?? undefined
+		provide('show_navigation_input', (book_id: string | null) => {
+			show_reference_search = true
+			current_book_id = book_id ?? undefined
 		})
 	]
 
-	removeProviders = () => providerRemovers.forEach(remove => remove())
+	remove_providers = () => provider_removers.forEach(remove => remove())
 
 	return () => {
-		removeProviders()
+		remove_providers()
 	}
 })
 
-const searchContainerStyle = $derived(manualPosition
+const search_container_style = $derived(manual_position
 	? `
 		position: absolute;
-		top: ${manualPosition.top}px;
-		left: ${manualPosition.left}px;
+		top: ${manual_position.top}px;
+		left: ${manual_position.left}px;
 	`
 	: '')
 
-function onClickOutsideSearch() {
-	showReferenceSearch = false
+function on_click_outside_search() {
+	show_reference_search = false
 }
 </script>
 
@@ -70,13 +70,13 @@ function onClickOutsideSearch() {
 	<StateLink state="main">Home</StateLink>
 </div>
 
-{#if showReferenceSearch}
-<ClickOutside onclickoutside={onClickOutsideSearch}>
-	<div class="search-container" style={searchContainerStyle}>
+{#if show_reference_search}
+<ClickOutside onclickoutside={on_click_outside_search}>
+	<div class="search_container" style={search_container_style}>
 		<ReferenceSearch
-			bind:show={showReferenceSearch}
+			bind:show={show_reference_search}
 			{mediator}
-			{currentBookId}
+			currentBookId={current_book_id}
 			autofocus={true}
 		/>
 	</div>
@@ -84,7 +84,7 @@ function onClickOutsideSearch() {
 {/if}
 
 <style>
-.search-container {
+.search_container {
 	position: fixed;
 	bottom: 96px;
 	display: flex;
