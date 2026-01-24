@@ -8,6 +8,6 @@ build/
 worker/worker_types.d.ts
 
 client/globbed-*.js
-client/lib/books
+lib/books
 
 .DS_Store

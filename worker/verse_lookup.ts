@@ -1,4 +1,4 @@
-import { send_message, extract_text } from '../client/lib/claude_api.ts'
+import { send_message, extract_text } from '#lib/claude_api.ts'
 
 const SYSTEM_PROMPT = `You are a Bible verse lookup assistant. Given a user's query, identify all Bible verses that match what they're looking for.
 

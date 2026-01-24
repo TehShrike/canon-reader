@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert'
-import referenceParser from './reference_parser.ts'
+import referenceParser from '#lib/reference_parser.ts'
 
 interface ParsedReference {
 	bookId: string | null

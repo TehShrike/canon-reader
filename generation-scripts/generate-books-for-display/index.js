@@ -1,9 +1,9 @@
 import { join } from 'path'
 import books from 'books-of-the-bible'
-import flatMap from '../../client/lib/flat_map.ts'
+import flatMap from '#lib/flat_map.ts'
 import makeDir from 'make-dir'
 import { writeFile } from 'fs/promises'
-import { get_book_id } from '../../client/lib/get_id.ts'
+import { get_book_id } from '#lib/get_id.ts'
 import { readFileSync } from 'fs'
 
 const relative = path => join(import.meta.dirname, path)
@@ -18,7 +18,7 @@ main().catch(err => {
 })
 
 async function main() {
-	await makeDir(relative('../../client/lib/books'))
+	await makeDir(relative('../../lib/books'))
 
 	const output = books.map(book => {
 		const book_id = get_book_id(book.name)
@@ -37,7 +37,7 @@ async function main() {
 	})
 
 	await Promise.all(output.map(({ book_with_markers, id }) => {
-		writeFile(relative(`../../client/lib/books/${ id }.ts`), toTypeScript(book_with_markers))
+		writeFile(relative(`../../lib/books/${ id }.ts`), toTypeScript(book_with_markers))
 	}))
 	console.log(`wrote ${ output.length } books`)
 
@@ -46,7 +46,7 @@ async function main() {
 		return acc
 	}, {})
 
-	await writeFile(relative('../../client/lib/books/chapter-counts.ts'), toTypeScript(chapter_counts))
+	await writeFile(relative('../../lib/books/chapter-counts.ts'), toTypeScript(chapter_counts))
 	console.log('wrote chapter-counts.ts')
 }
 

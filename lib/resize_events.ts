@@ -1,6 +1,6 @@
 // @ts-expect-error no types available
 import createEmitter from 'better-emitter'
-import browserEvent from './browser_event.ts'
+import browserEvent from '#lib/browser_event.ts'
 
 const emitter = createEmitter()
 let resizing = false

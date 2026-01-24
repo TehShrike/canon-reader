@@ -1,5 +1,5 @@
 {
-  "include": ["client/**/*.ts", "client/**/*.svelte"],
+  "include": ["client/**/*.ts", "client/**/*.svelte", "lib/**/*.ts"],
   "exclude": ["node_modules/**", "public/**"],
   "compilerOptions": {
     "module": "nodenext",
@@ -7,7 +7,7 @@
     "lib": ["esnext", "dom"],
     "types": ["node", "svelte"],
     "paths": {
-      "#lib/*": ["./client/lib/*"],
+      "#lib/*": ["./lib/*"],
       "#component/*": ["./client/component/*"]
     },
 
