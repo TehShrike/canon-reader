@@ -34,9 +34,11 @@ function show_search() {
 	display: flex;
 	justify-content: space-between;
 	padding: 0 16.67%;
+	pointer-events: none;
 }
 
 .notch {
+	pointer-events: auto;
 	background-color: var(--blue-darkened);
 	display: flex;
 	clip-path: polygon(0 100%, 25% 0, 75% 0, 100% 100%);
