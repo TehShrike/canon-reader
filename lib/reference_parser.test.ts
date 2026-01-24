@@ -1,6 +1,6 @@
-import test from 'node:test'
-import assert from 'node:assert'
-import referenceParser from '#lib/reference_parser.ts'
+import { test } from 'node:test'
+import * as assert from 'node:assert'
+import reference_parser from '#lib/reference_parser.ts'
 
 interface ParsedReference {
 	bookId: string | null
@@ -66,10 +66,9 @@ const cases: Array<[string, ParsedReference]> = [
 	],
 ]
 
-test(`reference-regex`, () => {
-	cases.forEach(([ input, expectedOutput ]) => {
+test(`reference_parser`, () => {
+	cases.forEach(([ input, expected_output ]) => {
 		const output = referenceParser(input)
-		assert.deepEqual(output, expectedOutput, input)
+		assert.deepStrictEqual(output, expected_output, input)
 	})
-	console.log('done')
 })
