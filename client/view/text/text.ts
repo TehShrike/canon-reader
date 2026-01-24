@@ -13,16 +13,16 @@ export default (mediator: TypedMediator): State => ({
 		const book_id = parameters.book
 		assert(book_id, `No book parameter provided`)
 
-		const bookSections = bibleBooksMap[book_id]
-		assert(bookSections, `No book text found for ${book_id}`)
+		const book_sections = bibleBooksMap[book_id]
+		assert(book_sections, `No book text found for ${book_id}`)
 
 		const book = mediator.call(`get_book_by_id`, book_id)
 		assert(book, `No book found for id: ${book_id}`)
 
 		return Promise.resolve({
-			bookSections,
-			bookName: book.name,
-			chapterCount: (chapterCounts as Record<string, number>)[book_id]!,
+			book_sections,
+			book_name: book.name,
+			chapter_count: (chapterCounts as Record<string, number>)[book_id]!,
 		})
 	},
 })

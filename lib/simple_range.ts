@@ -1,8 +1,8 @@
 export interface VerseRange {
-	startChapter: number
-	startVerse: number
-	endChapter: number
-	endVerse: number
+	start_chapter: number
+	start_verse: number
+	end_chapter: number
+	end_verse: number
 }
 
 export const to_range = (start_chapter: number, start_verse: number, end_chapter: number, end_verse: number): string =>
@@ -13,13 +13,13 @@ export const from_range = (string: string): VerseRange | undefined => {
 	const match = string.match(range_regex)
 
 	if (match) {
-		const [ , startChapter, startVerse, endChapter, endVerse ] = match
+		const [ , start_chapter, start_verse, end_chapter, end_verse ] = match
 
 		return {
-			startChapter: parseInt(startChapter!, 10),
-			startVerse: parseInt(startVerse!, 10),
-			endChapter: parseInt(endChapter!, 10),
-			endVerse: parseInt(endVerse!, 10),
+			start_chapter: parseInt(start_chapter!, 10),
+			start_verse: parseInt(start_verse!, 10),
+			end_chapter: parseInt(end_chapter!, 10),
+			end_verse: parseInt(end_verse!, 10),
 		}
 	}
 }

@@ -1,4 +1,4 @@
-const DEFAULT_MODEL = 'claude-sonnet-4-5-20250929'
+const DEFAULT_MODEL: Model = 'claude-haiku-4-5'
 const API_URL = 'https://api.anthropic.com/v1/messages'
 const API_VERSION = '2023-06-01'
 

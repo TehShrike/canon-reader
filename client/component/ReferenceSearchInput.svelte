@@ -5,11 +5,11 @@ const is_escape = (event: KeyboardEvent) => event.key === 'Escape' || event.keyC
 interface Props {
 	autofocus?: boolean
 	value?: string
-	onSubmit?: () => void
-	onEscape?: () => void
+	on_submit?: () => void
+	on_escape?: () => void
 }
 
-let { autofocus, value = $bindable(''), onSubmit, onEscape }: Props = $props()
+let { autofocus, value = $bindable(''), on_submit, on_escape }: Props = $props()
 let input: HTMLInputElement
 
 $effect(() => {
@@ -20,13 +20,13 @@ $effect(() => {
 
 function handle_keydown(event: KeyboardEvent) {
 	if (is_escape(event)) {
-		onEscape?.()
+		on_escape?.()
 	}
 }
 
 function handle_submit(event: Event) {
 	event.preventDefault()
-	onSubmit?.()
+	on_submit?.()
 }
 </script>
 

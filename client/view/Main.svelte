@@ -76,7 +76,7 @@ function on_click_outside_search() {
 		<ReferenceSearch
 			bind:show={show_reference_search}
 			{mediator}
-			currentBookId={current_book_id}
+			{current_book_id}
 			autofocus={true}
 		/>
 	</div>

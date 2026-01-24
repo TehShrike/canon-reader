@@ -14,15 +14,15 @@ export default (mediator: TypedMediator): State => ({
 		const target_state = get_target_state_from_reference(reference)
 
 		if (target_state) {
-			const { anchor, state_name, params } = target_state
+			const { anchor,  params } = target_state
 
 			if (anchor) {
-				mediator.call('set_anchor_after_state_transition', state_name, params, anchor)
+				mediator.call('set_anchor_after_state_transition', 'main.text', params, anchor)
 			}
 
 			return Promise.reject({
 				redirectTo: {
-					name: state_name,
+					name: 'main.text',
 					params,
 				},
 			} as Redirect)

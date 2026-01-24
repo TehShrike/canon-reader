@@ -1,5 +1,5 @@
 {
-  "include": ["client/**/*.ts", "client/**/*.svelte", "lib/**/*.ts"],
+  "include": ["client/**/*.ts", "client/**/*.svelte", "lib/**/*.ts", "generation-scripts/**/*.ts"],
   "exclude": ["node_modules/**", "public/**"],
   "compilerOptions": {
     "module": "nodenext",

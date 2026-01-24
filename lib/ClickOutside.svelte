@@ -10,17 +10,17 @@ let { children, onclickoutside }: Props = $props()
 
 let container: HTMLDivElement
 
-function handleClick(event: MouseEvent) {
+function handle_click(event: MouseEvent) {
 	if (container && !container.contains(event.target as Node)) {
 		onclickoutside()
 	}
 }
 
 $effect(() => {
-	document.addEventListener('click', handleClick, true)
+	document.addEventListener('click', handle_click, true)
 
 	return () => {
-		document.removeEventListener('click', handleClick, true)
+		document.removeEventListener('click', handle_click, true)
 	}
 })
 </script>

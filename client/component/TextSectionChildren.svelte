@@ -2,37 +2,24 @@
 import { get_chapter_number_id, get_chapter_verse_id } from '#lib/get_id.ts'
 import withinRange from 'multi-part-range-compare'
 import LeftMarginNumber from './LeftMarginNumber.svelte'
-
-interface TextChunk {
-	type: 'chapter number' | 'verse number' | 'line break' | 'text'
-	value: string | number
-	chapterNumber?: number
-	verseNumber?: number
-}
-
-interface HighlightedRange {
-	startChapter: number
-	startVerse: number
-	endChapter: number
-	endVerse: number
-}
+import type { SectionChildren, HighlightedRange } from '#lib/book_types.ts'
 
 interface Props {
-	children: TextChunk[]
-	highlightedRange?: HighlightedRange | undefined
+	children: readonly SectionChildren[]
+	highlighted_range?: HighlightedRange | undefined
 }
 
-let { children, highlightedRange }: Props = $props()
+let { children, highlighted_range }: Props = $props()
 
-const comparableRange = $derived(highlightedRange
+const comparable_range = $derived(highlighted_range
 	? {
-		start: [highlightedRange.startChapter, highlightedRange.startVerse],
-		end: [highlightedRange.endChapter, highlightedRange.endVerse]
+		start: [highlighted_range.start_chapter, highlighted_range.start_verse],
+		end: [highlighted_range.end_chapter, highlighted_range.end_verse]
 	}
 	: null)
 
-const isHighlighted = $derived(comparableRange
-	? (chapter: number, verse: number) => withinRange(comparableRange.start, comparableRange.end, [chapter, verse])
+const is_highlighted = $derived(comparable_range
+	? (chapter: number, verse: number) => withinRange(comparable_range.start, comparable_range.end, [chapter, verse])
 	: () => false)
 </script>
 
@@ -55,7 +42,7 @@ const isHighlighted = $derived(comparableRange
 			class="verse_text"
 			data-chapter-number={chunk.chapterNumber}
 			data-verse-number={chunk.verseNumber}
-			data-highlighted={isHighlighted(chunk.chapterNumber ?? 0, chunk.verseNumber ?? 0)}
+			data-highlighted={is_highlighted(chunk.chapterNumber ?? 0, chunk.verseNumber ?? 0)}
 		>
 			{chunk.value}
 		</span>

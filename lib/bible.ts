@@ -1,3 +1,4 @@
+import type { Book } from '#lib/book_types.ts'
 import $1chronicles from '#lib/books/1chronicles.ts'
 import $1corinthians from '#lib/books/1corinthians.ts'
 import $1john from '#lib/books/1john.ts'
@@ -65,7 +66,7 @@ import $titus from '#lib/books/titus.ts'
 import $zechariah from '#lib/books/zechariah.ts'
 import $zephaniah from '#lib/books/zephaniah.ts'
 
-const bible: Record<string, unknown> = {
+const bibleBooksMap: Record<string, Book> = {
 	'1chronicles': $1chronicles,
 	'1corinthians': $1corinthians,
 	'1john': $1john,
@@ -134,4 +135,4 @@ const bible: Record<string, unknown> = {
 	zephaniah: $zephaniah,
 }
 
-export default bible
+export default bibleBooksMap

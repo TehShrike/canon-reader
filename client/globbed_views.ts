@@ -4,6 +4,7 @@ import client$47$view$47$home$47$home$46$ts from '../client/view/home/home.ts'
 import client$47$view$47$not_found$47$not_found$46$ts from '../client/view/not_found/not_found.ts'
 import client$47$view$47$reference$47$reference$46$ts from '../client/view/reference/reference.ts'
 import client$47$view$47$text$47$text$46$ts from '../client/view/text/text.ts'
+import client$47$view$47$verse_lookup$47$verse_lookup$46$ts from '../client/view/verse_lookup/verse_lookup.ts'
 
 export default [
 	client$47$view$47$main$46$ts,
@@ -11,5 +12,6 @@ export default [
 	client$47$view$47$home$47$home$46$ts,
 	client$47$view$47$not_found$47$not_found$46$ts,
 	client$47$view$47$reference$47$reference$46$ts,
-	client$47$view$47$text$47$text$46$ts
+	client$47$view$47$text$47$text$46$ts,
+	client$47$view$47$verse_lookup$47$verse_lookup$46$ts
 ]

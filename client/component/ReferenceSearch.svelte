@@ -5,15 +5,15 @@ import type { TypedMediator } from '#lib/mediator_instance.ts'
 
 interface Props {
 	mediator: TypedMediator
-	currentBookId?: string | undefined
+	current_book_id?: string | undefined
 	show?: boolean
 	autofocus?: boolean
 }
 
-let { mediator, currentBookId, show = $bindable(false), autofocus = false }: Props = $props()
+let { mediator, current_book_id, show = $bindable(false), autofocus = false }: Props = $props()
 let input_value = $state('')
 
-const matching_reference = $derived(get_target_state_from_reference(input_value, currentBookId))
+const matching_reference = $derived(get_target_state_from_reference(input_value, current_book_id))
 
 function cancel() {
 	show = false
@@ -21,13 +21,15 @@ function cancel() {
 
 function handle_submit() {
 	if (matching_reference) {
-		const { anchor, state_name, params } = matching_reference
+		const { anchor, params } = matching_reference
 
 		if (anchor) {
-			mediator.call('set_anchor_after_state_transition', state_name, params, anchor)
+			mediator.call('set_anchor_after_state_transition', 'main.text', params, anchor)
 		}
 
-		mediator.call('state_go', state_name, params)
+		mediator.call('state_go', 'main.text', params)
+	} else if (input_value.trim()) {
+		mediator.call('state_go', 'main.verse-lookup', { q: input_value.trim() })
 	}
 
 	show = false
@@ -36,8 +38,8 @@ function handle_submit() {
 
 <div class="background_border">
 	<ReferenceSearchInput
-		onSubmit={handle_submit}
-		onEscape={cancel}
+		on_submit={handle_submit}
+		on_escape={cancel}
 		bind:value={input_value}
 		{autofocus}
 	/>

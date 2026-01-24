@@ -18,7 +18,7 @@ let { mediator }: Props = $props()
 
 	<StateLink
 		state="main.book-selection"
-		className="button button_primary read_button"
+		class_name="button button_primary read_button"
 	>
 		Read
 	</StateLink>

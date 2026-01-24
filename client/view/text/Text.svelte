@@ -2,32 +2,19 @@
 import range from 'just-range'
 
 import StateLink from '#component/StateLink.svelte'
+import BookSections from '#component/BookSections.svelte'
 import { querystring_params } from '#lib/querystring_store.svelte.ts'
-import { get_chapter_number_id } from '#lib/get_id.ts'
 import { from_range } from '#lib/simple_range.ts'
-import TextSectionChildren from './TextSectionChildren.svelte'
 import RightMarginChapterNumbers from './RightMarginChapterNumbers.svelte'
-
-interface TextChunk {
-	type: 'chapter number' | 'verse number' | 'line break' | 'text'
-	value: string | number
-	chapterNumber?: number
-	verseNumber?: number
-}
-
-interface BookSection {
-	type: 'header' | 'break' | 'paragraph' | 'stanza'
-	value?: string
-	children?: TextChunk[]
-}
+import type { BookSection } from '#lib/book_types.ts'
 
 interface Props {
-	bookName: string
-	bookSections: BookSection[]
-	chapterCount: number
+	book_name: string
+	book_sections: BookSection[]
+	chapter_count: number
 }
 
-let { bookName, bookSections, chapterCount }: Props = $props()
+let { book_name, book_sections, chapter_count }: Props = $props()
 
 let current_chapter = $state<number | null>(null)
 let text_container: HTMLElement
@@ -68,47 +55,31 @@ $effect(() => {
 	}
 })
 
-const chapter_numbers = $derived(chapterCount ? range(1, chapterCount + 1) : [])
+const chapter_numbers = $derived(chapter_count ? range(1, chapter_count + 1) : [])
 const highlighted_range = $derived(querystring_params.params.highlight
 	? from_range(querystring_params.params.highlight)
 	: undefined)
 </script>
 
 <svelte:head>
-	<title>{bookName}</title>
+	<title>{book_name}</title>
 </svelte:head>
 
 <div class="container">
 	<h1 class="book_name_header">
-		{bookName}
+		{book_name}
 	</h1>
 
 	<div class="text_container" bind:this={text_container}>
-		{#each bookSections as section}
-			{#if section.type === 'header'}
-				<h3>{section.value}</h3>
-			{:else if section.type === 'break'}
-				<hr>
-			{:else if section.type === 'paragraph'}
-				<p>
-					<TextSectionChildren children={section.children ?? []} highlightedRange={highlighted_range} />
-				</p>
-			{:else if section.type === 'stanza'}
-				<blockquote>
-					<TextSectionChildren children={section.children ?? []} highlightedRange={highlighted_range} />
-				</blockquote>
-			{:else}
-				<h1>WAT BROKEN</h1>
-			{/if}
-		{/each}
+		<BookSections {book_sections} {highlighted_range} />
 	</div>
 </div>
 
-<RightMarginChapterNumbers chapterNumbers={chapter_numbers} currentChapter={current_chapter} />
+<RightMarginChapterNumbers {chapter_numbers} {current_chapter} />
 
 <div class="sticky_footer">
 	<div class="book_notch">
-		<StateLink state="main.book-selection" className="bigger_link">Books</StateLink>
+		<StateLink state="main.book-selection" class_name="bigger_link">Books</StateLink>
 	</div>
 </div>
 

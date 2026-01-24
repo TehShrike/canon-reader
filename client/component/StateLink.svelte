@@ -7,12 +7,12 @@ interface Props {
 	state: string
 	params?: Record<string, string>
 	inherit?: boolean
-	className?: string
+	class_name?: string
 	anchor?: string
 	children: Snippet
 }
 
-let { state, params = {}, inherit = false, className = '', anchor = '', children }: Props = $props()
+let { state, params = {}, inherit = false, class_name = '', anchor = '', children }: Props = $props()
 
 const state_is_active = (state: string, params?: Record<string, unknown>) => mediator.call('state_is_active', state, params)
 const make_path = (state: string, params?: Record<string, unknown>, options?: { inherit?: boolean }) => mediator.call('make_path', state, params, options)
@@ -55,7 +55,7 @@ function navigate(event: MouseEvent) {
 	href={href}
 	data-active={state_is_active(state, params)}
 	onclick={navigate}
-	class={className}
+	class={class_name}
 >
 	{@render children()}
 </a>

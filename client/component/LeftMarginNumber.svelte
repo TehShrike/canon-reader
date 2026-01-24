@@ -1,5 +1,5 @@
 <script lang="ts">
-const reallyBig = 1000
+const really_big = 1000
 
 interface Props {
 	number: number
@@ -11,9 +11,9 @@ interface Props {
 let { number, id, emphasized = false, hidden = false }: Props = $props()
 let placeholder: HTMLElement
 
-const zIndex = $derived(emphasized
-	? reallyBig + number
-	: reallyBig - number)
+const z_index = $derived(emphasized
+	? really_big + number
+	: really_big - number)
 </script>
 
 <div class="placeholder" bind:this={placeholder}>
@@ -22,7 +22,7 @@ const zIndex = $derived(emphasized
 		class="number"
 		data-emphasized={emphasized}
 		data-hidden={hidden}
-		style="z-index: {zIndex}"
+		style="z-index: {z_index}"
 		id={id}
 	>
 		{number}
