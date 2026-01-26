@@ -25,7 +25,7 @@
 		"glob:services": "glob-module-file --pattern=\"client/service/**/*.ts\" --format=es --pathPrefix=../ --outputPath=client/globbed_services.ts",
 		"glob:views": "glob-module-file --pattern=\"client/view/**/*.view.ts\" --format=es --pathPrefix=../ --outputPath=client/globbed_views.ts",
 		"dev:worker:build": "node esbuild.worker.ts --watch",
-		"dev:worker:serve": "node setup_local_wrangler.ts && wrangler pages dev build --port=8788",
+		"dev:worker:serve": "wrangler pages dev build --port=8788",
 		"dev:worker": "run-p dev:worker:*",
 		"dev:open_browser": "sleep 3 && open http://localhost:8788",
 		"dev": "cross-env NODE_ENV=development npm-run-all prep-build build:worker --parallel watch:* dev:*",
