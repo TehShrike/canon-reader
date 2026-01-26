@@ -2,10 +2,13 @@
 
 - destroy the lambda and any other AWS resources
 
-# what is most valuable next
+# stuff I feel like doing soon
 
-- visual button at the bottom (like "books") to pop up the search menu
-- ability to type in a paraphrase of a verse and get sent either directly to the verse, or to a search results page
+- search input inline on the home page
+- clean up claude css
+- make the text in the search results read like it does on the main reader
+	- left-aligned
+	- same width – able to display info on the right same as I eventually hope to do in the main reader
 
 # Should be pretty useful
 

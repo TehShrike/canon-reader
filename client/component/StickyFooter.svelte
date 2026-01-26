@@ -16,12 +16,12 @@ function show_search() {
 
 <div class="sticky_footer">
 	<div class="notch left">
-		<button type="button" onclick={show_search} class="notch_button">
-			<span class="search_icon">&#128269;</span>
+		<button type="button" onclick={show_search} class="notch_button" aria-label="Search">
+			<span class="search_icon">🔍</span>
 		</button>
 	</div>
 	<div class="notch right">
-		<StateLink state="main.book-selection" class_name="notch_link">Books</StateLink>
+		<StateLink state="main.book-selection" class_name="notch_link" aria_label="Books">📚</StateLink>
 	</div>
 </div>
 
@@ -32,8 +32,7 @@ function show_search() {
 	bottom: 0;
 	right: 0;
 	display: flex;
-	justify-content: space-between;
-	padding: 0 16.67%;
+	justify-content: space-evenly;
 	pointer-events: none;
 }
 

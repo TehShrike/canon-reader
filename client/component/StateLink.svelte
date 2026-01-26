@@ -10,9 +10,10 @@ interface Props {
 	class_name?: string
 	anchor?: string
 	children: Snippet
+	aria_label?: string
 }
 
-let { state, params = {}, inherit = false, class_name = '', anchor = '', children }: Props = $props()
+let { state, params = {}, inherit = false, class_name = '', anchor = '', children, aria_label = '' }: Props = $props()
 
 const state_is_active = (state: string, params?: Record<string, unknown>) => mediator.call('state_is_active', state, params)
 const make_path = (state: string, params?: Record<string, unknown>, options?: { inherit?: boolean }) => mediator.call('make_path', state, params, options)
@@ -56,6 +57,7 @@ function navigate(event: MouseEvent) {
 	data-active={state_is_active(state, params)}
 	onclick={navigate}
 	class={class_name}
+	aria-label={aria_label}
 >
 	{@render children()}
 </a>
