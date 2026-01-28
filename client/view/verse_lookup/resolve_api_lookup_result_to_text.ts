@@ -18,59 +18,6 @@ export type ResolvedResult = {
 	sections: BookSection[]
 }
 
-const remove_all_chunks_without_numbers_after_last_chunk_with_numbers = (book_sections: SectionChildren[]): SectionChildren[] => {
-	const last_chunk_with_numbers_index = book_sections.findIndex(chunk => chunk.type === 'text' && chunk.chapterNumber && chunk.verseNumber)
-
-	if (last_chunk_with_numbers_index === -1) {
-		return []
-	}
-
-	return book_sections.slice(0, last_chunk_with_numbers_index + 1)
-}
-
-const filter_book_to_range = (book_sections: Book, in_range: (chunk: SectionChildren) => boolean): BookSection[] => {
-	let am_in_range = false
-	return book_sections.flatMap(section => {
-		if (!section.children) {
-			return am_in_range ? section : []
-		}
-		const relevant_children = remove_all_chunks_without_numbers_after_last_chunk_with_numbers(section.children.filter(chunk => {
-			am_in_range = in_range(chunk)
-			return am_in_range
-		}))
-
-		if (relevant_children.length > 0) {
-			return [{
-				...section,
-				children: relevant_children,
-			}]
-		}
-
-		return []
-	})
-}
-
-function extract_sections_for_range(
-	book_sections: Book,
-	start_chapter: number,
-	start_verse: number,
-	end_chapter: number,
-	end_verse: number
-): BookSection[] {
-	const range_start = [start_chapter, start_verse]
-	const range_end = [end_chapter, end_verse]
-	const in_range = (chunk: SectionChildren) => {
-		if (chunk.type === 'text' && chunk.chapterNumber && chunk.verseNumber) {
-			return withinRange(range_start, range_end, [chunk.chapterNumber, chunk.verseNumber])
-		} else if (chunk.type === 'verse number' && chunk.chapterNumber) {
-			return withinRange(range_start, range_end, [chunk.chapterNumber, chunk.value])
-		}
-		return false
-	}
-
-	return filter_book_to_range(book_sections, in_range)
-}
-
 export default (api_results: ApiResult[]): ResolvedResult[] => {
 	return api_results.map(result => {
 		const target = get_target_state_from_reference(result.reference)
@@ -101,3 +48,58 @@ export default (api_results: ApiResult[]): ResolvedResult[] => {
 		}
 	})
 }
+
+function extract_sections_for_range(
+	book_sections: Book,
+	start_chapter: number,
+	start_verse: number,
+	end_chapter: number,
+	end_verse: number
+): BookSection[] {
+	const range_start = [start_chapter, start_verse]
+	const range_end = [end_chapter, end_verse]
+
+	const in_range = (chunk: SectionChildren) => {
+		if (chunk.type === 'text' && chunk.chapterNumber && chunk.verseNumber) {
+			return withinRange(range_start, range_end, [chunk.chapterNumber, chunk.verseNumber])
+		} else if (chunk.type === 'verse number' && chunk.chapterNumber) {
+			return withinRange(range_start, range_end, [chunk.chapterNumber, chunk.value])
+		}
+		return false
+	}
+
+	return filter_book_to_range(book_sections, in_range)
+}
+
+const filter_book_to_range = (book_sections: Book, in_range: (chunk: SectionChildren) => boolean): BookSection[] => {
+	let am_in_range = false
+	return book_sections.flatMap(section => {
+		if (!section.children) {
+			return am_in_range ? section : []
+		}
+		const relevant_children = remove_all_chunks_without_numbers_after_last_chunk_with_numbers(section.children.filter(chunk => {
+			am_in_range = in_range(chunk)
+			return am_in_range
+		}))
+
+		if (relevant_children.length > 0) {
+			return [{
+				...section,
+				children: relevant_children,
+			}]
+		}
+
+		return []
+	})
+}
+
+const remove_all_chunks_without_numbers_after_last_chunk_with_numbers = (book_sections: SectionChildren[]): SectionChildren[] => {
+	const last_chunk_with_numbers_index = book_sections.findLastIndex(chunk => chunk.type === 'text' && chunk.chapterNumber && chunk.verseNumber)
+
+	if (last_chunk_with_numbers_index === -1) {
+		return []
+	}
+
+	return book_sections.slice(0, last_chunk_with_numbers_index + 1)
+}
+

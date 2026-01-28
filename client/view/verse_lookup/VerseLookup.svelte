@@ -25,8 +25,6 @@ const sort_results = (results: ResolvedResult[]) => {
 }
 
 const results = $derived(api_verse_lookup(query).then(resolve_api_lookup_result_to_text).then(sort_results))
-
-$inspect(results)
 </script>
 
 <svelte:head>
