@@ -14,7 +14,7 @@ interface VerseSection {
 }
 
 interface ParsedReference {
-	bookId: string | null
+	book_id: string | null
 	start: VerseSection
 	end: VerseSection
 }
@@ -34,7 +34,7 @@ const regex = r.combine(
 
 const chapter_verse_range_regex = createChapterVerseRangeRegex()
 const empty_verse_section: VerseSection = Object.freeze({ chapter: null, verse: null, section: null })
-const no_match: ParsedReference = Object.freeze({ bookId: null, start: empty_verse_section, end: empty_verse_section })
+const no_match: ParsedReference = Object.freeze({ book_id: null, start: empty_verse_section, end: empty_verse_section })
 
 export default (string: string): ParsedReference => {
 	const match = string.match(regex)
@@ -51,7 +51,7 @@ export default (string: string): ParsedReference => {
 
 	const book_id = book_part ? match_book_id(book_part) : null
 
-	return Object.assign({}, { bookId: book_id }, { start: verse_range.start, end: verse_range.end })
+	return Object.assign({}, { book_id: book_id }, { start: verse_range.start, end: verse_range.end })
 }
 
 function match_book_id(any_string: string): string | null {

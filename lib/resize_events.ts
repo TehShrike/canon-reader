@@ -5,7 +5,7 @@ import browserEvent from '#lib/browser_event.ts'
 const emitter = createEmitter()
 let resizing = false
 
-const debouncedResizeDone = debounce(
+const debounced_resize_done = debounce(
 	() => {
 		emitter.emit('resize stop')
 		resizing = false
@@ -19,7 +19,7 @@ browserEvent(window, 'resize', () => {
 		resizing = true
 	}
 
-	debouncedResizeDone()
+	debounced_resize_done()
 })
 
 export default emitter
@@ -27,15 +27,15 @@ export default emitter
 
 
 function debounce(fn: () => void, ms: number): () => void {
-	let timeoutId: ReturnType<typeof setTimeout> | null = null
+	let timeout_id: ReturnType<typeof setTimeout> | null = null
 
 	return () => {
-		if (timeoutId) {
-			clearTimeout(timeoutId)
+		if (timeout_id) {
+			clearTimeout(timeout_id)
 		}
 
-		timeoutId = setTimeout(() => {
-			timeoutId = null
+		timeout_id = setTimeout(() => {
+			timeout_id = null
 			fn()
 		}, ms)
 	}

@@ -7,10 +7,10 @@ export default (_mediator: unknown): State => ({
 	querystringParameters: [ 'route', 'parameters' ],
 	template: NotFound,
 	resolve(_data, parameters) {
-		const paramsCopy = Object.assign({}, parameters)
-		const route = paramsCopy.route
-		delete paramsCopy.route
+		const params_copy = Object.assign({}, parameters)
+		const route = params_copy.route
+		delete params_copy.route
 
-		return Promise.resolve({ route, parameters: paramsCopy })
+		return Promise.resolve({ route, parameters: params_copy })
 	},
 })

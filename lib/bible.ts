@@ -66,7 +66,7 @@ import $titus from '#lib/books/titus.ts'
 import $zechariah from '#lib/books/zechariah.ts'
 import $zephaniah from '#lib/books/zephaniah.ts'
 
-const bibleBooksMap: Record<string, Book> = {
+const bible_books_map: Record<string, Book> = {
 	'1chronicles': $1chronicles,
 	'1corinthians': $1corinthians,
 	'1john': $1john,
@@ -135,4 +135,4 @@ const bibleBooksMap: Record<string, Book> = {
 	zephaniah: $zephaniah,
 }
 
-export default bibleBooksMap
+export default bible_books_map

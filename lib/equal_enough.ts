@@ -1,8 +1,8 @@
 // @ts-expect-error no types available
 import toString from 'just-to-string'
 
-export default function equalEnough(params: Record<string, unknown>, endParams: Record<string, unknown>): boolean {
+export default function equal_enough(params: Record<string, unknown>, end_params: Record<string, unknown>): boolean {
 	return Object.keys(params).every(
-		key => toString(params[key]) === toString(endParams[key])
+		key => toString(params[key]) === toString(end_params[key])
 	)
 }

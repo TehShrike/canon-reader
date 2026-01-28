@@ -1,5 +1,5 @@
 import Text from './Text.svelte'
-import bibleBooksMap from '#lib/bible.ts'
+import bible_books_map from '#lib/bible.ts'
 import chapterCounts from '#lib/books/chapter-counts.ts'
 import assert from '#lib/assert.ts'
 import type { TypedMediator } from '#lib/mediator_instance.ts'
@@ -13,7 +13,7 @@ export default (mediator: TypedMediator): State => ({
 		const book_id = parameters.book
 		assert(book_id, `No book parameter provided`)
 
-		const book_sections = bibleBooksMap[book_id]
+		const book_sections = bible_books_map[book_id]
 		assert(book_sections, `No book text found for ${book_id}`)
 
 		const book = mediator.call(`get_book_by_id`, book_id)

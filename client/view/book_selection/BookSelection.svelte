@@ -1,6 +1,6 @@
 <script lang="ts">
 import books from 'books-of-the-bible'
-import bookColors from '#lib/book_of_the_bible_colors.ts'
+import book_colors from '#lib/book_of_the_bible_colors.ts'
 import { get_book_id } from '#lib/get_id.ts'
 import StateLink from '#component/StateLink.svelte'
 
@@ -15,24 +15,24 @@ interface BookName {
 	id: string
 }
 
-const bookNames = $derived(books.map(({ name, aliases }: Book) => {
-	const useFirstAliasForShort = name.length > 5 && aliases[0]
+const book_names = $derived(books.map(({ name, aliases }: Book) => {
+	const use_first_alias_for_short = name.length > 5 && aliases[0]
 
 	return {
 		full: name,
-		short: useFirstAliasForShort ? aliases[0] : name,
+		short: use_first_alias_for_short ? aliases[0] : name,
 		id: get_book_id(name)
 	}
 }))
 
-function getBookColor(id: string): string {
-	return bookColors[id] ?? ''
+function get_book_color(id: string): string {
+	return book_colors[id] ?? ''
 }
 </script>
 
 <div class="book_names">
-	{#each bookNames as name}
-		<div class="book" style="background-color: {getBookColor(name.id)}">
+	{#each book_names as name}
+		<div class="book" style="background-color: {get_book_color(name.id)}">
 			<StateLink state="main.text" params={{ book: name.id }}>
 				<div class="short_name">
 					{name.short}

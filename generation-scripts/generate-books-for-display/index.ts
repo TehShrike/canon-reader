@@ -11,9 +11,9 @@ import type { Book, BookSection, SectionChildren, VerseNumberChunk, TextContentC
 const require = createRequire(import.meta.url)
 
 const relative = (path: string) => join(import.meta.dirname, path)
-const toJson = (object: unknown) => JSON.stringify(object, null, '\t')
-const toBookTypeScript = (object: unknown) => `import type { Book } from '#lib/book_types.ts'\n\nconst book: Book = ${toJson(object)}\n\nexport default book\n`
-const toTypeScript = (object: unknown) => `export default ${toJson(object)} as const\n`
+const to_json = (object: unknown) => JSON.stringify(object, null, '\t')
+const to_book_typescript = (object: unknown) => `import type { Book } from '#lib/book_types.ts'\n\nconst book: Book = ${to_json(object)}\n\nexport default book\n`
+const to_typescript = (object: unknown) => `export default ${to_json(object)} as const\n`
 
 // Input types from world-english-bible and revelation packages
 type InputSeparatorChunk = { type: 'paragraph start' }
@@ -60,21 +60,21 @@ async function main() {
 	const output = await Promise.all(books.map(async book => {
 		const book_id = get_book_id(book.name)
 		const book_data: InputBook = book_id === 'revelation'
-			? loadPickeringRevelation()
+			? load_pickering_revelation()
 			: JSON.parse(await readFile(require.resolve(`world-english-bible/json/${book_id}.json`), 'utf8'))
 
-		const array_of_sections = makeArrayOfSections(book_data)
-		const book_with_markers: Book = bookSectionsWithChapterAndVerseMarkers(array_of_sections)
+		const array_of_sections = make_array_of_sections(book_data)
+		const book_with_markers: Book = book_sections_with_chapter_and_verse_markers(array_of_sections)
 
 		return {
 			book_with_markers,
-			number_of_chapters: getNumberOfChapters(book_with_markers),
+			number_of_chapters: get_number_of_chapters(book_with_markers),
 			id: book_id,
 		}
 	}))
 
 	await Promise.all(output.map(({ book_with_markers, id }) => {
-		return writeFile(relative(`../../lib/books/${id}.ts`), toBookTypeScript(book_with_markers))
+		return writeFile(relative(`../../lib/books/${id}.ts`), to_book_typescript(book_with_markers))
 	}))
 	console.log(`wrote ${output.length} books`)
 
@@ -83,18 +83,18 @@ async function main() {
 		return acc
 	}, {} as Record<string, number>)
 
-	await writeFile(relative('../../lib/books/chapter-counts.ts'), toTypeScript(chapter_counts))
+	await writeFile(relative('../../lib/books/chapter-counts.ts'), to_typescript(chapter_counts))
 	console.log('wrote chapter-counts.ts')
 }
 
-function loadPickeringRevelation(): InputBook {
+function load_pickering_revelation(): InputBook {
 	const require = createRequire(import.meta.url)
 	const revelation: RevelationChunk[] = JSON.parse(
 		require('fs').readFileSync(require.resolve('revelation/revelation.json'), 'utf8')
 	)
-	let inParagraph = false
+	let in_paragraph = false
 
-	const toTextChunk = (chunk: RevelationChunk): InputChunk => ({
+	const to_text_chunk = (chunk: RevelationChunk): InputChunk => ({
 		type: 'paragraph text' as const,
 		chapterNumber: chunk.chapterNumber,
 		verseNumber: chunk.verseNumber,
@@ -107,7 +107,7 @@ function loadPickeringRevelation(): InputBook {
 		),
 		(chunk): InputChunk[] => {
 			if (chunk.type === 'paragraph break') {
-				inParagraph = false
+				in_paragraph = false
 
 				return [{
 					type: 'paragraph end' as const,
@@ -116,15 +116,15 @@ function loadPickeringRevelation(): InputBook {
 
 			const paragraph = chunk.type === 'verse'
 
-			if (paragraph && !inParagraph) {
-				inParagraph = true
+			if (paragraph && !in_paragraph) {
+				in_paragraph = true
 				return [
 					{ type: 'paragraph start' as const },
-					toTextChunk(chunk),
+					to_text_chunk(chunk),
 				]
 			}
 
-			return [toTextChunk(chunk)]
+			return [to_text_chunk(chunk)]
 		}
 	)
 }
@@ -135,19 +135,19 @@ type IntermediateSection = {
 	children?: IntermediateChild[] | undefined
 }
 
-function makeArrayOfSections(book: InputBook): IntermediateSection[] {
+function make_array_of_sections(book: InputBook): IntermediateSection[] {
 	const sections: IntermediateSection[] = []
 	let current: IntermediateSection | null = null
 
-	const createNew = (type: 'paragraph' | 'stanza') => {
+	const create_new = (type: 'paragraph' | 'stanza') => {
 		current = { type, children: [] }
 	}
 
 	book.forEach(chunk => {
 		if (chunk.type === 'paragraph start') {
-			createNew('paragraph')
+			create_new('paragraph')
 		} else if (chunk.type === 'stanza start') {
-			createNew('stanza')
+			create_new('stanza')
 		} else if (chunk.type === 'paragraph end' || chunk.type === 'stanza end') {
 			if (current) {
 				sections.push(current)
@@ -164,11 +164,11 @@ function makeArrayOfSections(book: InputBook): IntermediateSection[] {
 				console.error(chunk)
 				throw new Error(`wat`)
 			}
-			const textChunk = chunk as { chapterNumber?: number; verseNumber?: number; value?: string | number }
+			const text_chunk = chunk as { chapterNumber?: number; verseNumber?: number; value?: string | number }
 			current.children?.push({
-				chapterNumber: textChunk.chapterNumber,
-				verseNumber: textChunk.verseNumber,
-				value: textChunk.value,
+				chapterNumber: text_chunk.chapterNumber,
+				verseNumber: text_chunk.verseNumber,
+				value: text_chunk.value,
 			})
 		}
 	})
@@ -176,46 +176,46 @@ function makeArrayOfSections(book: InputBook): IntermediateSection[] {
 	return sections
 }
 
-function bookSectionsWithChapterAndVerseMarkers(bookSections: IntermediateSection[]): Book {
-	let lastChapterNumber: number | null = null
-	let lastVerseNumber: number | null = null
+function book_sections_with_chapter_and_verse_markers(book_sections: IntermediateSection[]): Book {
+	let last_chapter_number: number | null = null
+	let last_verse_number: number | null = null
 
-	return bookSections.map(section => {
+	return book_sections.map(section => {
 		const children: SectionChildren[] | undefined = section.children
 			? flatMap(section.children, (chunk): SectionChildren[] => {
 				const { chapterNumber, verseNumber } = chunk
-				const itemsToReturn: SectionChildren[] = []
+				const items_to_return: SectionChildren[] = []
 
-				if (chapterNumber && chapterNumber !== lastChapterNumber) {
-					itemsToReturn.push({
+				if (chapterNumber && chapterNumber !== last_chapter_number) {
+					items_to_return.push({
 						type: 'chapter number',
 						value: chapterNumber,
 					})
-					lastChapterNumber = chapterNumber
+					last_chapter_number = chapterNumber
 				}
 
-				if (verseNumber && verseNumber !== lastVerseNumber) {
-					const verseChunk: VerseNumberChunk = chapterNumber !== undefined
-						? { type: 'verse number', value: verseNumber, chapterNumber }
+				if (verseNumber && verseNumber !== last_verse_number) {
+					const verse_chunk: VerseNumberChunk = chapterNumber !== undefined
+						? { type: 'verse number', value: verseNumber, chapter_number: chapterNumber }
 						: { type: 'verse number', value: verseNumber }
-					itemsToReturn.push(verseChunk)
-					lastVerseNumber = verseNumber
+					items_to_return.push(verse_chunk)
+					last_verse_number = verseNumber
 				}
 
 				// Text content chunk (no type field)
 				if (chunk.value !== undefined) {
-					const textChunk: TextContentChunk = {
+					const text_chunk: TextContentChunk = {
 						type: 'text',
 						value: String(chunk.value),
-						...(chunk.chapterNumber !== undefined ? { chapterNumber: chunk.chapterNumber } : {}),
-						...(chunk.verseNumber !== undefined ? { verseNumber: chunk.verseNumber } : {}),
+						...(chunk.chapterNumber !== undefined ? { chapter_number: chunk.chapterNumber } : {}),
+						...(chunk.verseNumber !== undefined ? { verse_number: chunk.verseNumber } : {}),
 					}
-					itemsToReturn.push(textChunk)
+					items_to_return.push(text_chunk)
 				} else if (chunk.type === 'line break') {
-					itemsToReturn.push({ type: 'line break' })
+					items_to_return.push({ type: 'line break' })
 				}
 
-				return itemsToReturn
+				return items_to_return
 			})
 			: undefined
 
@@ -227,8 +227,8 @@ function bookSectionsWithChapterAndVerseMarkers(bookSections: IntermediateSectio
 	})
 }
 
-function getNumberOfChapters(bookSections: Book): number {
-	return flatMap(bookSections,
+function get_number_of_chapters(book_sections: Book): number {
+	return flatMap(book_sections,
 		({ children }) => children
 			? children
 				.filter((chunk): chunk is { type: 'chapter number'; value: number } => chunk.type === 'chapter number')

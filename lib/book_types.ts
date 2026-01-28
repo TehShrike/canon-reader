@@ -6,7 +6,7 @@ export type ChapterNumberChunk = {
 export type VerseNumberChunk = {
 	readonly type: 'verse number'
 	readonly value: number
-	readonly chapterNumber?: number
+	readonly chapter_number?: number
 }
 
 export type LineBreakChunk = {
@@ -15,8 +15,8 @@ export type LineBreakChunk = {
 
 export type TextContentChunk = {
 	readonly type: 'text'
-	readonly chapterNumber?: number
-	readonly verseNumber?: number
+	readonly chapter_number?: number
+	readonly verse_number?: number
 	readonly value: string
 }
 

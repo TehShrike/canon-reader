@@ -19,7 +19,7 @@ export default (reference_string: string, default_book_id?: string): TargetState
 	}
 
 	const parsed = parse_reference(reference_string)
-	const book_id = parsed.bookId || default_book_id
+	const book_id = parsed.book_id || default_book_id
 
 	if (book_id) {
 		const { start, end } = validate_verse_range(parsed)

@@ -1,40 +1,40 @@
 import views from './globbed_views.ts'
-import statefulServices from './globbed_services.ts'
+import stateful_services from './globbed_services.ts'
 
 import mediator from '#lib/mediator_instance.ts'
 import asrScrollPosition from 'asr-scroll-position'
-import stateRouter from './asr_instance.ts'
+import state_router from './asr_instance.ts'
 
-mediator.provide(`state_go`, stateRouter.go)
-mediator.provide(`make_path`, stateRouter.makePath)
-mediator.provide(`state_is_active`, stateRouter.stateIsActive)
+mediator.provide(`state_go`, state_router.go)
+mediator.provide(`make_path`, state_router.makePath)
+mediator.provide(`state_is_active`, state_router.stateIsActive)
 mediator.provide(`on_state_change_end`, (cb) => {
 	const wrapper = (state: { name: string }, parameters: object) => {
 		cb(state, parameters as Record<string, string | null>)
 	}
-	stateRouter.on(`stateChangeEnd`, wrapper)
-	return () => stateRouter.removeListener(`stateChangeEnd`, wrapper)
+	state_router.on(`stateChangeEnd`, wrapper)
+	return () => state_router.removeListener(`stateChangeEnd`, wrapper)
 })
 
-const moduleInitializationPromises = statefulServices.map(module => Promise.resolve(module(mediator)))
+const module_initialization_promises = stateful_services.map(module => Promise.resolve(module(mediator)))
 
-views.map(createView => createView(mediator)).forEach((state) => {
+views.map(create_view => create_view(mediator)).forEach((state) => {
 	try {
-		stateRouter.addState(state)
+		state_router.addState(state)
 	} catch (e) {
 		console.error(`Error adding`, state)
 		throw e
 	}
 })
 
-stateRouter.on(`routeNotFound`, (route, parameters) => {
-	stateRouter.go(`main.not-found`, Object.assign({ route }, parameters), { replace: true })
+state_router.on(`routeNotFound`, (route, parameters) => {
+	state_router.go(`main.not-found`, Object.assign({ route }, parameters), { replace: true })
 })
 
-stateRouter.on(`stateChangeError`, (error) => console.error(error))
-stateRouter.on(`stateError`, (error) => console.error(error))
+state_router.on(`stateChangeError`, (error) => console.error(error))
+state_router.on(`stateError`, (error) => console.error(error))
 
-Promise.all(moduleInitializationPromises).then(() => {
-	stateRouter.evaluateCurrentRoute(`main`)
-	asrScrollPosition(stateRouter)
+Promise.all(module_initialization_promises).then(() => {
+	state_router.evaluateCurrentRoute(`main`)
+	asrScrollPosition(state_router)
 })
