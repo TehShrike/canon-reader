@@ -35,7 +35,7 @@
 		"test:types:worker": "tsc -p worker --noEmit",
 		"test:types": "run-s -c test:types:*",
 		"test:unit": "node --test '**/*.test.ts'",
-		"regenerate_worker_types": "wrangler types ./worker/worker_types.d.ts"
+		"generate:worker_types": "wrangler types ./worker/worker_types.d.ts"
 	},
 	"repository": {
 		"type": "git",
