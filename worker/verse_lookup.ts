@@ -37,7 +37,18 @@ const output_format: OutputFormat = {
 	},
 }
 
-export const verse_lookup = async (api_key: string, query: string) => {
+const CACHE_TTL_SECONDS = 60 * 60
+
+const get_cache_key = (query: string) => `verse_lookup:${query.toLowerCase().trim()}`
+
+export const verse_lookup = async (api_key: string, query: string, cache: KVNamespace) => {
+	const cache_key = get_cache_key(query)
+
+	const cached = await cache.get(cache_key)
+	if (cached) {
+		return JSON.parse(cached)
+	}
+
 	const response_text = extract_text(await send_message({
 		api_key,
 		messages: [{ role: 'user', content: query }],
@@ -48,6 +59,8 @@ export const verse_lookup = async (api_key: string, query: string) => {
 
 	const parsed = JSON.parse(response_text)
 	assert_valid(verse_result_validator, parsed)
+
+	await cache.put(cache_key, JSON.stringify(parsed), { expirationTtl: CACHE_TTL_SECONDS })
 
 	return parsed
 }

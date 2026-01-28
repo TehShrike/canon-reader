@@ -3,6 +3,7 @@ import { verse_lookup } from './verse_lookup.ts'
 type Env = {
 	ASSETS: Fetcher
 	ANTHROPIC_API_KEY: string
+	VERSE_LOOKUP_CACHE: KVNamespace
 }
 
 const DISALLOW_ROBOTS = 'User-agent: *\nDisallow: /\n'
@@ -26,7 +27,7 @@ export default {
 					headers: { 'Content-Type': 'application/json' },
 				})
 			}
-			return new Response(JSON.stringify(await verse_lookup(env.ANTHROPIC_API_KEY, query)), {
+			return new Response(JSON.stringify(await verse_lookup(env.ANTHROPIC_API_KEY, query, env.VERSE_LOOKUP_CACHE)), {
 				headers: { 'Content-Type': 'application/json' },
 			})
 		}
