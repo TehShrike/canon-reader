@@ -17,6 +17,7 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install
+      - run: pnpm run prep-build
       - run: pnpm run test
 
   deploy:
