@@ -5,11 +5,12 @@ const is_escape = (event: KeyboardEvent) => event.key === 'Escape' || event.keyC
 interface Props {
 	autofocus?: boolean
 	value?: string
+	placeholder?: string
 	on_submit?: () => void
 	on_escape?: () => void
 }
 
-let { autofocus, value = $bindable(''), on_submit, on_escape }: Props = $props()
+let { autofocus, value = $bindable(''), placeholder = 'prov 30:2', on_submit, on_escape }: Props = $props()
 let input: HTMLInputElement
 
 $effect(() => {
@@ -36,7 +37,9 @@ function handle_submit(event: Event) {
 		bind:this={input}
 		bind:value
 		onkeydown={handle_keydown}
-		placeholder="prov 30:2"
+		{placeholder}
+		aria-label="Search"
+		autofocus={autofocus}
 	>
 </form>
 

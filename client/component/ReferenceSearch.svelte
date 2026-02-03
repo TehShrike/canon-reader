@@ -8,9 +8,10 @@ interface Props {
 	current_book_id?: string | undefined
 	show?: boolean
 	autofocus?: boolean
+	placeholder?: string
 }
 
-let { mediator, current_book_id, show = $bindable(false), autofocus = false }: Props = $props()
+let { mediator, current_book_id, show = $bindable(false), autofocus = false, placeholder = '' }: Props = $props()
 let input_value = $state('')
 
 const matching_reference = $derived(get_target_state_from_reference(input_value, current_book_id))
@@ -37,12 +38,16 @@ function handle_submit() {
 </script>
 
 <div class="background_border">
-	<ReferenceSearchInput
-		on_submit={handle_submit}
-		on_escape={cancel}
-		bind:value={input_value}
-		{autofocus}
-	/>
+	<label>
+		Search
+		<ReferenceSearchInput
+			on_submit={handle_submit}
+			on_escape={cancel}
+			bind:value={input_value}
+			{autofocus}
+			{placeholder}
+		/>
+	</label>
 	<div class="reference_feedback">{matching_reference?.display_text ?? ''}&nbsp;</div>
 </div>
 
@@ -53,6 +58,7 @@ function handle_submit() {
 	border-radius: 8px;
 	width: 60vw;
 	max-width: 600px;
+	text-align: left;
 }
 
 
@@ -62,4 +68,10 @@ function handle_submit() {
 	font-family: var(--sans-serif);
 	font-size: 18px;
 }
+
+label {
+	color: var(--white);
+	font-family: var(--sans-serif);
+}
+
 </style>

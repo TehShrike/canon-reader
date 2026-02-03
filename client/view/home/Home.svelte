@@ -1,5 +1,16 @@
 <script lang="ts">
 import StateLink from '#component/StateLink.svelte'
+import ReferenceSearch from '#component/ReferenceSearch.svelte'
+import type { TypedMediator } from '#lib/mediator_instance.ts'
+
+interface Props {
+	mediator: TypedMediator
+}
+
+let { mediator }: Props = $props()
+
+const is_macos = navigator.platform.toUpperCase().includes('MAC')
+const search_placeholder = is_macos ? 'Cmd+K' : 'Ctrl+K'
 </script>
 
 <div class="container">
@@ -14,6 +25,10 @@ import StateLink from '#component/StateLink.svelte'
 	>
 		Read
 	</StateLink>
+
+	<div class="search_container">
+		<ReferenceSearch {mediator} show={true} placeholder={search_placeholder} autofocus={true} />
+	</div>
 
 	<h2>
 		Three goals
@@ -81,6 +96,12 @@ import StateLink from '#component/StateLink.svelte'
 	font-size: 32px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.search_container {
+	margin-top: 24px;
+	display: flex;
+	justify-content: center;
 }
 
 .goals {
