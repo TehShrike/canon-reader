@@ -1,5 +1,5 @@
 import { send_message, extract_text } from '#lib/claude_api.ts'
-import type { OutputFormat } from '#lib/claude_api.ts'
+import type { OutputConfig } from '#lib/claude_api.ts'
 import * as v from '#lib/json_validator.ts'
 import { assert_valid } from '#lib/assert.ts'
 
@@ -19,20 +19,22 @@ const verse_result_validator = v.array(v.object({
 }))
 
 // https://platform.claude.com/docs/en/build-with-claude/structured-outputs
-const output_format: OutputFormat = {
-	type: 'json_schema',
-	schema: {
-		type: 'array',
-		items: {
-			type: 'object',
-			properties: {
-				reference: { type: 'string' },
-				text: { type: 'string' },
-				type: { type: 'string', enum: [ 'paraphrase', 'similar' ] },
-				match_quality: { type: 'number' },
+const output_config: OutputConfig = {
+	format: {
+		type: 'json_schema',
+		schema: {
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					reference: { type: 'string' },
+					text: { type: 'string' },
+					type: { type: 'string', enum: [ 'paraphrase', 'similar' ] },
+					match_quality: { type: 'number' },
+				},
+				required: [ 'reference', 'text', 'type', 'match_quality' ],
+				additionalProperties: false,
 			},
-			required: [ 'reference', 'text', 'type', 'match_quality' ],
-			additionalProperties: false,
 		},
 	},
 }
@@ -54,7 +56,7 @@ export const verse_lookup = async (api_key: string, query: string, cache: KVName
 		messages: [{ role: 'user', content: query }],
 		max_tokens: 10_000,
 		system: SYSTEM_PROMPT,
-		output_format,
+		output_config,
 	}))
 
 	const parsed = JSON.parse(response_text)

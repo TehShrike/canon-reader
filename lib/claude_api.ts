@@ -384,6 +384,10 @@ export type JsonSchemaOutputFormat = {
 
 export type OutputFormat = JsonSchemaOutputFormat
 
+export type OutputConfig = {
+	format: OutputFormat
+}
+
 // ============================================================================
 // Metadata Types
 // ============================================================================
@@ -401,7 +405,7 @@ export type MessagesRequest = {
 	messages: MessageParam[]
 	max_tokens: number
 	metadata?: Metadata
-	output_format?: OutputFormat
+	output_config?: OutputConfig
 	service_tier?: 'auto' | 'standard_only'
 	stop_sequences?: string[]
 	stream?: boolean
@@ -588,7 +592,7 @@ export type SendMessageOptions = {
 	messages: MessageParam[]
 	max_tokens: number
 	metadata?: Metadata
-	output_format?: OutputFormat
+	output_config?: OutputConfig
 	service_tier?: 'auto' | 'standard_only'
 	stop_sequences?: string[]
 	system?: string | TextBlockParam[]
@@ -600,21 +604,17 @@ export type SendMessageOptions = {
 	top_p?: number
 }
 
-export const send_message = async ({ api_key, model = DEFAULT_MODEL, output_format, ...rest }: SendMessageOptions): Promise<MessagesResponse> => {
+export const send_message = async ({ api_key, model = DEFAULT_MODEL, ...rest }: SendMessageOptions): Promise<MessagesResponse> => {
 	const headers: Record<string, string> = {
 		'Content-Type': 'application/json',
 		'anthropic-version': API_VERSION,
 		'x-api-key': api_key,
 	}
 
-	if (output_format) {
-		headers['anthropic-beta'] = 'structured-outputs-2025-11-13'
-	}
-
 	const response = await fetch(API_URL, {
 		method: 'POST',
 		headers,
-		body: JSON.stringify({ model, output_format, ...rest, stream: false }),
+		body: JSON.stringify({ model, ...rest, stream: false }),
 	})
 
 	const data = await response.json()
