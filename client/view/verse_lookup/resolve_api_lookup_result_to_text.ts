@@ -8,7 +8,6 @@ import get_target_state_from_reference from "#lib/get_target_state_from_referenc
 
 export type ResolvedResult = {
 	reference: string
-	text: string
 	type: 'paraphrase' | 'match'
 	match_quality: number
 	book_id: string | null
@@ -26,14 +25,14 @@ export default (api_results: ApiResult[]): ResolvedResult[] => {
 		assert(parsed.book_id, `No book ID found in reference: ${result.reference}`)
 		const book_sections = bible_books_map[parsed.book_id]
 		assert(book_sections, `Book ID ${parsed.book_id} not found in bible_books_map`)
-		assert(parsed.start.chapter && parsed.start.verse && parsed.end.chapter && parsed.end.verse, `No start or end chapter or verse found in parsed reference: ${parsed}`)
+		assert(parsed.start.chapter && parsed.end.chapter, `No start or end chapter found in parsed reference: ${parsed}`)
 
 		const sections = extract_sections_for_range(
 			book_sections,
 			parsed.start.chapter,
-			parsed.start.verse,
+			parsed.start.verse ?? null,
 			parsed.end.chapter,
-			parsed.end.verse
+			parsed.end.verse ?? null
 		)
 
 		assert(sections.length > 0, `No sections found for reference: ${result.reference}`)
@@ -52,12 +51,12 @@ export default (api_results: ApiResult[]): ResolvedResult[] => {
 function extract_sections_for_range(
 	book_sections: Book,
 	start_chapter: number,
-	start_verse: number,
+	start_verse: number | null,
 	end_chapter: number,
-	end_verse: number
+	end_verse: number | null,
 ): BookSection[] {
-	const range_start = [start_chapter, start_verse]
-	const range_end = [end_chapter, end_verse]
+	const range_start = [start_chapter, start_verse ?? 0]
+	const range_end = [end_chapter, end_verse ?? 999]
 
 	const in_range = (chunk: SectionChildren) => {
 		if (chunk.type === 'text' && chunk.chapter_number && chunk.verse_number) {

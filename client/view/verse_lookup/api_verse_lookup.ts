@@ -1,6 +1,5 @@
 export type ApiResult = {
 	reference: string
-	text: string
 	type: 'paraphrase' | 'match'
 	match_quality: number
 }

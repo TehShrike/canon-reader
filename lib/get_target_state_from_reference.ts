@@ -22,7 +22,23 @@ export default (reference_string: string, default_book_id?: string): TargetState
 	const book_id = parsed.book_id || default_book_id
 
 	if (book_id) {
-		const { start, end } = validate_verse_range(parsed)
+		const parsed_start_chapter = parsed.start.chapter
+		const parsed_end_chapter = parsed.end.chapter
+
+		if (parsed_start_chapter === null || parsed_end_chapter === null) {
+			return null
+		}
+
+		const { start, end } = validate_verse_range({
+			start: {
+				chapter: parsed_start_chapter,
+				verse: parsed.start.verse ?? null,
+			},
+			end: {
+				chapter: parsed_end_chapter,
+				verse: parsed.end.verse ?? null,
+			},
+		})
 
 		if (start.chapter === null && start.verse === null && book_id === default_book_id) {
 			return null

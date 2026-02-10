@@ -48,8 +48,8 @@ declare module 'multi-part-range-compare' {
 	type RelativeResult = -1 | 0 | 1 | 2
 
 	interface RangeCompare {
-		(start: (number | null)[], end: (number | null)[], point: (number | null)[]): boolean
-		relative: (start: (number | null)[], end: (number | null)[], point: (number | null)[]) => RelativeResult
+		(start: number[], end: number[], point: number[]): boolean
+		relative: (start: number[], end: number[], point: number[]) => RelativeResult
 		LESS_THAN_START: -1
 		WITHIN_RANGE: 0
 		GREATER_THAN_END: 1
