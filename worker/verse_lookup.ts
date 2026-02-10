@@ -7,13 +7,11 @@ const SYSTEM_PROMPT = `You are a Bible verse lookup assistant. The user will pro
 
 For each matching verse, provide:
 - "reference": the full reference (e.g., "John 3:16", "Romans 8:28-30", "Genesis 1:31-2:3")
-- "text": the full text of the verse(s)
 - "type": either "paraphrase" if the verse is a direct paraphrase of what the user provided, or "similar" if it only contains related ideas
 - "match_quality": a number from 0 to 9, with 9 being an exact phrase match or perfect paraphrase, 5 being a partial paraphrase, 0 if not a paraphrase at all`
 
 const verse_result_validator = v.array(v.object({
 	reference: v.is_string,
-	text: v.is_string,
 	type: v.one_of(v.exact('paraphrase'), v.exact('similar')),
 	match_quality: v.is_number,
 }))
@@ -28,11 +26,10 @@ const output_config: OutputConfig = {
 				type: 'object',
 				properties: {
 					reference: { type: 'string' },
-					text: { type: 'string' },
 					type: { type: 'string', enum: [ 'paraphrase', 'similar' ] },
 					match_quality: { type: 'number' },
 				},
-				required: [ 'reference', 'text', 'type', 'match_quality' ],
+				required: [ 'reference', 'type', 'match_quality' ],
 				additionalProperties: false,
 			},
 		},
